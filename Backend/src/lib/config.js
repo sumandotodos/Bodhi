@@ -1,15 +1,17 @@
 var config = {}
 
 const DevelopmentConfig = {
-	accessKeyId: 'AKIA2R2AUIKVPTDBQTOR', 
-	secretAccessKey: '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',
-	bucketName: 'myfoldraccel'	
+	accessKeyId: '<accessKeyId>', 
+	secretAccessKey: '<secretAccessKey>',
+	bucketName: 'myfoldraccel',	
+	region: 'eu-west-2'
 }
 
 const ProductionConfig = {
-	accessKeyId: 'AKIA2R2AUIKVPTDBQTOR',
-        secretAccessKey: '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',
-        bucketName: 'myfoldraccel'
+	accessKeyId: '<accessKeyId>',
+        secretAccessKey: '<secretAccessKey>',
+        bucketName: 'myfoldraccel',
+	region: 'eu-west-2'
 }
 
 if (process.env.ENVIRONMENT == "PRODUCTION") {

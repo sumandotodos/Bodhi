@@ -4,8 +4,10 @@ const s3urlgen = require('./lib/s3urlGenerator')
 
 app = express()
 
-app.get("/uploadUrl/", function(req, res) {
+app.get("/uploadUrl/:user", function(req, res) {
 	randomname = 
+		"video/" + 
+		req.param('user') + "/" + 
 		Math.random().toString(36).substring(2, 15) + 
 		Math.random().toString(36).substring(2, 15) + 
 		".mp4";
