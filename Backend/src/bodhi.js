@@ -2,6 +2,8 @@ const config = require('./lib/config')
 const express = require('express')
 const s3urlgen = require('./lib/s3urlGenerator')
 
+const items = require('./lib/v1/items/items')
+
 app = express()
 
 app.get("/uploadUrl/:user", function(req, res) {
@@ -16,6 +18,8 @@ app.get("/uploadUrl/:user", function(req, res) {
 	console.dir(url)
 	res.json(url)
 })
+
+app.use('/v1/items', items)
 
 console.log("Listening on port 7675");
 app.listen(7675);
