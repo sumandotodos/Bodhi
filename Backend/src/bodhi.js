@@ -2,9 +2,31 @@ const config = require('./lib/config')
 const express = require('express')
 const s3urlgen = require('./lib/s3urlGenerator')
 
-const items = require('./lib/v1/items/items')
+const item = require('./lib/v1/item/item')
+
+function checkPSK(req, res, next) {
+	if (req.headers["psk"] == config.psk) {
+		next()
+	}
+	else {
+		res.status(403).end("{result:\"forbidden\"}")
+	}
+}
+
+function checkUserNotNull(req, res, next) {
+	console.log("userid in headers: " + req.headers["userid"])
+	if((req.headers["userid"] != undefined) && (req.headers["userid"].length>3)) {
+		next()
+	}
+	else {
+		res.status(400).end("{result:\"Need to specify user\"}")
+	}
+}
 
 app = express()
+
+app.use(checkPSK)
+app.use(checkUserNotNull)
 
 app.get("/uploadUrl/:user", function(req, res) {
 	randomname = 
@@ -19,7 +41,7 @@ app.get("/uploadUrl/:user", function(req, res) {
 	res.json(url)
 })
 
-app.use('/v1/items', items)
+app.use('/v1/item', item)
 
 console.log("Listening on port 7675");
 app.listen(7675);

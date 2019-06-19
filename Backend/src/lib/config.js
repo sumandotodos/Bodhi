@@ -4,14 +4,16 @@ const DevelopmentConfig = {
 	accessKeyId: '<accessKeyId>', 
 	secretAccessKey: '<secretAccessKey>',
 	bucketName: 'myfoldraccel',	
-	region: 'eu-west-2'
+	region: 'eu-west-2',
+	psk: 'vQb9BpkcLGQWlmAild4B'
 }
 
 const ProductionConfig = {
 	accessKeyId: '<accessKeyId>',
         secretAccessKey: '<secretAccessKey>',
         bucketName: 'myfoldraccel',
-	region: 'eu-west-2'
+	region: 'eu-west-2',
+	psk: 'KcbUv1heC80IGJyWlqlx'
 }
 
 function patchInEnv()
