@@ -1,8 +1,18 @@
 const config = require('./lib/config')
 const express = require('express')
 const s3urlgen = require('./lib/s3urlGenerator')
-
+const db = require('./lib/db')
+const bodyParser = require('body-parser')
 const item = require('./lib/v1/item/item')
+
+function checkUserToken(req, res, next) {
+	if (req.headers["userid"] != "") {
+		next()
+	}	
+	else {
+		res.status(404).end("{result:\"user token needed\"}")
+	}
+}
 
 function checkPSK(req, res, next) {
 	if (req.headers["psk"] == config.psk) {
@@ -24,7 +34,7 @@ function checkUserNotNull(req, res, next) {
 }
 
 app = express()
-
+app.use(bodyParser.text());
 app.use(checkPSK)
 app.use(checkUserNotNull)
 

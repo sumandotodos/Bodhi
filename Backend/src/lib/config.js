@@ -30,14 +30,14 @@ function patchInEnv()
 	{
 		config.secretAccessKey = process.env.AWSSECRETKEY
 	}
-	if (process.env.DBHOST != "")
-	{
-		config.dbhost = process.env.DBHOST
-	}
-	if (process.env.DBPORT != "") 
-	{
-		config.dbport = process.env.DBPORT
-	}
+	//if (process.env.DBHOST != "")
+	//{
+	//	config.dbhost = process.env.DBHOST
+	//}
+	//if (process.env.DBPORT != "") 
+	//{
+	//	config.dbport = process.env.DBPORT
+	//}
 }
 
 if (process.env.ENVIRONMENT == "PRODUCTION") {
