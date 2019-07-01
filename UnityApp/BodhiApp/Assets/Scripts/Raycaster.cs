@@ -6,10 +6,23 @@ public class Raycaster : MonoBehaviour
 {
     public GridSpawner gridSpawner_A;
 
+    static Raycaster raycaster = null;
+
+    bool isActive = true;
+
     float cellDimension;
     int columns;
     int rows;
     // Start is called before the first frame update
+
+    private void Awake()
+    {
+        if(raycaster == null)
+        {
+            raycaster = this;
+        }
+    }
+
     void Start()
     {
         if(gridSpawner_A == null)
@@ -20,6 +33,17 @@ public class Raycaster : MonoBehaviour
         cellDimension = (gridSpawner_A.nPixels) / (gridSpawner_A.unitsPerPixel);
         columns = gridSpawner_A.Columns;
         rows = gridSpawner_A.Rows;
+        isActive = true;
+    }
+
+    public static Raycaster GetSingleton()
+    {
+        return raycaster;
+    }
+
+    public void SetActive(bool active)
+    {
+        isActive = active;
     }
 
     /*
@@ -30,7 +54,7 @@ public class Raycaster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && isActive)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit[] hitInfo = Physics.RaycastAll(ray.origin, ray.direction);

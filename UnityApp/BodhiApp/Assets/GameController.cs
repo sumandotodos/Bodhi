@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimationsManager : MonoBehaviour
+public class GameController : MonoBehaviour
 {
-    public Animation anim;
     // Start is called before the first frame update
     void Start()
     {
-        anim.Play("SpringUpOK");
+        ContentsController.GetSingleton().ChooseTopic();
     }
 
     // Update is called once per frame

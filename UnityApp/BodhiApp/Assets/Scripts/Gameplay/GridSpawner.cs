@@ -100,6 +100,11 @@ public class GridSpawner : MonoBehaviour
 
     public void Touch(int i, int j)
     {
+        if (cells[i, j].getBicho())
+        {
+            ContentsController.GetSingleton().BichoFound();
+            Raycaster.GetSingleton().SetActive(false);
+        }
         AddPropagator(i, j, 1);
     }
 
