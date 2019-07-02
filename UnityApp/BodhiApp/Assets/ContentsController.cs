@@ -5,14 +5,12 @@ using UnityEngine.UI;
 
 public class ContentsController : MonoBehaviour
 {
-    public Animation UIanimation;
+
     public FGTable contentsTable;
 
     public Text contentsText;
 
-    public string SpringOutAnimationName = "SpringUpOK";
-    public string SpringInAnimationName = "SpringDown";
-    public string HiddenAnimationName = "Hidden";
+
 
    public bool isShowingText;
 
@@ -28,21 +26,11 @@ public class ContentsController : MonoBehaviour
 
     private void Start()
     {
-        UIanimation.Play(HiddenAnimationName);
         contentsText.text = "";
         ChooseTopic();
         isShowingText = false;
     }
 
-    private void Update()
-    {
-        if(isShowingText && Input.GetMouseButtonDown(0))
-        {
-            UIanimation.Play(SpringInAnimationName);
-            isShowingText = false;
-            Raycaster.GetSingleton().SetActive(true);
-        }
-    }
 
     public static ContentsController GetSingleton()
     {
@@ -59,12 +47,12 @@ public class ContentsController : MonoBehaviour
         return contentsTable.nRows();
     }
 
-    public void BichoFound()
+    public void PrepareNextText()
     {
         isShowingText = true;
-        contentsText.text = (string)contentsTable.getElement(0,
-            contentsTable.getNextRowIndex());
-        UIanimation.Play(SpringOutAnimationName);
+        contentsText.text = "\n" +
+            (string)contentsTable.getElement(0, contentsTable.getNextRowIndex())
+            + "\n\n";
     }
 
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public class GridSpawner : MonoBehaviour
 {
     public GameObject CellPrefab;
+    public Transform CellsParent;
     public int Rows = 16;
     public int Columns = 12;
     public float Prob = 0.5f;
@@ -15,6 +16,9 @@ public class GridSpawner : MonoBehaviour
     public float nPixels = 64.0f;
 
     private Cell[,] cells;
+
+    int touchScore;
+    Vector2 touchScoreAveragePosition;
 
     // Start is called before the first frame update
     void Start()
@@ -34,15 +38,17 @@ public class GridSpawner : MonoBehaviour
     private void BuildGrid()
     {
         cells = new Cell[Rows, Columns];
-        float totalHalfWidth = ((nPixels / unitsPerPixel) * Columns) / 2.0f;
-        float totalHalfHeight = ((nPixels / unitsPerPixel) * Rows) / 2.0f;
+        float totalHalfWidth = ((nPixels / unitsPerPixel) * (Columns - 1.0f)) / 2.0f;
+        float totalHalfHeight = ((nPixels / unitsPerPixel) * (Rows - 1.0f)) / 2.0f;
         int totalBicho = 0;
         for (int i = 0; i < Rows; ++i)
         {
             for(int j = 0; j < Columns; ++j)
             {
                 GameObject newGO = (GameObject)Instantiate(CellPrefab);
-                newGO.transform.position =
+                newGO.transform.SetParent(CellsParent);
+                newGO.transform.localScale = Vector3.one;
+                newGO.transform.localPosition =
                  new Vector3((nPixels / unitsPerPixel) * j - totalHalfWidth, 
                              (nPixels / unitsPerPixel) * i - totalHalfHeight, 
                              0);
@@ -102,10 +108,19 @@ public class GridSpawner : MonoBehaviour
     {
         if (cells[i, j].getBicho())
         {
-            ContentsController.GetSingleton().BichoFound();
+            GameController.GetSingleton().BichoFound();
             Raycaster.GetSingleton().SetActive(false);
         }
+        touchScore = 0;
+        touchScoreAveragePosition = Vector2.zero;
         AddPropagator(i, j, 1);
+        if (touchScore > 0)
+        {
+            touchScoreAveragePosition *= (1.0f / ((float)touchScore));
+        }
+        GameController.GetSingleton().TouchScore(touchScore, 
+            GridToLocalCoordinates((float)j,
+            (float)i));
     }
 
     public void AddPropagator(int i, int j, int delay)
@@ -116,6 +131,8 @@ public class GridSpawner : MonoBehaviour
         if (i > Rows - 1) return;
         if (cells[i, j].endPropagation())
         {
+            ++touchScore;
+            touchScoreAveragePosition += new Vector2(i, j);
             FadeCellAt(i, j, delay);
             return;
         }
@@ -125,5 +142,14 @@ public class GridSpawner : MonoBehaviour
         AddPropagator(i - 1, j, delay+1);
         AddPropagator(i, j + 1, delay+1);
         AddPropagator(i, j - 1, delay+1);
+    }
+
+    public Vector3 GridToLocalCoordinates(float column, float row)
+    {
+        float totalHalfWidth = ((nPixels / unitsPerPixel) * (Columns - 1.0f)) / 2.0f;
+        float totalHalfHeight = ((nPixels / unitsPerPixel) * (Rows - 1.0f)) / 2.0f;
+        return new Vector3((nPixels / unitsPerPixel) * column - totalHalfWidth,
+                             (nPixels / unitsPerPixel) * row - totalHalfHeight,
+                             0);
     }
 }

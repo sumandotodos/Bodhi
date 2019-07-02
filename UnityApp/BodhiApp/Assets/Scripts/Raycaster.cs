@@ -62,8 +62,8 @@ public class Raycaster : MonoBehaviour
             {
                 // if (h.collider.name == "UncleRayTarget")
                 // {
-                int j = Mathf.FloorToInt((h.point.x-(cellDimension/2.0f)) / cellDimension) + columns / 2 + 1;
-                int i = Mathf.FloorToInt((h.point.y - (cellDimension / 2.0f)) / cellDimension) + rows / 2 + 1;
+                int j = Mathf.FloorToInt((h.point.x-(cellDimension)) / cellDimension) + (columns) / 2 + 1;
+                int i = Mathf.FloorToInt((h.point.y - (cellDimension)) / cellDimension) + (rows) / 2 + 1;
                 Debug.Log("Uncle Ray Ray hit someone @ " + j + ", " + i);
                 // }
                 gridSpawner_A.Touch(i, j);

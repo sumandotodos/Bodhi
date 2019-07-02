@@ -38,7 +38,9 @@ public class Cell : MonoBehaviour
 
     public bool endPropagation()
     {
-        return hasBicho || (neighbors > 0) || hasBeenTouched;
+        return hasBicho || 
+        (neighbors > 0) || 
+            hasBeenTouched;
     }
 
     public void incNeighbors()

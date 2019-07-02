@@ -10,12 +10,12 @@ public class OrbitalCamera : MonoBehaviour
 
     public void SetYAngle(float angle)
     {
-        YPivot.transform.rotation = Quaternion.EulerAngles(0, angle, 0);
+        YPivot.transform.localRotation = Quaternion.Euler(0, angle, 0);
     }
 
     public void SetXAngle(float angle)
     {
-        XPivot.transform.rotation = Quaternion.EulerAngles(angle, 0, 0);
+        XPivot.transform.localRotation = Quaternion.Euler(angle, 0, 0);
     }
 
     public void SetZDistance(float distance)
