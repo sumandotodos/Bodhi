@@ -117,7 +117,10 @@ public class SampleWebView : MonoBehaviour
             cb: (msg) =>
             {
                 //Debug.Log(string.Format("CallFromJS[{0}]", msg));
-                status.text = msg;
+                if (status != null)
+                {
+                    status.text = msg;
+                }
 
 
 
@@ -125,7 +128,10 @@ public class SampleWebView : MonoBehaviour
             err: (msg) =>
             {
                 //Debug.Log(string.Format("CallOnError[{0}]", msg));
-                status.text = msg;
+                if (status != null)
+                {
+                    status.text = msg;
+                }
 
             },
             started: (msg) =>

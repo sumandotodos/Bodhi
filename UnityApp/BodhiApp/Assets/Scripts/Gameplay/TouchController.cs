@@ -11,6 +11,7 @@ public class TouchController : MonoBehaviour
     Vector3 touchCoordinates;
     public float PixelsToAngleFactor = 0.1f;
     float Yaw = 0.0f;
+    float Pitch = 0.0f;
 
     private void Awake()
     {
@@ -34,12 +35,16 @@ public class TouchController : MonoBehaviour
 
     void isTouchingUpdate()
     {
-        float touchPixelsDelta = (Input.mousePosition - touchCoordinates).x;
-        float deltaAngle = touchPixelsDelta * PixelsToAngleFactor;
-        orbitalCamera_A.SetYAngle(Yaw+deltaAngle);
-        if(!Input.GetMouseButton(0))
+        Vector3 touchPixelsDelta = (Input.mousePosition - touchCoordinates);
+        float deltaAngleYaw = touchPixelsDelta.x * PixelsToAngleFactor;
+        float deltaAnglePitch = -touchPixelsDelta.y * PixelsToAngleFactor;
+        orbitalCamera_A.SetYAngleImmediate(Yaw+deltaAngleYaw);
+        orbitalCamera_A.SetXAngleImmediate(Mathf.Clamp(Pitch+deltaAnglePitch, -170.0f, 170.0f));
+        if (!Input.GetMouseButton(0))
         {
-            Yaw += deltaAngle;
+            Yaw += deltaAngleYaw;
+            Pitch += deltaAnglePitch;
+            Pitch = Mathf.Clamp(Pitch, -170.0f, 170.0f);
             updateDelegate = notTouchingUpdate;
         }
     }

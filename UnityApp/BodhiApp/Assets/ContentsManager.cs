@@ -41,6 +41,5 @@ public class ContentsManager : MonoBehaviour
         r = random.NextDouble();
         int ta = Mathf.FloorToInt((float)(((double)topic[to].tables.Length) * r));
         return topic[to].tables[ta];
-
     }
 }

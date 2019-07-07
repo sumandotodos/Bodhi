@@ -22,6 +22,7 @@ public class IGTokenResponse
 
 public class InstagramAuthManager : MonoBehaviour
 {
+    public LoginController loginController;
 
     private static int NumberOfInstances = 0;
     private void Awake()
@@ -37,8 +38,6 @@ public class InstagramAuthManager : MonoBehaviour
 
         }
     }
-
-    public Text codeLabel;
 
     public SampleWebView webView;
 
@@ -87,7 +86,6 @@ public class InstagramAuthManager : MonoBehaviour
             {
                 string code = msg.Substring(prefix.Length+codeQuery.Length);
                 Debug.Log("Code from instagram: " + code);
-                codeLabel.text = code;
                 CodeFromIG = code;
                 StartCoroutine(ExchangeCodeForToken());
             }
@@ -117,6 +115,7 @@ public class InstagramAuthManager : MonoBehaviour
         IGTokenResponse tokenResponse = JsonUtility.FromJson<IGTokenResponse>(res.downloadHandler.text);
         TokenFromIG = tokenResponse.access_token;
         Debug.Log("<color=blue>" + TokenFromIG + "</color>");
+        loginController.LogInWithIG(TokenFromIG, TokenFromIG);
 
     }
 

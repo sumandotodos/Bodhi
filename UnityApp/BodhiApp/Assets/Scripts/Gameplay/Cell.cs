@@ -31,16 +31,25 @@ public class Cell : MonoBehaviour
         hasBicho = true;
     }
 
+    public void clearBicho()
+    { 
+        hasBicho = false;
+    }
+
     public bool getBicho()
     {
         return hasBicho;
     }
 
-    public bool endPropagation()
+    public bool isTerminal()
     {
-        return hasBicho || 
-        (neighbors > 0) || 
+        return hasBicho ||
             hasBeenTouched;
+    }
+
+    public bool isFrontier()
+    {
+        return neighbors > 0;
     }
 
     public void incNeighbors()

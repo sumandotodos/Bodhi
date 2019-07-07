@@ -52,12 +52,25 @@ public class LoginConfigurations : MonoBehaviour
             .Replace("CODE", code);
     }
 
+    public static string MakeFBTokenVerifyURL(string token)
+    {
+        string BaseURL = "https://graph.facebook.com/v3.3/debug_token?input_token=TOKEN&access_token=CLIENT-ID";
+        return BaseURL.Replace("CLIENT-ID", FBClient + "|" + FBSecret)
+            .Replace("TOKEN", token);
+    }
+
     public static string MakeFBAuthURL()
     {
         string BaseURL = FacebookAuthURL + "?client_id=CLIENT-TOKEN&redirect_uri=REDIRECT-URI&state=STATE-PARAM";
         return BaseURL.Replace("CLIENT-TOKEN", FBClient)
          .Replace("REDIRECT-URI", FlygamesRedirectURL)
          .Replace("STATE-PARAM", FBStateParam);
+    }
+
+    public static string MakeFBGetUserInfoURL(string id, string accessToken)
+    {
+        string BaseURL = "https://graph.facebook.com/v3.3/ID?access_token=ACCESS-TOKEN";
+        return BaseURL.Replace("ACCESS-TOKEN", accessToken).Replace("ID", id);
     }
 
     public static void SaveAccessTokens()

@@ -37,9 +37,10 @@ public class ContentsController : MonoBehaviour
         return contentsController;
     }
 
-    public void ChooseTopic()
+    public int ChooseTopic()
     {
         contentsTable = ContentsManager.GetSingleton().ChooseTopic();
+        return contentsTable.nRows();
     }
 
     public int NumberOfBichos()

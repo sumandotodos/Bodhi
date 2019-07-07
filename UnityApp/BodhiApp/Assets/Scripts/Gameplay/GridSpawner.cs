@@ -9,68 +9,76 @@ public class GridSpawner : MonoBehaviour
     public Transform CellsParent;
     public int Rows = 16;
     public int Columns = 12;
-    public float Prob = 0.5f;
-    System.Random random = new System.Random();
-
+    public int NumberOfBichos = 5;
     public float unitsPerPixel = 100.0f;
     public float nPixels = 64.0f;
 
+    System.Random random = new System.Random();
+    int TotalFaded = 0;
     private Cell[,] cells;
-
     int touchScore;
     Vector2 touchScoreAveragePosition;
 
-    // Start is called before the first frame update
-    void Start()
+    public void BuildGrid(int _Columns, int _Rows, int _Bichos)
     {
-        BuildGrid();
+        Columns = _Columns;
+        Rows = _Rows;
+        NumberOfBichos = _Bichos;
+
+        AddInitialCells();
+        AddBichos();
+        AddNeighbors();
     }
 
-    private bool cellWillHavePrize()
-    {
-        float r = ((float)random.Next(0, 10000))/10000.0f;
-        r = ((float)random.Next(0, 10000)) / 10000.0f;
-        r = ((float)random.Next(0, 10000)) / 10000.0f;
-        Debug.Log("Rrrandom: " + r);
-        return r < Prob;
-    }
-
-    private void BuildGrid()
+    private void AddInitialCells()
     {
         cells = new Cell[Rows, Columns];
         float totalHalfWidth = ((nPixels / unitsPerPixel) * (Columns - 1.0f)) / 2.0f;
         float totalHalfHeight = ((nPixels / unitsPerPixel) * (Rows - 1.0f)) / 2.0f;
-        int totalBicho = 0;
         for (int i = 0; i < Rows; ++i)
         {
-            for(int j = 0; j < Columns; ++j)
+            for (int j = 0; j < Columns; ++j)
             {
                 GameObject newGO = (GameObject)Instantiate(CellPrefab);
                 newGO.transform.SetParent(CellsParent);
                 newGO.transform.localScale = Vector3.one;
                 newGO.transform.localPosition =
-                 new Vector3((nPixels / unitsPerPixel) * j - totalHalfWidth, 
-                             (nPixels / unitsPerPixel) * i - totalHalfHeight, 
+                 new Vector3((nPixels / unitsPerPixel) * j - totalHalfWidth,
+                             (nPixels / unitsPerPixel) * i - totalHalfHeight,
                              0);
                 cells[i, j] = newGO.GetComponent<Cell>();
                 cells[i, j].Start();
-                if(cellWillHavePrize())
-                {
-                    cells[i, j].setBicho();
-                    ++totalBicho;
-                }
             }
         }
-        for(int i = 0; i < Rows; ++i)
+    }
+
+    private void AddBichos()
+    {
+        NumberOfBichos = Mathf.Min(NumberOfBichos, Columns * Rows);
+        for (int k = 0; k < NumberOfBichos; ++k)
         {
-            for(int j = 0; j < Columns; ++j)
+            int i, j = 0;
+            do
             {
-                if(cells[i,j].getBicho())
+                j = Random.Range(0, Columns);
+                i = Random.Range(0, Rows);
+            } while (cells[i, j].getBicho());
+            cells[i, j].setBicho();
+        }
+    }
+
+    private void AddNeighbors()
+    {
+        for (int i = 0; i < Rows; ++i)
+        {
+            for (int j = 0; j < Columns; ++j)
+            {
+                if (cells[i, j].getBicho())
                 {
                     incNeighbor(i - 1, j);
-                    incNeighbor(i - 1, j-1);
-                    incNeighbor(i, j-1);
-                    incNeighbor(i + 1, j-1);
+                    incNeighbor(i - 1, j - 1);
+                    incNeighbor(i, j - 1);
+                    incNeighbor(i + 1, j - 1);
                     incNeighbor(i + 1, j);
                     incNeighbor(i + 1, j + 1);
                     incNeighbor(i, j + 1);
@@ -78,7 +86,6 @@ public class GridSpawner : MonoBehaviour
                 }
             }
         }
-        Debug.Log("<color=blue>Total bicho: " + totalBicho + "</color>");
     }
 
     private void incNeighbor(int i, int j)
@@ -90,10 +97,12 @@ public class GridSpawner : MonoBehaviour
         cells[i, j].incNeighbors();
     }
 
+
     public void FadeCellAt(int i, int j)
     {
         FadeCellAt(i, j, 0);
     }
+
 
     public void FadeCellAt(int i, int j, int delay)
     {
@@ -104,12 +113,18 @@ public class GridSpawner : MonoBehaviour
         cells[i, j].touch(delay);
     }
 
+
     public void Touch(int i, int j)
     {
         if (cells[i, j].getBicho())
         {
-            GameController.GetSingleton().BichoFound();
             Raycaster.GetSingleton().SetActive(false);
+            ++TotalFaded;
+            GameController.GetSingleton().BichoFound();
+            GameController.GetSingleton().ReportClearedCells(TotalFaded);
+            cells[i, j].clearBicho();
+            FadeCellAt(i, j, 1);
+            return;
         }
         touchScore = 0;
         touchScoreAveragePosition = Vector2.zero;
@@ -123,26 +138,40 @@ public class GridSpawner : MonoBehaviour
             (float)i));
     }
 
+
     public void AddPropagator(int i, int j, int delay)
     {
         if (j < 0) return;
         if (i < 0) return;
         if (j > Columns - 1) return;
         if (i > Rows - 1) return;
-        if (cells[i, j].endPropagation())
+
+        if (cells[i, j].isTerminal())
+        {
+            //++touchScore;
+            //touchScoreAveragePosition += new Vector2(i, j);
+            //FadeCellAt(i, j, delay);
+            return;
+        }
+        else if (cells[i,j].isFrontier())
         {
             ++touchScore;
-            touchScoreAveragePosition += new Vector2(i, j);
+            ++TotalFaded;
+            GameController.GetSingleton().ReportClearedCells(TotalFaded);
             FadeCellAt(i, j, delay);
             return;
         }
         //Debug.Log("<color=red>" + j + "," + i + "</color>");
+        ++TotalFaded;
+        GameController.GetSingleton().ReportClearedCells(TotalFaded);
+        ++touchScore;
         FadeCellAt(i, j, delay);
         AddPropagator(i + 1, j, delay+1);
         AddPropagator(i - 1, j, delay+1);
         AddPropagator(i, j + 1, delay+1);
         AddPropagator(i, j - 1, delay+1);
     }
+
 
     public Vector3 GridToLocalCoordinates(float column, float row)
     {

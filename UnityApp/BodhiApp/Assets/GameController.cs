@@ -1,27 +1,45 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
     static GameController gameController = null;
     public OrbitalCamera orbitalCamera;
-
     public TweenableSoftFloat CameraZ;
-
     public UIHighlight[] panelButtons;
-
     public GameObject ScorePrefab;
+    public UIFader fader;
+    public UIFader skyFader;
+    public CrossfadeText remainingText;
 
     public string SpringOutAnimationName = "SpringUpOK";
     public string SpringInAnimationName = "SpringDown";
     public string HiddenAnimationName = "Hidden";
+
+    public int Columns = 6;
+    public int Rows = 10;
+    public int Bichos = 5;
+
+   
+
+    bool mustDismissPanel = false;
+
+    int TotalCells;
+
+    public GridSpawner gridSpawner_A = null;
 
     private void Awake()
     {
         if(gameController == null)
         {
             gameController = this;
+            if (gridSpawner_A == null)
+            {
+                gridSpawner_A = FindObjectOfType<GridSpawner>();
+            }
         }
     }
 
@@ -29,12 +47,19 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ContentsController.GetSingleton().ChooseTopic();
+        int nPhrases = ContentsController.GetSingleton().ChooseTopic();
+        Bichos = Mathf.Max(6, nPhrases);
         UIanimation.Play(HiddenAnimationName);
         CameraZ = new TweenableSoftFloat();
         CameraZ.setValueImmediate(10.0f);
         CameraZ.setEaseType(EaseType.cubicOut);
         CameraZ.setSpeed(3.0f);
+        gridSpawner_A.BuildGrid(Columns, Rows, Bichos);
+        remainingText.Start();
+        remainingText.SetText("" + Bichos);
+        TotalCells = Columns * Rows;
+        fader.Start();
+        fader.fadeToTransparent();
     }
 
     // Update is called once per frame
@@ -72,13 +97,16 @@ public class GameController : MonoBehaviour
         UIanimation.Play(SpringInAnimationName);
         ContentsController.GetSingleton().isShowingText = false;
         Raycaster.GetSingleton().SetActive(true);
+        mustDismissPanel = false;
     }
 
     public void BichoFound()
     {
         EnableAllButtons();
+        remainingText.SetText("" + (--Bichos));
         ContentsController.GetSingleton().PrepareNextText();
         UIanimation.Play(SpringOutAnimationName);
+        mustDismissPanel = true;
     }
 
     public void Like()
@@ -124,6 +152,31 @@ public class GameController : MonoBehaviour
             newGO.GetComponent<FleetingScore>().Init(score);
             newGO.transform.position = atLocalCoords;
         }
+    }
+
+    public void ReportClearedCells(int c)
+    {
+        //Debug.Log("<color=purple>Faded: " + c + "</color>");
+        //if (c == TotalCells)
+        if(Bichos == 0)
+        {
+            FinishGameSequence();
+        }
+    }
+
+    public void FinishGameSequence()
+    {
+        StartCoroutine(_FinishGameSequence());
+    }
+
+    IEnumerator _FinishGameSequence()
+    {
+        yield return new WaitUntil(() => (mustDismissPanel == false));
+        skyFader.fadeToOpaque();
+        yield return new WaitForSeconds(2.0f);
+        fader.fadeToOpaque();
+        yield return new WaitForSeconds(1.5f);
+        yield return SceneManager.LoadSceneAsync("Planets");
     }
 
 }

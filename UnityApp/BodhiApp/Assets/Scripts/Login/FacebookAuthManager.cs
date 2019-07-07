@@ -5,6 +5,13 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 [System.Serializable]
+public class FBUserInfo
+{
+    public string name;
+    public string email;
+}
+
+[System.Serializable]
 public class FBTokenResponse
 {
     public string access_token;
@@ -12,8 +19,43 @@ public class FBTokenResponse
     public string expires_in;
 }
 
+[System.Serializable]
+public class FBTokenInspectionResponseData
+{
+    public string app_id;
+    public bool is_valid;
+    public string user_id;
+}
+
+[System.Serializable]
+public class FBTokenInspectionResponse
+{
+    public FBTokenInspectionResponseData data;
+}
+/*
+{
+    "data": {
+        "app_id": 138483919580948, 
+        "type": "USER",
+        "application": "Social Cafe", 
+        "expires_at": 1352419328, 
+        "is_valid": true, 
+        "issued_at": 1347235328, 
+        "metadata": {
+            "sso": "iphone-safari"
+        }, 
+        "scopes": [
+            "email",
+            "publish_actions"
+        ], 
+        "user_id": "1207059"
+    }
+}*/
+
 public class FacebookAuthManager : MonoBehaviour
 {
+    public LoginController loginController;
+
     private static int NumberOfInstances = 0;
     private void Awake()
     {
@@ -27,8 +69,6 @@ public class FacebookAuthManager : MonoBehaviour
 
         }
     }
-
-    public Text codeLabel;
 
     public SampleWebView webView;
 
@@ -47,7 +87,6 @@ public class FacebookAuthManager : MonoBehaviour
             {
                 string code = msg.Substring(prefix.Length + codeQuery.Length);
                 Debug.Log("Code from facebook: " + code);
-                codeLabel.text = code;
                 CodeFromFB = code;
                 StartCoroutine(ExchangeCodeForToken());
             }
@@ -82,8 +121,31 @@ public class FacebookAuthManager : MonoBehaviour
         FBTokenResponse tokenResponse = JsonUtility.FromJson<FBTokenResponse>(res.downloadHandler.text);
         TokenFromFB = tokenResponse.access_token;
         Debug.Log("<color=blue>" + TokenFromFB + "</color>");
+        //loginController.LogInWithFB(TokenFromFB, TokenFromFB);
 
+        res = UnityWebRequest.Get(LoginConfigurations.MakeFBTokenVerifyURL(TokenFromFB));
+        yield return res.SendWebRequest();
+
+        Debug.Log("<color=purple>" + res.downloadHandler.text + "</color>");
+        FBTokenInspectionResponse response = JsonUtility.FromJson<FBTokenInspectionResponse>(res.downloadHandler.text);
+        string userid = response.data.user_id;
+
+        res = UnityWebRequest.Get(LoginConfigurations.MakeFBGetUserInfoURL(userid, TokenFromFB));
+        yield return res.SendWebRequest();
+
+        Debug.Log("<color=green>" + res.downloadHandler.text + "</color>");
+        FBUserInfo userInfo = JsonUtility.FromJson<FBUserInfo>(res.downloadHandler.text);
+        loginController.LogInWithFB(userid, userInfo.name);
     }
+
+   /* IEnumerator VerifyToken()
+    {
+        UnityWebRequest res = UnityWebRequest.Get(LoginConfigurations.MakeFBTokenVerifyURL(TokenFromFB));
+        yield return res.SendWebRequest();
+
+        FBTokenInspectionResponse response = JsonUtility.FromJson<FBTokenInspectionResponse>(res.downloadHandler.text);
+
+    }*/
 
     IEnumerator WaitABitAndClose()
     {

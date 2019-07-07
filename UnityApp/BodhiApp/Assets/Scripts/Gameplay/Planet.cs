@@ -9,6 +9,8 @@ public class Planet : MonoBehaviour
     public bool MiddleRing;
     public bool InnerRing;
 
+    public string PlanetName;
+
     public GameObject OuterRingObject;
     public GameObject MiddleRingObject;
     public GameObject InnerRingObject;

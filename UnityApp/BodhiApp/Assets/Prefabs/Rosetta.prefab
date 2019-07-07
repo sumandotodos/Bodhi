@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 348368294162162332}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 56.428364, y: 41.83507, z: -0.8173521}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -995,6 +995,10 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal12_0_0
+            text: "La vida no te env\xEDa pruebas, te env\xEDa situaciones que no
+              has resuelto."
         - theList: []
         - theList: []
         - theList: []
@@ -1012,7 +1016,6 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
         - theList: []
         - theList: []
@@ -1027,6 +1030,10 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal12_0_1
+            text: "Si algo no te agrada, qu\xEDtale el \xFAnico poder que tiene sobre
+              ti: tu atenci\xF3n."
         - theList: []
         - theList: []
         - theList: []
@@ -1043,9 +1050,7 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
-        - theList: []
         - theList: []
         - theList: []
         - theList: []
@@ -1060,6 +1065,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal12_0_2
+            text: El primer amor no siempre llega en orden.
         - theList: []
         - theList: []
         - theList: []
@@ -1091,6 +1099,10 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal12_0_3
+            text: "La vida es un continuo, solo que la mente piensa en t\xE9rminos
+              de fragmentos."
         - theList: []
         - theList: []
         - theList: []
@@ -1105,9 +1117,7 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
-        - theList: []
         - theList: []
         - theList: []
         - theList: []
@@ -1124,6 +1134,10 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal12_0_4
+            text: "Cuando un producto o servicio no tiene precio, es que el precio
+              eres t\xFA."
         - theList: []
         - theList: []
         - theList: []
@@ -1155,6 +1169,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal12_0_5
+            text: "Cuando no hay m\xE1s elecci\xF3n, la elecci\xF3n eres t\xFA."
         - theList: []
         - theList: []
         - theList: []
@@ -1167,9 +1184,7 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
-        - theList: []
         - theList: []
         - theList: []
         - theList: []
@@ -1188,6 +1203,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal12_0_6
+            text: "M\xE1s vale ponerse pantuflas que alfombrar el mundo."
         - theList: []
         - theList: []
         - theList: []
@@ -1861,6 +1879,11 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal7_0_0
+            text: "El diablo me susurr\xF3 al o\xEDdo 'no eres lo bastante fuerte
+              para resistir la tormenta'. Yo le susurr\xE9 al diablo al o\xEDdo 'yo
+              soy la tormenta'."
         - theList: []
         - theList: []
         - theList: []
@@ -1880,9 +1903,7 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
-        - theList: []
         - theList: []
         - theList: []
         - theList: []
@@ -1894,6 +1915,10 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal7_0_1
+            text: "Si quieres conocer a una persona no escuches lo que los dem\xE1s
+              dicen de ella. Escucha lo que ella dice de los dem\xE1s."
         - theList: []
         - theList: []
         - theList: []
@@ -1925,6 +1950,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal7_0_2
+            text: El contento es la riqueza natural. El lujo es la pobreza artificial.
         - theList: []
         - theList: []
         - theList: []
@@ -1942,9 +1970,7 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
-        - theList: []
         - theList: []
         - theList: []
         - theList: []
@@ -1958,6 +1984,10 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal7_0_3
+            text: En occidente nos hemos volcado en el exterior, en oriente hacia
+              el interior.
         - theList: []
         - theList: []
         - theList: []
@@ -1989,6 +2019,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal7_0_4
+            text: "Solo s\xE9 que no s\xE9 nada"
         - theList: []
         - theList: []
         - theList: []
@@ -2004,9 +2037,7 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
-        - theList: []
         - theList: []
         - theList: []
         - theList: []
@@ -2022,6 +2053,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal7_0_5
+            text: "No vivimos una \xE9poca de cambios, vivimos un cambio de \xE9poca."
         - theList: []
         - theList: []
         - theList: []
@@ -2053,6 +2087,10 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal7_0_6
+            text: "Debes tener la absoluta seguridad de que no eres quien crees que
+              eres\u2026 \xA1eres mucho m\xE1s!"
         - theList: []
         - theList: []
         - theList: []
@@ -2066,7 +2104,6 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
         - theList: []
         - theList: []
@@ -3494,10 +3531,12 @@ MonoBehaviour:
         - theList: []
         - theList: []
       - theList:
-        - theList: []
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal13_0_0
+            text: "Al\xE9grate porque todo lugar es aqu\xED, y todo momento es ahora."
         - theList: []
         - theList: []
         - theList: []
@@ -3527,12 +3566,14 @@ MonoBehaviour:
       - theList:
         - theList:
           - key: GameObject_0_0
-            text: "Construir un mejor modelo educativo entre todos, tomando como referencia
-              las pedagog\xEDas activas que tantos a\xF1os llevan dando buenos resultados"
+            text: "La acci\xF3n m\xE1s peque\xF1a es mejor que la intenci\xF3n m\xE1s
+              grande"
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
+        - theList:
+          - key: Personal13_0_1
+            text: "No es m\xE1s rico el que m\xE1s tiene, sino el que menos necesita."
         - theList: []
         - theList: []
         - theList: []
@@ -3562,11 +3603,14 @@ MonoBehaviour:
         - theList: []
         - theList:
           - key: GameObject_0_1
-            text: "Ense\xF1ar empat\xEDa y valores en la escuela"
+            text: El problema es que crees que tienes tiempo
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
+        - theList:
+          - key: Personal13_0_2
+            text: "Lo que eres es lo que has sido. Lo que ser\xE1s es lo que haces
+              a partir de ahora."
         - theList: []
         - theList: []
         - theList: []
@@ -3596,11 +3640,13 @@ MonoBehaviour:
         - theList: []
         - theList:
           - key: GameObject_0_2
-            text: "Redistribuir mejor los recursos a trav\xE9s de impuestos"
+            text: La verdadera batalla es contra uno mismo
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
+        - theList:
+          - key: Personal13_0_3
+            text: 'Para entenderlo todo, a veces es necesario olvidarlo todo. '
         - theList: []
         - theList: []
         - theList: []
@@ -3630,11 +3676,16 @@ MonoBehaviour:
         - theList: []
         - theList:
           - key: GameObject_0_3
-            text: "Promover una cultura alternativa al \u201Cusar y tirar\u201D"
+            text: Solo existe el momento presente
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
+        - theList:
+          - key: Personal4_0_0
+            text: "El lobo siempre ser\xE1 malo si solo escuchamos a Caperucita"
+          - key: Personal13_0_4
+            text: "Cuando das una palmada, \xBFc\xF3mo suena el sonido provocado por
+              una sola mano?"
         - theList: []
         - theList: []
         - theList: []
@@ -3668,6 +3719,13 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal4_0_1
+            text: La mitad de la vida pasa de largo antes de que sepamos lo que es
+              la vida
+          - key: Personal13_0_5
+            text: El leve aleteo de las alas de una mariposa se puede sentir al otro
+              lado del mundo.
         - theList: []
         - theList: []
         - theList: []
@@ -3689,9 +3747,7 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
-        - theList: []
         - theList: []
         - theList: []
         - theList: []
@@ -3701,6 +3757,13 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal4_0_2
+            text: "El mayor problema de la comunicaci\xF3n es que no escuchamos para
+              comprender, sino para responder."
+          - key: Personal13_0_6
+            text: El sentimiento de culpa es producto de la ignorancia que surge al
+              identificarnos con el ego.
         - theList: []
         - theList: []
         - theList: []
@@ -3732,6 +3795,13 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal4_0_3
+            text: "\xBFQuieres saber c\xF3mo eras en el pasado? Mira c\xF3mo eres
+              ahora. \xBFQuieres saber c\xF3mo ser\xE1s en el futuro? Mira lo que
+              haces ahora."
+          - key: Personal13_0_7
+            text: Si todo es urgente, nada es urgente.
         - theList: []
         - theList: []
         - theList: []
@@ -3751,7 +3821,6 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
         - theList: []
         - theList: []
@@ -3764,6 +3833,12 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal4_0_4
+            text: Antes de salir a cambiar el mundo, da tres vueltas por tu casa.
+          - key: Personal13_0_8
+            text: "A veces lo mejor es dejar lo urgente para despu\xE9s, y centrarse
+              en lo importante."
         - theList: []
         - theList: []
         - theList: []
@@ -3782,9 +3857,7 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
-        - theList: []
         - theList: []
         - theList: []
         - theList: []
@@ -3797,6 +3870,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal4_0_5
+            text: El que sabe no habla, y el que habla, no sabe.
         - theList: []
         - theList: []
         - theList: []
@@ -4374,6 +4450,9 @@ MonoBehaviour:
         - theList: []
       - theList:
         - theList: []
+        - theList:
+          - key: Personal8_0_0
+            text: "Ser\xE1s feliz, me dijo la vida, pero primero te har\xE9 fuerte."
         - theList: []
         - theList: []
         - theList: []
@@ -4402,10 +4481,12 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal8_0_1
+            text: No hay deber que descuidemos tanto como el deber de ser felices.
         - theList: []
         - theList: []
         - theList: []
@@ -4433,12 +4514,14 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
-        - theList: []
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal8_0_2
+            text: "Las tormentas hacen que los \xE1rboles tengan ra\xEDces m\xE1s
+              profundas."
         - theList: []
         - theList: []
         - theList: []
@@ -4470,6 +4553,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal8_0_3
+            text: Cuando superas el pasado, algo bueno llega a tu vida.
         - theList: []
         - theList: []
         - theList: []
@@ -4495,13 +4581,15 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
         - theList: []
         - theList: []
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal8_0_4
+            text: "Quise cambiar el mundo y nada cambi\xF3. Cambi\xE9 yo y todo cambi\xF3."
         - theList: []
         - theList: []
         - theList: []
@@ -4526,15 +4614,16 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
-        - theList: []
         - theList: []
         - theList: []
         - theList: []
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal8_0_5
+            text: "Hay que manifestar los sue\xF1os para que puedan comenzar a realizarse."
         - theList: []
         - theList: []
         - theList: []
@@ -4566,6 +4655,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal8_0_6
+            text: No solo lo que es oro brilla.
         - theList: []
         - theList: []
         - theList: []
@@ -4588,7 +4680,6 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
         - theList: []
         - theList: []
@@ -5272,7 +5363,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
       - theList:
-        - theList: []
+        - theList:
+          - key: Personal10_0_0
+            text: Cuando bebas agua, recuerda la fuente.
         - theList: []
         - theList: []
         - theList: []
@@ -5304,6 +5397,9 @@ MonoBehaviour:
         - theList: []
       - theList:
         - theList: []
+        - theList:
+          - key: Personal10_0_1
+            text: Un copo de nieve nunca cae en el lugar equivocado.
         - theList: []
         - theList: []
         - theList: []
@@ -5332,10 +5428,12 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal10_0_2
+            text: "La inocencia de un rat\xF3n puede mover un elefante."
         - theList: []
         - theList: []
         - theList: []
@@ -5363,12 +5461,13 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
-        - theList: []
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal10_0_3
+            text: Ama a tus vecinos, pero no te deshagas de la cerca.
         - theList: []
         - theList: []
         - theList: []
@@ -5400,6 +5499,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal10_0_4
+            text: "Hay que subir la monta\xF1a como viejo para llegar como joven."
         - theList: []
         - theList: []
         - theList: []
@@ -5425,13 +5527,16 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
         - theList: []
         - theList: []
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal10_0_5
+            text: "Vive cada d\xEDa de tu vida como si fuera el \xFAltimo. Un d\xEDa
+              acertar\xE1s."
         - theList: []
         - theList: []
         - theList: []
@@ -5456,15 +5561,16 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
-        - theList: []
         - theList: []
         - theList: []
         - theList: []
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal10_0_6
+            text: Si el cuerpo es derecho, no importa que la sombra sea torcida.
         - theList: []
         - theList: []
         - theList: []
@@ -5496,6 +5602,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal10_0_7
+            text: Quien cede el paso ensancha el camino.
         - theList: []
         - theList: []
         - theList: []
@@ -5518,7 +5627,6 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
         - theList: []
         - theList: []
@@ -5528,6 +5636,10 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal10_0_8
+            text: No puedes impedir que las aves de la tristeza vuelen hacia ti, pero
+              puedes impedir que aniden en tus cabellos.
         - theList: []
         - theList: []
         - theList: []
@@ -5549,9 +5661,7 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
-        - theList: []
         - theList: []
         - theList: []
         - theList: []
@@ -5561,6 +5671,10 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal10_0_9
+            text: "Cuando te inunde una gran alegr\xEDa, no prometas nada a nadie.
+              Cuando te el enfado, no escribas ning\xFAn chat."
         - theList: []
         - theList: []
         - theList: []
@@ -6092,6 +6206,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: GameObject (1)_0_0
+            text: Todo es perfecto tal y como es
         - theList: []
         - theList: []
         - theList: []
@@ -6107,9 +6224,7 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
-        - theList: []
         - theList: []
         - theList: []
         - theList: []
@@ -6125,6 +6240,10 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: GameObject (1)_0_1
+            text: "El problema no es el disfrute, es la obsesi\xF3n por alcanzar el
+              disfrute."
         - theList: []
         - theList: []
         - theList: []
@@ -6156,6 +6275,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: GameObject (1)_0_2
+            text: El dolor es inevitable, el sufrimiento es opcional
         - theList: []
         - theList: []
         - theList: []
@@ -6167,11 +6289,12 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal5_0_0
+            text: "Corrige al sabio y le har\xE1s m\xE1s sabio. Corrige al necio y
+              le har\xE1s tu enemigo"
         - theList: []
-        - theList: []
-        - theList: []
       - theList:
-        - theList: []
         - theList: []
         - theList: []
         - theList: []
@@ -6189,6 +6312,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: GameObject (1)_0_3
+            text: "Buscad mediante los libros, hallad mediante la meditaci\xF3n"
         - theList: []
         - theList: []
         - theList: []
@@ -6200,10 +6326,14 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
+        - theList:
+          - key: Personal5_0_1
+            text: "El sabio solo quiere aprender. El necio solo quiere ense\xF1ar"
       - theList:
-        - theList: []
-        - theList: []
+        - theList:
+          - key: Personal5_0_2
+            text: "Lo que no se soluciona pasando p\xE1gina, se soluciona cambiando
+              de libro"
         - theList: []
         - theList: []
         - theList: []
@@ -6221,6 +6351,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: GameObject (1)_0_4
+            text: "El miedo hace al lobo m\xE1s grande de lo que es"
         - theList: []
         - theList: []
         - theList: []
@@ -6234,6 +6367,9 @@ MonoBehaviour:
         - theList: []
       - theList:
         - theList: []
+        - theList:
+          - key: Personal5_0_3
+            text: Deja de buscar la felicidad en el mismo lugar donde la perdiste.
         - theList: []
         - theList: []
         - theList: []
@@ -6251,6 +6387,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: GameObject (1)_0_5
+            text: El que sabe no habla, y el que habla, no sabe.
         - theList: []
         - theList: []
         - theList: []
@@ -6261,12 +6400,13 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
-        - theList: []
       - theList:
-        - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal5_0_4
+            text: Tenemos dos vidas; la segunda comienza cuando nos damos cuenta de
+              que solo tenemos una.
         - theList: []
         - theList: []
         - theList: []
@@ -6298,6 +6438,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal5_0_5
+            text: Las mejores cosas de la vida no son cosas.
         - theList: []
         - theList: []
         - theList: []
@@ -6324,12 +6467,14 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
         - theList: []
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal5_0_6
+            text: "Cuando m\xE1s grande es el caos, m\xE1s cerca est\xE1 la soluci\xF3n."
         - theList: []
         - theList: []
         - theList: []
@@ -6355,7 +6500,6 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
         - theList: []
         - theList: []
@@ -6884,7 +7028,6 @@ MonoBehaviour:
         - theList: []
         - theList: []
       - theList:
-        - theList: []
         - theList: []
         - theList: []
         - theList: []
@@ -6907,6 +7050,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal9_0_0
+            text: "Un hombre es due\xF1o de sus silencios y esclavo de sus palabras."
         - theList: []
         - theList: []
         - theList: []
@@ -6938,13 +7084,17 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal9_0_1
+            text: "Si haces planes para un a\xF1o, siembra arroz. Si haces planes
+              para unas d\xE9cadas, planta \xE1rboles. Y si los haces para toda la
+              vida, educa a una persona."
         - theList: []
         - theList: []
         - theList: []
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
         - theList: []
         - theList: []
@@ -6970,14 +7120,15 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal9_0_2
+            text: Valora a una persona por lo que hace, no por lo que tiene.
         - theList: []
         - theList: []
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
-        - theList: []
         - theList: []
         - theList: []
         - theList: []
@@ -7003,6 +7154,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal9_0_3
+            text: "Si un hombre tiene hambre no le des un pez, ens\xE9\xF1ale a pescar."
         - theList: []
         - theList: []
         - theList: []
@@ -7034,10 +7188,13 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal9_0_4
+            text: "Si eres paciente en un momento de ira, escapar\xE1s a cien d\xEDas
+              de tristeza."
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
         - theList: []
         - theList: []
@@ -7066,11 +7223,12 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal9_0_5
+            text: La mejor manera de tener una buena idea, es tener muchas ideas.
         - theList: []
         - theList: []
-        - theList: []
       - theList:
-        - theList: []
         - theList: []
         - theList: []
         - theList: []
@@ -7099,6 +7257,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal9_0_6
+            text: "La caminata m\xE1s larga comienza con un paso."
         - theList: []
       - theList:
         - theList: []
@@ -7130,7 +7291,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
+        - theList:
+          - key: Personal9_0_7
+            text: La puerta mejor cerrada es la que puede dejarse abierta.
       - theList:
         - theList: []
         - theList: []
@@ -7804,6 +7967,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal11_0_0
+            text: "Ap\xFArate lentamente."
         - theList: []
         - theList: []
         - theList: []
@@ -7812,9 +7978,7 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
       - theList:
-        - theList: []
         - theList: []
         - theList: []
         - theList: []
@@ -7837,6 +8001,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal11_0_1
+            text: El sabio no dice lo que sabe, y el necio no sabe lo que dice.
         - theList: []
         - theList: []
         - theList: []
@@ -7870,7 +8037,12 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
+        - theList:
+          - key: Personal11_0_2
+            text: "El que comete una mala acci\xF3n y tiene temor de que se sepa,
+              posee todav\xEDa una semilla de bondad dentro de su maldad. Mientras
+              que el que hace una buena acci\xF3n y est\xE1 ansioso de que los dem\xE1s
+              se enteren, tiene todav\xEDa una semilla de maldad dentro de su bondad."
         - theList: []
         - theList: []
         - theList: []
@@ -7904,7 +8076,10 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
+        - theList:
+          - key: Personal11_0_3
+            text: "Y justo cuando la oruga pens\xF3 que era su final, se convirti\xF3
+              en mariposa."
         - theList: []
         - theList: []
         - theList: []
@@ -7940,38 +8115,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-      - theList:
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
+        - theList:
+          - key: Personal11_0_4
+            text: El que teme sufrir, ya sufre con su miedo.
         - theList: []
         - theList: []
         - theList: []
@@ -8709,38 +8855,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-      - theList:
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
+        - theList:
+          - key: Personal6_0_0
+            text: "Los mejores momentos de la vida no se publican, \xA1se disfrutan!"
         - theList: []
         - theList: []
         - theList: []
@@ -8772,38 +8889,9 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-      - theList:
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
+        - theList:
+          - key: Personal6_0_1
+            text: "Cambias de vida, y de pronto\u2026 \xA1te cambia la vida!"
         - theList: []
         - theList: []
         - theList: []
@@ -8835,38 +8923,10 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-      - theList:
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
-        - theList: []
+        - theList:
+          - key: Personal6_0_2
+            text: "Solo con el coraz\xF3n se puede ver bien. Lo esencial es invisible
+              a los ojos"
         - theList: []
         - theList: []
         - theList: []
@@ -8898,11 +8958,146 @@ MonoBehaviour:
         - theList: []
         - theList: []
         - theList: []
+        - theList:
+          - key: Personal6_0_3
+            text: Cuando estamos contentos disfrutamos las canciones. Pero estando
+              tristes, entendemos la letra.
         - theList: []
         - theList: []
         - theList: []
         - theList: []
         - theList: []
+        - theList: []
+        - theList: []
+      - theList:
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList:
+          - key: Personal6_0_4
+            text: "Encendi\xF3 la tele para apagar un rato su vida\u2026"
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+      - theList:
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList:
+          - key: Personal6_0_5
+            text: Hazte un favor y saca de tu vida a quien te ha sacado de la suya.
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+      - theList:
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList:
+          - key: Personal6_0_6
+            text: "Un tigre no pierde el sue\xF1o por la opini\xF3n de las ovejas."
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+      - theList:
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList: []
+        - theList:
+          - key: Personal6_0_7
+            text: Cualquiera que sea la causa de tu sufrimiento, no lastimes a otro.
         - theList: []
         - theList: []
         - theList: []
@@ -9374,4 +9569,4 @@ MonoBehaviour:
   singleData: []
   currentTranslationIndex: 0
   nTranslations: 0
-  nStrings: 8
+  nStrings: 88
