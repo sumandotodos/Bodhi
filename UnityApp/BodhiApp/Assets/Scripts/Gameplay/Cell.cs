@@ -5,7 +5,10 @@ using UnityEngine;
 public class Cell : MonoBehaviour
 {
     public OpacityController foreOpacity;
+    public OpacityController detailOpacity;
     public SpriteRenderer hasBichoRenderer;
+    public string OKAnimName = "";
+    public string WreckAnimName = "";
     public TextMesh hintText;
     bool isStarted = false;
     bool hasBicho = false;
@@ -19,6 +22,8 @@ public class Cell : MonoBehaviour
         isStarted = true;
         foreOpacity.Start();
         foreOpacity.SetOpacityImmediate(1.0f);
+        detailOpacity.Start();
+        detailOpacity.SetOpacityImmediate(1.0f);
         hasBichoRenderer.enabled = false;
         hasBicho = false;
         hasBeenTouched = false;
@@ -62,7 +67,16 @@ public class Cell : MonoBehaviour
 
     public void touch(int delay)
     {
-        foreOpacity.SetOpacity(0.0f, delay);
+        if(hasBicho)
+        {
+            foreOpacity.GetComponent<UIAnimatedImage>().go();
+        }
+        else
+        {
+            foreOpacity.SetOpacity(0.0f, delay);
+            detailOpacity.SetOpacity(0.0f, delay);
+        }
         hasBeenTouched = true;
+        clearBicho();
     }
 }

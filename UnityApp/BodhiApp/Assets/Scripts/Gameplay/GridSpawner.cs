@@ -122,7 +122,7 @@ public class GridSpawner : MonoBehaviour
             ++TotalFaded;
             GameController.GetSingleton().BichoFound();
             GameController.GetSingleton().ReportClearedCells(TotalFaded);
-            cells[i, j].clearBicho();
+            //cells[i, j].clearBicho();
             FadeCellAt(i, j, 1);
             return;
         }

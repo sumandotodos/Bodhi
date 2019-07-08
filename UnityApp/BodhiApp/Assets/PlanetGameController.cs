@@ -35,7 +35,7 @@ public class PlanetGameController : MonoBehaviour
         fader.fadeToTransparent();
         orbitalCamera_A.Start();
         orbitalCamera_A.SetZDistanceImmediate(40.0f);
-        orbitalCamera_A.SetZDistance(13.0f); 
+        orbitalCamera_A.SetZDistance(17.0f); 
     }
 
     public void ClickOnPlanet(Planet planet)

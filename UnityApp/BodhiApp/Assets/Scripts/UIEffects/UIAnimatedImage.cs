@@ -4,8 +4,8 @@ using System.Collections;
 
 public class UIAnimatedImage : MonoBehaviour {
 
-	public Texture[] image;
-	RawImage theImage;
+	public Sprite[] image;
+	SpriteRenderer theImage;
 	int currentFrame;
 	public bool autostart = true;
 	public bool loop = true;
@@ -16,6 +16,12 @@ public class UIAnimatedImage : MonoBehaviour {
 
 	bool started = false;
 
+    public bool randomStartFrame = false;
+
+    public int PlayheadStart = 0;
+    public int PlayheadEnd = 0;
+    int playhead;
+
 	// Use this for initialization
 	public void Start () {
 
@@ -24,11 +30,21 @@ public class UIAnimatedImage : MonoBehaviour {
 		started = true;
 	
 		currentFrame = offset % image.Length;
-		theImage = this.GetComponent<RawImage> ();
-		theImage.texture = image [0];
+		theImage = this.GetComponent<SpriteRenderer> ();
+		theImage.sprite = image [0];
 		time = 0.0f;
 		state = 0;
-		if (autostart)
+
+        if (randomStartFrame)
+        {
+            currentFrame = Random.RandomRange(PlayheadStart, PlayheadEnd);
+        }
+        else
+        {
+            currentFrame = PlayheadStart;
+        }
+
+        if (autostart)
 			state = 1;
 
 	}
@@ -43,18 +59,36 @@ public class UIAnimatedImage : MonoBehaviour {
 			time += Time.deltaTime;
 			if (time > (1.0f / animationSpeed)) {
 				time = 0.0f;
-				currentFrame = (currentFrame + 1);// % image.Length;
-				if (loop) {
-					if (currentFrame == image.Length) {
-						currentFrame = 0;
-					}
-				} else {
-					if (currentFrame == image.Length) {
-						currentFrame = image.Length - 1;
-						state = 0;
-					}
-				}
-				theImage.texture = image [currentFrame];
+
+               currentFrame = (currentFrame + 1);// % image.Length;
+               if (loop)
+               {
+                   if (currentFrame == image.Length)
+                   {
+                            currentFrame = 0;
+                   }
+                   else if (currentFrame == PlayheadEnd)
+                   {
+                        currentFrame = PlayheadStart;
+                   }
+                }
+                else
+                {
+                    if (currentFrame == image.Length)
+                    {
+                        currentFrame = image.Length - 1;
+                        state = 0;
+                    }
+                    else if (currentFrame == PlayheadEnd+1)
+                    {
+                        currentFrame = PlayheadEnd;
+                        state = 0;
+                    }
+
+
+                }
+                theImage.sprite = image[currentFrame];
+
 			}
 		}
 
@@ -62,7 +96,7 @@ public class UIAnimatedImage : MonoBehaviour {
 
 	public void setFrame(int f) {
 		currentFrame = (f % image.Length);
-		theImage.texture = image [currentFrame];
+		theImage.sprite = image [currentFrame];
 	}
 
 	public void go() {
@@ -72,7 +106,7 @@ public class UIAnimatedImage : MonoBehaviour {
 	public void reset() {
 		state = 0;
 		currentFrame = 0;
-		theImage.texture = image [0];
+		theImage.sprite = image [0];
 		time = 0.0f;
 	}
 }
