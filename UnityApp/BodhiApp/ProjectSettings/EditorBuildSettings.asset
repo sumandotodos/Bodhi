@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Planets.unity
     guid: dbe147bcf06e54b4183627df801a1a74
   - enabled: 1
-    path: Assets/Scenes/Minesweeper.unity
+    path: Assets/Scenes/Minesweeper_schools.unity
     guid: 35848694012834e4dbb9ae9276ff03b7
   m_configObjects: {}

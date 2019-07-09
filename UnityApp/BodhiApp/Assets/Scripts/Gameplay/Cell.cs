@@ -9,10 +9,13 @@ public class Cell : MonoBehaviour
     public SpriteRenderer hasBichoRenderer;
     public string OKAnimName = "";
     public string WreckAnimName = "";
+    public float delayWindow = 0.05f;
     public TextMesh hintText;
     bool isStarted = false;
     bool hasBicho = false;
     bool hasBeenTouched = false;
+    public bool FadeDetailOnOK = false;
+    public bool FadeDetailOnWreck = true;
     int neighbors = 0;
     public Color[] colors;
     // Start is called before the first frame update
@@ -69,12 +72,24 @@ public class Cell : MonoBehaviour
     {
         if(hasBicho)
         {
-            foreOpacity.GetComponent<UIAnimatedImage>().go();
+            //foreOpacity.GetComponent<UIAnimatedImage>().PlayheadStart = 0;
+            //foreOpacity.GetComponent<UIAnimatedImage>().PlayheadEnd = 15;
+            foreOpacity.GetComponent<UIAnimatedImage>().PlaySegment(OKAnimName);
+            foreOpacity.GetComponent<UIAnimatedImage>().go((float)(delay-1)*delayWindow);
+            if(FadeDetailOnOK)
+            {
+                detailOpacity.SetOpacity(0.0f);
+            }
         }
         else
         {
-            foreOpacity.SetOpacity(0.0f, delay);
-            detailOpacity.SetOpacity(0.0f, delay);
+            //foreOpacity.GetComponent<UIAnimatedImage>().PlayheadStart = 16;
+            //foreOpacity.GetComponent<UIAnimatedImage>().PlayheadEnd = 23;
+            foreOpacity.GetComponent<UIAnimatedImage>().PlaySegment(WreckAnimName);
+            foreOpacity.GetComponent<UIAnimatedImage>().go((float)(delay - 1) * delayWindow);
+            detailOpacity.SetOpacityImmediate(0.0f);
+            foreOpacity.SetOpacity(0.0f, delay+9);
+            detailOpacity.SetOpacity(0.0f, delay+9);
         }
         hasBeenTouched = true;
         clearBicho();

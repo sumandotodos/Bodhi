@@ -395,13 +395,30 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a39816b69f1864ecf93c22816e790d49, type: 3}
   - {fileID: 21300000, guid: 99c140e8c7b5748cf87c827af8fb28ac, type: 3}
   - {fileID: 21300000, guid: 741ab10f160b34da59dfb58eaa45ca9b, type: 3}
+  - {fileID: 21300000, guid: b8dfcdc9cf9a44109916b95c325c14fd, type: 3}
+  - {fileID: 21300000, guid: 95309f126b1b64c7c929a9e85383e6a5, type: 3}
+  - {fileID: 21300000, guid: 33fa1ce87d1a04018ad4839e5c2e56f9, type: 3}
+  - {fileID: 21300000, guid: c049a21eeed444043b008d1ad7ea1c19, type: 3}
+  - {fileID: 21300000, guid: 35175fec9854449b5a8d28704caf832e, type: 3}
+  - {fileID: 21300000, guid: d29a31bfb5d1c48e7bb79f44f064a9c7, type: 3}
+  - {fileID: 21300000, guid: b9f6ac2164173487a9f51289fc31dce7, type: 3}
+  - {fileID: 21300000, guid: 799e36835daf44f08954426660973f53, type: 3}
   autostart: 0
   loop: 0
   offset: 0
   animationSpeed: 16
   randomStartFrame: 0
-  PlayheadStart: 0
-  PlayheadEnd: 15
+  segments:
+  - name: OK
+    start: 0
+    end: 15
+    speed: 0
+    loop: 0
+  - name: Wreck
+    start: 16
+    end: 23
+    speed: 0
+    loop: 0
 --- !u!1 &2040133166688908888
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,7 +430,7 @@ GameObject:
   - component: {fileID: 2040133166688908870}
   - component: {fileID: 2040133166688908889}
   m_Layer: 0
-  m_Name: Cell
+  m_Name: SchoolCell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -453,9 +470,12 @@ MonoBehaviour:
   foreOpacity: {fileID: 4409813055103345112}
   detailOpacity: {fileID: 8517212030964579645}
   hasBichoRenderer: {fileID: 1697981521}
-  OKAnimName: SchoolOK
-  WreckAnimName: 
+  OKAnimName: OK
+  WreckAnimName: Wreck
+  delayWindow: 0.05
   hintText: {fileID: 1789322486}
+  FadeDetailOnOK: 0
+  FadeDetailOnWreck: 1
   colors:
   - {r: 0.35635456, g: 0.35635456, b: 0.9811321, a: 1}
   - {r: 1, g: 0, b: 0, a: 1}
@@ -634,5 +654,4 @@ MonoBehaviour:
   offset: 0
   animationSpeed: 8
   randomStartFrame: 1
-  PlayheadStart: 0
-  PlayheadEnd: 8
+  segments: []
