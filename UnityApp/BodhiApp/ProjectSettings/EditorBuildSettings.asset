@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Minesweeper_schools.unity
     guid: 35848694012834e4dbb9ae9276ff03b7
+  - enabled: 1
+    path: Assets/Scenes/Minesweeper_Factories.unity
+    guid: 7d4e4a82170434df0816eaa9c82ac57a
   m_configObjects: {}

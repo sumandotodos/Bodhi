@@ -29,12 +29,16 @@ public class PlanetGameController : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    IEnumerator Start()
     {
         fader.Start();
-        fader.fadeToTransparent();
+        Time.timeScale = 30.0f;
         orbitalCamera_A.Start();
         orbitalCamera_A.SetZDistanceImmediate(40.0f);
+        yield return new WaitForSecondsRealtime(2.5f);
+
+        Time.timeScale = 1.0f;
+        fader.fadeToTransparent();
         orbitalCamera_A.SetZDistance(17.0f); 
     }
 
@@ -56,7 +60,8 @@ public class PlanetGameController : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         fader.fadeToOpaque();
         yield return new WaitForSeconds(1.0f);
-        yield return SceneManager.LoadSceneAsync("Minesweeper");
+        yield return SceneManager.LoadSceneAsync("Minesweeper_Factories");
     }
+
 
 }

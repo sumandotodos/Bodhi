@@ -18,15 +18,18 @@ public class UIOpacityWiggle : MonoBehaviour {
 	//public float tuMadre = 2;
 	public bool isActive;
 
-	RawImage img;
+	RawImage rimg;
+    Image img;
 
 	public void reset() {
 		opacity = 0.0f;
 		isActive = false;
 		angle = 0.0f;
-		img = this.GetComponent<RawImage> ();
-		img.color = new Color (baseColor.r, baseColor.g, baseColor.b, 0);
-		isActive = true;
+        img = this.GetComponent<Image>();
+        rimg = this.GetComponent<RawImage> ();
+        if (rimg != null) rimg.color = new Color (baseColor.r, baseColor.g, baseColor.b, 0);
+        if (img != null) img.color = new Color(baseColor.r, baseColor.g, baseColor.b, 0);
+        isActive = true;
 	}
 
 	// Use this for initialization
@@ -42,9 +45,11 @@ public class UIOpacityWiggle : MonoBehaviour {
 
 		angle += angSpeed * Time.deltaTime;
 		opacity = FGUtils.RangeRemap (Mathf.Sin (angle), -1.0f, 1.0f, minOpacity, maxOpacity);
-		img.color = new Color (baseColor.r, baseColor.g, baseColor.b, opacity);
+		
+        if(rimg!=null) rimg.color = new Color (baseColor.r, baseColor.g, baseColor.b, opacity);
+        if (img != null) img.color = new Color(baseColor.r, baseColor.g, baseColor.b, opacity);
 
-	}
+    }
 
 	public void go() {
 		isActive = true;
