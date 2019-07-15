@@ -45,10 +45,19 @@ public class FGTable : MonoBehaviour {
 		return 0; // Should be -1, but this SHOULD never happen. Let's not do something like throw an exception or shit like that
 	}
 
-	void Start() {
+    public void Initialize()
+    {
+        if (rosettaWrapper == null)
+        {
+            rosettaWrapper = FindObjectOfType<RosettaWrapper>();
+        }
+    }
+
+    public void Start() {
 		tableUsage = new TableUsage ();
 		tableUsage.initialize (nRows());
-	}
+
+    }
 
 	public void expendRow(int r) {
 		tableUsage.expendRow (r);

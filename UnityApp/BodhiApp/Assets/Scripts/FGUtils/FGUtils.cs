@@ -844,4 +844,13 @@ public class FGUtils : MonoBehaviour {
 
 	}
 
+    public static int findInList<T>(List<T> theList, System.Func<T, bool> test)
+    {
+        for(int i = 0; i < theList.Count; ++i)
+        {
+            if (test(theList[i])) return i;
+        }
+        return -1;
+    }
+
 }

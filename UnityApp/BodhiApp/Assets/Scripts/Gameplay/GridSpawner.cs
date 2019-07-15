@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class GridSpawner : MonoBehaviour
 {
-    public GameObject CellPrefab;
+    //public GameObject CellPrefab;
+    public PrefabSelector prefabSelector;
     public Transform CellsParent;
     public int Rows = 16;
     public int Columns = 12;
@@ -35,6 +36,7 @@ public class GridSpawner : MonoBehaviour
         cells = new Cell[Rows, Columns];
         float totalHalfWidth = ((nPixels / unitsPerPixel) * (Columns - 1.0f)) / 2.0f;
         float totalHalfHeight = ((nPixels / unitsPerPixel) * (Rows - 1.0f)) / 2.0f;
+        GameObject CellPrefab = prefabSelector.GetPrebafByPlayerPrefs();
         for (int i = 0; i < Rows; ++i)
         {
             for (int j = 0; j < Columns; ++j)

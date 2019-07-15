@@ -11,6 +11,10 @@ public class PlanetGameController : MonoBehaviour
     public UIFader fader;
     public OrbitalCamera orbitalCamera_A = null;
 
+    public GameObject NormalPlanetPrefab;
+    public GameObject FavPrefab;
+    public GameObject IdeaPrefab;
+
     private void Awake()
     {
         if(planetGameController == null)
@@ -37,9 +41,31 @@ public class PlanetGameController : MonoBehaviour
         orbitalCamera_A.SetZDistanceImmediate(40.0f);
         yield return new WaitForSecondsRealtime(2.5f);
 
+        PrepareScene();
+
         Time.timeScale = 1.0f;
         fader.fadeToTransparent();
         orbitalCamera_A.SetZDistance(17.0f); 
+    }
+
+    private void PrepareScene()
+    {
+        string TypeOfScene = PlayerPrefs.GetString("TypeOfScene");
+
+        if(TypeOfScene == "Me")
+        {
+
+        }
+        else if (TypeOfScene == "Persons")
+        {
+
+        }
+        else if (TypeOfScene == "Categories")
+        {
+
+        }
+
+
     }
 
     public void ClickOnPlanet(Planet planet)
