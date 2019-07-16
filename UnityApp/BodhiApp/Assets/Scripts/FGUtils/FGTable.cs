@@ -322,6 +322,7 @@ public class FGTable : MonoBehaviour {
 	public void importCRSV(string c) {
 		
 		int nColumns = 1;
+        int nRow = 0;
 		int offset = 1;
 		string[] colNames = null;
 
@@ -362,7 +363,7 @@ public class FGTable : MonoBehaviour {
 				}
 				type = FGTable.TypeString;
 			}
-			int nRow = 0;
+            nRow = 0;
 			for (int i = offset + k; i < files.Length; i += nColumns) {
 
 				//if (!files [i].Equals ("")) {
@@ -385,7 +386,9 @@ public class FGTable : MonoBehaviour {
 			column.Add (newCol.GetComponent<FGColumn> ());
 
 		}
-			
+
+        cols = column.Count;
+        rows = nRow;
 
 	}
 

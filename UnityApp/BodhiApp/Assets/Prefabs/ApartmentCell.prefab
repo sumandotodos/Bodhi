@@ -357,19 +357,15 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b62bfdc835ccd4b079a169d3a9720233, type: 3}
   - {fileID: 21300000, guid: a1dd1bda7afc04d86a3a166429787a9b, type: 3}
   - {fileID: 21300000, guid: 35eda736003464e0d824208f2e16537d, type: 3}
-  - {fileID: 21300000, guid: 82471336ab8814d298dbf2b33a37ac41, type: 3}
-  - {fileID: 21300000, guid: 741ab10f160b34da59dfb58eaa45ca9b, type: 3}
-  - {fileID: 21300000, guid: 5fa1a3e0bd31f44a7998d947078e46ef, type: 3}
-  - {fileID: 21300000, guid: ae9f80187bff146c98ea94e87c54875d, type: 3}
-  - {fileID: 21300000, guid: 16e0b187c9dda4118b8c5f6f1895de92, type: 3}
-  - {fileID: 21300000, guid: f53f2c841cdcd4a26a500ac78941abe0, type: 3}
-  - {fileID: 21300000, guid: 16e86ff7b850b44368deaf5c5322ab12, type: 3}
-  - {fileID: 21300000, guid: ba8f468f5c83247e582892bd46927d63, type: 3}
-  - {fileID: 21300000, guid: 4839b5e3b62de4a84aaf1bf83e436ffe, type: 3}
-  - {fileID: 21300000, guid: c9d2df0e9c9e440b7886e77c6872b814, type: 3}
-  - {fileID: 21300000, guid: 526f4327e2aac446d9a12ff606da1bd2, type: 3}
-  - {fileID: 21300000, guid: 2702fb2bf00594b60a07086ebca0eab5, type: 3}
-  - {fileID: 21300000, guid: 89380ad4f2cec48e0b893127d280fbd9, type: 3}
+  - {fileID: 21300000, guid: 17c04475005284846b3d1f13dceb2e4e, type: 3}
+  - {fileID: 21300000, guid: 22bee9b047b25478cb414398bf6698ab, type: 3}
+  - {fileID: 21300000, guid: 8f01e7d7c96ac49abb3f641e974a247e, type: 3}
+  - {fileID: 21300000, guid: 93885dbb6347d45cf9a6e14d86b06c6a, type: 3}
+  - {fileID: 21300000, guid: a114d2cf5621542348044173e86dab61, type: 3}
+  - {fileID: 21300000, guid: 4ef060fbbcf55487a9c268777be9ec75, type: 3}
+  - {fileID: 21300000, guid: 523b062b2c5a14da998b04b1539afd1e, type: 3}
+  - {fileID: 21300000, guid: a135e7a81dbd44ecb9c3d5329704afc1, type: 3}
+  - {fileID: 21300000, guid: fc0a04565b7dc42fc9a0e2e47555ef47, type: 3}
   autostart: 0
   loop: 0
   offset: 0
@@ -383,7 +379,7 @@ MonoBehaviour:
     loop: 0
   - name: OK
     start: 14
-    end: 26
+    end: 23
     speed: 0
     loop: 0
 --- !u!1 &7433780194364488790
