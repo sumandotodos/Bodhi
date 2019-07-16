@@ -30,7 +30,7 @@ public class PrefabSelector : MonoBehaviour
         if (index == -1)
         {
             Debug.Log("Warning: Prefab cell named \"" + s + "\" not found");
-            return Prefabs[0].prefab;
+            return Prefabs[Prefabs.Count-1].prefab;
         }
         return Prefabs[index].prefab;
     }

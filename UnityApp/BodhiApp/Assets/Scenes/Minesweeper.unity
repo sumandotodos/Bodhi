@@ -10248,6 +10248,9 @@ MonoBehaviour:
   - name: School
     prefab: {fileID: 2040133166688908888, guid: 8d1e469314ac94842b539881adb8a786,
       type: 3}
+  - name: Temple
+    prefab: {fileID: 4134300917945652648, guid: 86a6a4e54e2e94a8e9945aa6af578f5f,
+      type: 3}
 --- !u!1 &1398639132
 GameObject:
   m_ObjectHideFlags: 0
