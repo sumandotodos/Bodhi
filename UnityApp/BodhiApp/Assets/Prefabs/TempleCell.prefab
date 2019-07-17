@@ -351,6 +351,19 @@ MonoBehaviour:
   - {fileID: 21300000, guid: ecde07c7581c44f31aba4808cb1cbe30, type: 3}
   - {fileID: 21300000, guid: 3fe2c49e0906a4a07953516718d86f9d, type: 3}
   - {fileID: 21300000, guid: fb28bae0b973a466f9baebcb14e81148, type: 3}
+  - {fileID: 21300000, guid: 4786440e950644ef7a6c6f09bd5b8d41, type: 3}
+  - {fileID: 21300000, guid: f003d7e2351cf48bf8aff60700a8c87b, type: 3}
+  - {fileID: 21300000, guid: 66ed1b57ffef24ec0bdf131e68344950, type: 3}
+  - {fileID: 21300000, guid: e1873e79bd2594479af07e38bc92b320, type: 3}
+  - {fileID: 21300000, guid: 858161a5ee9174d48ad09af76c675c89, type: 3}
+  - {fileID: 21300000, guid: 68788777502154bb4a880fe9bcb96e60, type: 3}
+  - {fileID: 21300000, guid: cd83aeee9b88b407480e3999fe30d3fa, type: 3}
+  - {fileID: 21300000, guid: 9363accf6114d495497a3cda3abbe759, type: 3}
+  - {fileID: 21300000, guid: 2c823f32d4a9147db9f7437564d4158c, type: 3}
+  - {fileID: 21300000, guid: e516b09bd1bd943cfa3b5bbcbe3bbf29, type: 3}
+  - {fileID: 21300000, guid: fc4643206f4ad498bb9dd5a8b7a9a087, type: 3}
+  - {fileID: 21300000, guid: a99fbdb90395b4e8081cb15212a137c5, type: 3}
+  - {fileID: 21300000, guid: 6ab2f46d3890945e584a1d647b55e0ec, type: 3}
   autostart: 0
   loop: 0
   offset: 0
@@ -358,8 +371,8 @@ MonoBehaviour:
   randomStartFrame: 0
   segments:
   - name: Wreck
-    start: 0
-    end: 13
+    start: 26
+    end: 38
     speed: 0
     loop: 0
   - name: OK

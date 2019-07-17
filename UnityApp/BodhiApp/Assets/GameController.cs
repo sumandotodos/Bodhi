@@ -7,9 +7,11 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
     static GameController gameController = null;
+    public UIScaleFader FrameScaler;
     public OrbitalCamera orbitalCamera;
     public TweenableSoftFloat CameraZ;
     public UIHighlight[] panelButtons;
+    public DelayExec[] delayExec;
     public GameObject ScorePrefab;
     public UIFader fader;
     public UIFader skyFader;
@@ -49,7 +51,9 @@ public class GameController : MonoBehaviour
     {
         int nPhrases = ContentsController.GetSingleton().ChooseTopic();
         Bichos = Mathf.Max(6, nPhrases);
-        UIanimation.Play(HiddenAnimationName);
+        //UIanimation.Play(HiddenAnimationName);
+        FrameScaler.setEaseType(EaseType.cubicIn);
+        FrameScaler.scaleOutImmediately();
         CameraZ = new TweenableSoftFloat();
         CameraZ.setValueImmediate(10.0f);
         CameraZ.setEaseType(EaseType.cubicOut);
@@ -94,7 +98,13 @@ public class GameController : MonoBehaviour
 
     public void DismissPanel()
     {
-        UIanimation.Play(SpringInAnimationName);
+        //UIanimation.Play(SpringInAnimationName);
+        FrameScaler.setEaseType(EaseType.cubicIn);
+        FrameScaler.scaleOut();
+        foreach (DelayExec de in delayExec)
+        {
+            de.StopWork();
+        }
         ContentsController.GetSingleton().isShowingText = false;
         Raycaster.GetSingleton().SetActive(true);
         mustDismissPanel = false;
@@ -105,7 +115,13 @@ public class GameController : MonoBehaviour
         EnableAllButtons();
         remainingText.SetText("" + (--Bichos));
         ContentsController.GetSingleton().PrepareNextText();
-        UIanimation.Play(SpringOutAnimationName);
+        //UIanimation.Play(SpringOutAnimationName);
+        FrameScaler.setEaseType(EaseType.boingOutMore);
+        FrameScaler.scaleIn();
+        foreach(DelayExec de in delayExec)
+        {
+            de.StartWork();
+        }
         mustDismissPanel = true;
     }
 
