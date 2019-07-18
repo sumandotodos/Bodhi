@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
 {
     static GameController gameController = null;
     public UIScaleFader FrameScaler;
+    public UIMoverTwoPoints FrameMover;
     public OrbitalCamera orbitalCamera;
     public TweenableSoftFloat CameraZ;
     public UIHighlight[] panelButtons;
@@ -45,7 +46,6 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public Animation UIanimation;
     // Start is called before the first frame update
     void Start()
     {
@@ -98,7 +98,6 @@ public class GameController : MonoBehaviour
 
     public void DismissPanel()
     {
-        //UIanimation.Play(SpringInAnimationName);
         FrameScaler.setEaseType(EaseType.cubicIn);
         FrameScaler.scaleOut();
         foreach (DelayExec de in delayExec)
@@ -110,14 +109,16 @@ public class GameController : MonoBehaviour
         mustDismissPanel = false;
     }
 
-    public void BichoFound()
+    public void BichoFound(Vector2 screenCoords)
     {
         EnableAllButtons();
         remainingText.SetText("" + (--Bichos));
         ContentsController.GetSingleton().PrepareNextText();
-        //UIanimation.Play(SpringOutAnimationName);
         FrameScaler.setEaseType(EaseType.boingOutMore);
         FrameScaler.scaleIn();
+        FrameMover.PointA = screenCoords;
+        FrameMover.PointB = FGUtils.UICoordinateTransform(new Vector2(0.5f, 0.5f), UICoordinateType.Normalized);
+        FrameMover.Go();
         foreach(DelayExec de in delayExec)
         {
             de.StartWork();

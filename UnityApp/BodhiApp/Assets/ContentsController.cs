@@ -51,7 +51,7 @@ public class ContentsController : MonoBehaviour
     public void PrepareNextText()
     {
         isShowingText = true;
-        contentsText.text = "\n" +
+        contentsText.text = 
             (string)contentsTable.getElement(0, contentsTable.getNextRowIndex())
             + "\n\n";
     }

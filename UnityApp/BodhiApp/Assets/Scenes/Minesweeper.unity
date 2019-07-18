@@ -3784,6 +3784,7 @@ GameObject:
   m_Component:
   - component: {fileID: 503554103}
   - component: {fileID: 503554104}
+  - component: {fileID: 503554105}
   m_Layer: 0
   m_Name: FrameAllRight
   m_TagString: Untagged
@@ -3838,12 +3839,30 @@ MonoBehaviour:
     tParam: 0
   maxScale: 1
   minScale: 0
-  speed: 0.2
+  speed: 0.08
   linSpaceTarget: 0
   linSpaceOrigin: 0
   linSpaceValue: 0
-  easeType: 4
+  easeType: 3
   startScaledOut: 1
+--- !u!114 &503554105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 503554102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d6bf188d3f4440cabd1f094daa1fdcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PointA: {x: 0, y: 0}
+  PointB: {x: 0.5, y: 0.5}
+  Speed: 0.41
+  easeType: 2
+  coordinateType: 0
+  AutoStart: 0
 --- !u!1 &521434757
 GameObject:
   m_ObjectHideFlags: 0
@@ -10978,6 +10997,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FrameScaler: {fileID: 503554104}
+  FrameMover: {fileID: 503554105}
   orbitalCamera: {fileID: 966479939}
   CameraZ:
     prevValue: 0
@@ -11004,8 +11024,7 @@ MonoBehaviour:
   Columns: 6
   Rows: 10
   Bichos: 5
-  gridSpawner_A: {fileID: 0}
-  UIanimation: {fileID: 0}
+  gridSpawner_A: {fileID: 177422050}
 --- !u!1 &1525968982
 GameObject:
   m_ObjectHideFlags: 0
@@ -13215,7 +13234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9217bb408a9704abf966b95fc1ed89ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSpawner_A: {fileID: 0}
+  gridSpawner_A: {fileID: 177422050}
 --- !u!4 &1805641642
 Transform:
   m_ObjectHideFlags: 0

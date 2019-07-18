@@ -46,11 +46,7 @@ public class Raycaster : MonoBehaviour
         isActive = active;
     }
 
-    /*
-     * int j = Mathf.FloorToInt(hit.point.x / cellDimension) + columns / 2;
-                int i = Mathf.FloorToInt(hit.point.y / cellDimension) + rows / 2;
-                Debug.Log("Uncle Ray Ray hit someone @ " + j + ", " + i);   
-     */
+
     // Update is called once per frame
     void Update()
     {
@@ -66,7 +62,7 @@ public class Raycaster : MonoBehaviour
                 int i = Mathf.FloorToInt((h.point.y - (cellDimension)) / cellDimension) + (rows) / 2 + 1;
                 Debug.Log("Uncle Ray Ray hit someone @ " + j + ", " + i);
                 // }
-                gridSpawner_A.Touch(i, j);
+                gridSpawner_A.Touch(i, j, Input.mousePosition);
             }
         }
     }

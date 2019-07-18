@@ -116,13 +116,13 @@ public class GridSpawner : MonoBehaviour
     }
 
 
-    public void Touch(int i, int j)
+    public void Touch(int i, int j, Vector2 screenCoords)
     {
         if (cells[i, j].getBicho())
         {
             Raycaster.GetSingleton().SetActive(false);
             ++TotalFaded;
-            GameController.GetSingleton().BichoFound();
+            GameController.GetSingleton().BichoFound(screenCoords);
             GameController.GetSingleton().ReportClearedCells(TotalFaded);
             //cells[i, j].clearBicho();
             FadeCellAt(i, j, 1);

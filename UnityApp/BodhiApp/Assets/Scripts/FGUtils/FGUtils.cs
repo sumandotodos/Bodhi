@@ -491,6 +491,8 @@ public class BootStrapData {
 	}
 }
 
+public enum UICoordinateType { Physical, Virtual, Normalized };
+
 public class FGUtils : MonoBehaviour {
 
 	/* constants */
@@ -601,7 +603,35 @@ public class FGUtils : MonoBehaviour {
 
 	}
 
-	public static char decToHexChar(int d) {
+    public static Vector2 UICoordinateTransform(Vector2 inCoordinates, UICoordinateType inType)
+    {
+        float w = (float)Screen.width;
+        float h = (float)Screen.height;
+        Vector2 ScreenDimension = new Vector2(w, h);
+
+        switch (inType) 
+        {
+            case UICoordinateType.Normalized:
+                return HadamardProduct(ScreenDimension, inCoordinates);
+
+            case UICoordinateType.Physical:
+                return inCoordinates;
+
+            case UICoordinateType.Virtual:
+                Vector2 InvVirtualDimension = new Vector2(1 / 1080.0f, 1 / 1920.0f);
+                Vector2 Normalized = HadamardProduct(InvVirtualDimension, inCoordinates);
+                return HadamardProduct(ScreenDimension, Normalized);
+        }
+
+        return inCoordinates;
+    }
+
+    public static Vector2 HadamardProduct(Vector2 A, Vector2 B) 
+    {
+        return new Vector2(A.x * B.x, A.y * B.y);
+    }
+
+    public static char decToHexChar(int d) {
 		switch (d) {
 		case 0:
 			return '0';
