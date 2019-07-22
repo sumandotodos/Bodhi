@@ -117,6 +117,7 @@ public class GameController : MonoBehaviour
         remainingText.SetText("" + (--Bichos));
         ContentsController.GetSingleton().PrepareNextText();
         FrameScaler.SetSpeed(0.08f);
+        FrameScaler.scaleOutImmediately();
         FrameScaler.setEaseType(EaseType.boingOutMore);
         FrameScaler.scaleIn();
         FrameMover.Start();

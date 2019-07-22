@@ -524,20 +524,20 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2723f8cd67f13474086f5b1f92c543aa, type: 3}
   - {fileID: 21300000, guid: 7656270ed14d948c99b3b5e23c21b166, type: 3}
   - {fileID: 21300000, guid: 4345a6843d29840f388510ad92bd3944, type: 3}
-  - {fileID: 21300000, guid: 8f602a64644a84fc781e50ac7ea04dcb, type: 3}
-  - {fileID: 21300000, guid: e83577ce6fc1344529bf4e8985c2c6b8, type: 3}
-  - {fileID: 21300000, guid: 7eb80d682709f4ca7961d78919fdb369, type: 3}
-  - {fileID: 21300000, guid: 5e9494226540849c2971c9e3fc1c4af5, type: 3}
-  - {fileID: 21300000, guid: fcd63488ab72b478a9113d1bc3e3ef26, type: 3}
-  - {fileID: 21300000, guid: 7f0512748c94748b19a04e007dc04fa6, type: 3}
-  - {fileID: 21300000, guid: 0668699a121c34ebf82f851b9ff3f762, type: 3}
-  - {fileID: 21300000, guid: cf3e491ab34e3494e8c301d1db3aeb7f, type: 3}
-  - {fileID: 21300000, guid: 7acca74d33e394310a8c5a593c53a00d, type: 3}
-  - {fileID: 21300000, guid: 14a2aa229bd7a423aae6f18b114eaf20, type: 3}
-  - {fileID: 21300000, guid: fb28bae0b973a466f9baebcb14e81148, type: 3}
-  - {fileID: 21300000, guid: 3fe2c49e0906a4a07953516718d86f9d, type: 3}
-  - {fileID: 21300000, guid: ecde07c7581c44f31aba4808cb1cbe30, type: 3}
-  - {fileID: 21300000, guid: 3fe2c49e0906a4a07953516718d86f9d, type: 3}
+  - {fileID: 21300000, guid: 086e441e7ac11423982779db0863dcaa, type: 3}
+  - {fileID: 21300000, guid: 5647a2dc865724271b8ba5fb4faede98, type: 3}
+  - {fileID: 21300000, guid: 443aef5ecc92c437dbaa02c60a0a2add, type: 3}
+  - {fileID: 21300000, guid: 8ef1c6f617e9e410b9404d57996b5d58, type: 3}
+  - {fileID: 21300000, guid: 0ecf0e0a3685545e39a487375b7a7502, type: 3}
+  - {fileID: 21300000, guid: f0cfee863a4d5447b94c8b1602e41f40, type: 3}
+  - {fileID: 21300000, guid: 3607a354f433548a092ca098563c4dd1, type: 3}
+  - {fileID: 21300000, guid: 64fc2dd13c3714948bf12e1969979fe1, type: 3}
+  - {fileID: 21300000, guid: 75de67deef0404ac0b316dc9faad398d, type: 3}
+  - {fileID: 21300000, guid: 3218cb4b2e4a54e33ac37b08d46212e9, type: 3}
+  - {fileID: 21300000, guid: c73e8cfff7cc64ca1bf57fb3dc8eae7e, type: 3}
+  - {fileID: 21300000, guid: ee7581547fd394e418411ec45e05b637, type: 3}
+  - {fileID: 21300000, guid: c3a496fb2bf874ac7b939ee37ee876ba, type: 3}
+  - {fileID: 21300000, guid: 53a655a40ca9b4874bbd2ebde3b39d96, type: 3}
   - {fileID: 21300000, guid: fb28bae0b973a466f9baebcb14e81148, type: 3}
   - {fileID: 21300000, guid: 4786440e950644ef7a6c6f09bd5b8d41, type: 3}
   - {fileID: 21300000, guid: f003d7e2351cf48bf8aff60700a8c87b, type: 3}
@@ -559,9 +559,9 @@ MonoBehaviour:
   randomStartFrame: 0
   segments:
   - name: Wreck
-    start: 26
+    start: 11
     resetStart: 0
-    end: 38
+    end: 24
     speed: 0
     loop: 0
   - name: OK
