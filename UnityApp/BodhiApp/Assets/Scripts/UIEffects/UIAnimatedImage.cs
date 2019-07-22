@@ -7,6 +7,7 @@ public class AnimSegment
 {
     public string name;
     public int start;
+    public int resetStart;
     public int end;
     public float speed;
     public bool loop;
@@ -30,6 +31,7 @@ public class UIAnimatedImage : MonoBehaviour {
 
     int PlayheadStart = 0;
     int PlayheadEnd = 0;
+    int PlayheadLoop = 0;
 
     public AnimSegment[] segments;
 
@@ -82,7 +84,7 @@ public class UIAnimatedImage : MonoBehaviour {
                    }
                    else if (currentFrame == PlayheadEnd)
                    {
-                        currentFrame = PlayheadStart;
+                        currentFrame = PlayheadLoop;
                    }
                 }
                 else
@@ -145,6 +147,7 @@ public class UIAnimatedImage : MonoBehaviour {
     public void PlaySegment(int s)
     {
         currentFrame = PlayheadStart = segments[s].start;
+        PlayheadLoop = segments[s].resetStart;
         PlayheadEnd = segments[s].end;
         loop = segments[s].loop;
         if (segments[s].speed > 0.0f)

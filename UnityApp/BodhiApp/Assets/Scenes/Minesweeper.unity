@@ -625,7 +625,7 @@ RectTransform:
   m_LocalScale: {x: 0.99923885, y: 0.99923885, z: 0.99923885}
   m_Children: []
   m_Father: {fileID: 2109474819}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -646,7 +646,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -886,8 +886,9 @@ GameObject:
   - component: {fileID: 135587549}
   - component: {fileID: 135587548}
   - component: {fileID: 135587547}
+  - component: {fileID: 135587550}
   m_Layer: 5
-  m_Name: RawImage (2)
+  m_Name: Like
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -901,11 +902,11 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 135587545}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 183.75}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2109474819}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -926,10 +927,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mode: 0
   policy: 0
-  normalTex: {fileID: 0}
-  highlitTex: {fileID: 0}
-  TargetScript: {fileID: 0}
-  MethodToInvokeOnPress: 
+  normalTex: {fileID: 2800000, guid: 4eb44b6d785894ffda0cd178db73b357, type: 3}
+  highlitTex: {fileID: 2800000, guid: 919f525edc02e408fbe0fc6ce42425f7, type: 3}
+  TargetScript: {fileID: 1523293591}
+  MethodToInvokeOnPress: Like
   fadedOpacity: 0.35
   disableOthers: []
   unpressOthers: []
@@ -954,7 +955,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: 4eb44b6d785894ffda0cd178db73b357, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -969,6 +970,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 135587545}
   m_CullTransparentMesh: 0
+--- !u!114 &135587550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135587545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 135587547}
+          m_MethodName: touchCallback
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 135587547}
+          m_MethodName: unpress
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &137276860
 GameObject:
   m_ObjectHideFlags: 0
@@ -2872,7 +2921,7 @@ RectTransform:
   m_LocalScale: {x: 0.99923885, y: 0.99923885, z: 0.99923885}
   m_Children: []
   m_Father: {fileID: 2109474819}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2948,7 +2997,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3805,7 +3854,7 @@ Transform:
   m_Children:
   - {fileID: 2109474819}
   m_Father: {fileID: 1258037007}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &503554104
 MonoBehaviour:
@@ -8180,7 +8229,7 @@ RectTransform:
   m_LocalScale: {x: 1.6640484, y: 1.6640484, z: 1.6640484}
   m_Children: []
   m_Father: {fileID: 1258037007}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -8230,7 +8279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.0627451}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -9089,8 +9138,8 @@ RectTransform:
   m_Children:
   - {fileID: 1278870541}
   - {fileID: 279362941}
-  - {fileID: 1151174683}
   - {fileID: 503554103}
+  - {fileID: 1151174683}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9674,7 +9723,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -10380,6 +10429,9 @@ MonoBehaviour:
       type: 3}
   - name: Temple
     prefab: {fileID: 4134300917945652648, guid: 86a6a4e54e2e94a8e9945aa6af578f5f,
+      type: 3}
+  - name: Lighthouse
+    prefab: {fileID: 8605668371656792834, guid: 0368ca6e0209d4ff485aa50a7c173c01,
       type: 3}
 --- !u!1 &1398639132
 GameObject:
@@ -14476,7 +14528,7 @@ RectTransform:
   m_LocalScale: {x: 0.99923885, y: 0.99923885, z: 0.99923885}
   m_Children: []
   m_Father: {fileID: 2109474819}
-  m_RootOrder: 5
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -14549,7 +14601,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -14856,8 +14908,9 @@ GameObject:
   - component: {fileID: 2024290388}
   - component: {fileID: 2024290387}
   - component: {fileID: 2024290386}
+  - component: {fileID: 2024290389}
   m_Layer: 5
-  m_Name: RawImage (1)
+  m_Name: Meh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14871,11 +14924,11 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2024290384}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 183.75}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2109474819}
-  m_RootOrder: 1
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -14896,10 +14949,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mode: 0
   policy: 0
-  normalTex: {fileID: 0}
-  highlitTex: {fileID: 0}
-  TargetScript: {fileID: 0}
-  MethodToInvokeOnPress: 
+  normalTex: {fileID: 2800000, guid: 2174eaade618c458297ce16934d19801, type: 3}
+  highlitTex: {fileID: 2800000, guid: 3f91ee3152b32455f8f9117786415506, type: 3}
+  TargetScript: {fileID: 1523293591}
+  MethodToInvokeOnPress: Soso
   fadedOpacity: 0.35
   disableOthers: []
   unpressOthers: []
@@ -14924,7 +14977,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: 2174eaade618c458297ce16934d19801, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -14939,6 +14992,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2024290384}
   m_CullTransparentMesh: 0
+--- !u!114 &2024290389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2024290384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2024290386}
+          m_MethodName: touchCallback
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2024290386}
+          m_MethodName: unpress
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &2036309209
 GameObject:
   m_ObjectHideFlags: 0
@@ -14951,8 +15052,9 @@ GameObject:
   - component: {fileID: 2036309213}
   - component: {fileID: 2036309212}
   - component: {fileID: 2036309211}
+  - component: {fileID: 2036309214}
   m_Layer: 5
-  m_Name: RawImage
+  m_Name: DontLike
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14966,11 +15068,11 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2036309209}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 183.75}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2109474819}
-  m_RootOrder: 0
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -14991,10 +15093,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mode: 0
   policy: 0
-  normalTex: {fileID: 0}
-  highlitTex: {fileID: 0}
-  TargetScript: {fileID: 0}
-  MethodToInvokeOnPress: 
+  normalTex: {fileID: 2800000, guid: b949f3d7a82684f1296333fd1c97505c, type: 3}
+  highlitTex: {fileID: 2800000, guid: f4918216bd2eb4c3d894ebc5843cbfa4, type: 3}
+  TargetScript: {fileID: 1523293591}
+  MethodToInvokeOnPress: DontLike
   fadedOpacity: 0.35
   disableOthers: []
   unpressOthers: []
@@ -15019,7 +15121,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: b949f3d7a82684f1296333fd1c97505c, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -15034,6 +15136,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2036309209}
   m_CullTransparentMesh: 0
+--- !u!114 &2036309214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036309209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2036309211}
+          m_MethodName: touchCallback
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2036309211}
+          m_MethodName: unpress
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &2046075263
 GameObject:
   m_ObjectHideFlags: 0
@@ -15564,12 +15714,12 @@ Transform:
   m_LocalPosition: {x: 249.74, y: -1.9054867, z: -183.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2036309210}
-  - {fileID: 2024290385}
-  - {fileID: 135587546}
   - {fileID: 103154910}
   - {fileID: 417425476}
   - {fileID: 1964164241}
+  - {fileID: 135587546}
+  - {fileID: 2024290385}
+  - {fileID: 2036309210}
   - {fileID: 1304807524}
   m_Father: {fileID: 503554103}
   m_RootOrder: 0

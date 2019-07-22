@@ -16,8 +16,12 @@ public class UIMoverTwoPoints : MonoBehaviour {
 
     public bool AutoStart = true;
 
+    bool started = false;
+
 	// Use this for initialization
-	void Start () {
+	public void Start () {
+        if (started) return;
+        started = true;
         TParam = new TweenableSoftFloat();
         if (AutoStart)
         {

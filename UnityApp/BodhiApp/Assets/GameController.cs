@@ -53,6 +53,7 @@ public class GameController : MonoBehaviour
         Bichos = Mathf.Max(6, nPhrases);
         //UIanimation.Play(HiddenAnimationName);
         FrameScaler.setEaseType(EaseType.cubicIn);
+        FrameScaler.SetSpeed(3.0f);
         FrameScaler.scaleOutImmediately();
         CameraZ = new TweenableSoftFloat();
         CameraZ.setValueImmediate(10.0f);
@@ -99,6 +100,7 @@ public class GameController : MonoBehaviour
     public void DismissPanel()
     {
         FrameScaler.setEaseType(EaseType.cubicIn);
+        FrameScaler.SetSpeed(3.0f);
         FrameScaler.scaleOut();
         foreach (DelayExec de in delayExec)
         {
@@ -114,8 +116,10 @@ public class GameController : MonoBehaviour
         EnableAllButtons();
         remainingText.SetText("" + (--Bichos));
         ContentsController.GetSingleton().PrepareNextText();
+        FrameScaler.SetSpeed(0.08f);
         FrameScaler.setEaseType(EaseType.boingOutMore);
         FrameScaler.scaleIn();
+        FrameMover.Start();
         FrameMover.PointA = screenCoords;
         FrameMover.PointB = FGUtils.UICoordinateTransform(new Vector2(0.5f, 0.5f), UICoordinateType.Normalized);
         FrameMover.Go();
