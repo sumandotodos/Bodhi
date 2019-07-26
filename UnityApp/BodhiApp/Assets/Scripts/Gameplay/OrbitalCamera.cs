@@ -2,7 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OrbitalCamera : MonoBehaviour
+public class OrbitalObject : MonoBehaviour
+{
+    virtual public void SetYAngleImmediate(float angle)
+    {
+
+    }
+
+    virtual public void SetXAngleImmediate(float angle)
+    {
+
+    }
+}
+
+public class OrbitalCamera : OrbitalObject
 {
     public GameObject YPivot;
     public GameObject XPivot;
@@ -59,13 +72,13 @@ public class OrbitalCamera : MonoBehaviour
         position.setValue(pos);
     }
 
-    public void SetYAngleImmediate(float angle)
+    override public void SetYAngleImmediate(float angle)
     {
         SoftY.setValueImmediate(angle);
         YPivot.transform.localRotation = Quaternion.Euler(0, angle, 0);
     }
 
-    public void SetXAngleImmediate(float angle)
+    override public void SetXAngleImmediate(float angle)
     {
         SoftX.setValueImmediate(angle);
         XPivot.transform.localRotation = Quaternion.Euler(angle, 0, 0);

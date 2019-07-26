@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Planet : MonoBehaviour
 {
@@ -9,23 +10,74 @@ public class Planet : MonoBehaviour
     public bool MiddleRing;
     public bool InnerRing;
 
-    public string PlanetName;
+    public Transform ScaleObject;
+    public Transform RadiusTransform;
+
+    public string MinesweeperType;
+    public string Category;
+    public string Topic;
 
     public GameObject OuterRingObject;
     public GameObject MiddleRingObject;
     public GameObject InnerRingObject;
 
+    bool started = false;
+
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
-        OuterRingObject.SetActive(OuterRing);
-        MiddleRingObject.SetActive(MiddleRing);
-        InnerRingObject.SetActive(InnerRing);
+        if (started) return;
+        started = true;
+        if (OuterRingObject != null)
+        {
+            OuterRingObject.SetActive(OuterRing);
+        }
+        if (MiddleRingObject != null)
+        {
+            MiddleRingObject.SetActive(MiddleRing);
+        }
+        if (InnerRingObject != null)
+        {
+            InnerRingObject.SetActive(InnerRing);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetLabel(string NewLabel)
     {
-        
+        TextMeshPro textComponent = GetComponentInChildren<TextMeshPro>();
+        textComponent.text = NewLabel;
     }
+
+    public void SetCategory(string NewCat)
+    {
+        SetCategoryAndTopic(NewCat, "");
+    }
+
+    public void SetCategoryAndTopic(string NewCat, string NewTopic)
+    {
+        TextMeshPro textComponent = GetComponentInChildren<TextMeshPro>();
+        if (NewTopic != "")
+        {
+            textComponent.text = NewTopic; 
+            Category = NewCat;
+            Topic = NewTopic;
+        }
+        else
+        {
+            textComponent.text = Category = NewCat;
+            Topic = "";
+        }
+    }
+
+    public void SetScale(float NewScale)
+    {
+        ScaleObject.transform.localScale = NewScale * Vector3.one;
+    }
+
+    public void SetRadius(float NewRadius)
+    {
+        RadiusTransform.localPosition = NewRadius * Vector3.left;
+    }
+
+
 }

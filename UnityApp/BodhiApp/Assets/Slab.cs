@@ -1,0 +1,51 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class Slab : MonoBehaviour
+{
+
+    public Image BackgroundImage;
+    public Image FrameImage;
+    public Text TextComponent;
+
+    public void SetColor(Color c)
+    {
+        BackgroundImage.color = c;
+    }
+
+    public float SetText(string Text)
+    {
+        TextComponent.text = Text;
+        return 2.5f * TextComponent.cachedTextGenerator.GetPreferredHeight(Text, TextComponent.GetGenerationSettings(new Vector2(BackgroundImage.rectTransform.sizeDelta.x, 1000.0f)));
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
+    public void SetHeight(float Height)
+    {
+        Vector2 d = BackgroundImage.rectTransform.sizeDelta;
+        d.y = Height*1.5f;
+        BackgroundImage.rectTransform.sizeDelta = d;
+        //BackgroundImage.rectTransform.sizeDelta.y = Height;
+        d = FrameImage.rectTransform.sizeDelta;
+        d.y = Height*1.5f;
+        FrameImage.rectTransform.sizeDelta = d;
+        // FrameImage.rectTransform.sizeDelta.y = Height;
+        d = TextComponent.rectTransform.sizeDelta;
+        d.y = Height;
+        TextComponent.rectTransform.sizeDelta = d;
+        //TextComponent.preferredHeight = Height;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}

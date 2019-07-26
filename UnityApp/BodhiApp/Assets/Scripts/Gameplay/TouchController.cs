@@ -5,7 +5,7 @@ using UnityEngine;
 public class TouchController : MonoBehaviour
 {
 
-    public OrbitalCamera orbitalCamera_A;
+    public OrbitalObject orbitalCamera;
 
     System.Action updateDelegate;
     Vector3 touchCoordinates;
@@ -21,14 +21,6 @@ public class TouchController : MonoBehaviour
     float PitchAccel = 0.0f;
     float YawAccel = 0.0f;
     public float DeltaPixelsToSpeed = 1.0f;
-
-    private void Awake()
-    {
-        if(orbitalCamera_A==null)
-        {
-            orbitalCamera_A = FindObjectOfType<OrbitalCamera>();
-        }
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -67,8 +59,8 @@ public class TouchController : MonoBehaviour
         Vector3 touchPixelsDelta = (Input.mousePosition - touchCoordinates);
         float deltaAngleYaw = touchPixelsDelta.x * PixelsToAngleFactor;
         float deltaAnglePitch = -touchPixelsDelta.y * PixelsToAngleFactor;
-        orbitalCamera_A.SetYAngleImmediate(Yaw+deltaAngleYaw);
-        orbitalCamera_A.SetXAngleImmediate(Mathf.Clamp(Pitch+deltaAnglePitch, -85.0f, 85.0f));
+        orbitalCamera.SetYAngleImmediate(Yaw+deltaAngleYaw);
+        orbitalCamera.SetXAngleImmediate(Mathf.Clamp(Pitch+deltaAnglePitch, -85.0f, 85.0f));
         if (!Input.GetMouseButton(0))
         {
             Yaw += deltaAngleYaw;
@@ -107,7 +99,7 @@ public class TouchController : MonoBehaviour
             YawSpeed = 0.0f;
             PitchSpeed = 0.0f;
         }
-        orbitalCamera_A.SetYAngleImmediate(Yaw);
-        orbitalCamera_A.SetXAngleImmediate(Mathf.Clamp(Pitch, -85.0f, 85.0f));
+        orbitalCamera.SetYAngleImmediate(Yaw);
+        orbitalCamera.SetXAngleImmediate(Mathf.Clamp(Pitch, -85.0f, 85.0f));
     }
 }

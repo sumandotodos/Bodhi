@@ -92,7 +92,7 @@ public class FacebookAuthManager : MonoBehaviour
             }
             else if (msg.StartsWith(prefix + errorQuery))
             {
-                Debug.Log("Hubo un erroraco");
+
             }
 
         }
