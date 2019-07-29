@@ -76,4 +76,20 @@ public class UIGeneralFader : FGProgram {
 			f.fadeToOpaqueImmediately ();
 		}
 	}
+
+    public void SetOpacity(float op)
+    {
+        Start();
+        refreshChildren();
+        foreach(UIFader f in imageFaders)
+        {
+            f.Start();
+            f.setOpacity(op);
+        }
+        foreach(UITextFader f in textFaders)
+        {
+            f.Start();
+            f.setOpacity(op);
+        }
+    }
 }

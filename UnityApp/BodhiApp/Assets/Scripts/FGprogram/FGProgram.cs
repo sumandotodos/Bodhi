@@ -105,7 +105,7 @@ public class FGProgram : MonoBehaviour {
 
 	// WAITRMC vars
 	int resultVar;
-	int RMCindex = 0;
+	//int RMCindex = 0;
 	[HideInInspector]
 	public List<int> waitingForRMC;
 

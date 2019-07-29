@@ -12,7 +12,7 @@ public class UITextBlinker : MonoBehaviour {
 	float time;
 	bool direction;
 	public UITextBlinker[] stopOthers_N; // for mutual exclusion
-	bool disabled = true;
+	//bool disabled = true;
 	int state;
     public bool autogo = false;
 
@@ -95,8 +95,8 @@ public class UITextBlinker : MonoBehaviour {
 			Start ();
 	}
 
-	public void disable() 
-	{
-		disabled = true;
-	}
+	//public void disable() 
+	//{
+	//	disabled = true;
+	//}
 }

@@ -28,4 +28,9 @@ public class Magnetor : MonoBehaviour
         CurrentPosition += CurrentSpeed * Time.deltaTime;
         this.transform.localPosition = CurrentPosition;
     }
+
+    public void DisplaceTargetPosition(Vector2 Displacement)
+    {
+        Destination += Displacement;
+    }
 }

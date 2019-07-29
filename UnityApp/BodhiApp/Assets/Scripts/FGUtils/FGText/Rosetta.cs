@@ -77,7 +77,7 @@ public class Rosetta : MonoBehaviour {
 			RosettaHashDict lDict;
 			lDict = data [dic];
 			ListRosettaDictElement1D list;
-			ListRosettaDictElement1D transList;
+//			ListRosettaDictElement1D transList;
 			for (int i = 0; i < lDict.firstLevelHashSize; ++i) {
 				for (int j = 0; j < lDict.secondLevelHashSize; ++j) {
 					list = lDict.data.theList [i].theList [j]; // original list
@@ -151,10 +151,7 @@ public class Rosetta : MonoBehaviour {
 	}
 
 	void calculateHashCoordinates(string key, out int first, out int second) {
-
-		int firstLevel, secondLevel;
-
-
+    
 		first = (int)(hashMe(key, 7) % firstLevelHashSize);
 		second = (int)(hashMe (key, 5) % secondLevelHashSize);
 

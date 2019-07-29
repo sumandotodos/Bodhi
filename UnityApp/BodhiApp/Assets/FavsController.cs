@@ -15,30 +15,34 @@ public class FavsController : MonoBehaviour
 
     public FavItem[] favItems;
 
-    List<Slab> slabs;
-
     public ContentsManager contentsManager;
+    public DragController dragController;
+    public ListController listController;
 
     public Transform SlabsParent;
     public GameObject SlabPrefab;
     public UIFader fader;
     float CurrentDestinationY = 665.0f;
     // Start is called before the first frame update
-    void Start()
+    IEnumerator Start()
     {
         fader.Start();
         fader.fadeToTransparent();
-        /*foreach(FavItem item in favItems)
+        foreach(FavItem item in favItems)
         {
-            SpawnSlab(item);
+            listController.AddSlab(SpawnSlab(item));
             yield return new WaitForSeconds(0.15f);
-        }*/
+        }
     }
+
+
 
     Slab SpawnSlab(FavItem item)
     {
         Slab newSlab = SpawnSlab(new Vector2(11.0f, CurrentDestinationY), new Vector2(11.0f, CurrentDestinationY - 1850.0f));
         newSlab.SetColor(item.color);
+        newSlab.Index = listController.GetNumberOfSlabs();
+        newSlab.id = item.id;
 
         float h = newSlab.SetText(GetText(item));
         h = Mathf.Max(h, 180.0f);
@@ -118,5 +122,12 @@ public class FavsController : MonoBehaviour
         fader.fadeToOpaque();
         yield return new WaitForSeconds(1.0f);
         yield return SceneManager.LoadSceneAsync("Planets");
+    }
+
+    // @TODO I'm not very fond of this redundancy, but it saves cycles...
+    public void Dislike(string id, int index)
+    {
+        // do something with id and save to file
+        listController.DismissItem(index);
     }
 }

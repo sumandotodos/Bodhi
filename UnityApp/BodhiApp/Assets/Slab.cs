@@ -5,14 +5,18 @@ using UnityEngine.UI;
 
 public class Slab : MonoBehaviour
 {
-
+    public int Index;
     public Image BackgroundImage;
     public Image FrameImage;
     public Text TextComponent;
+    public UIFader backgrFader;
+    public string id;
+    float Height;
 
     public void SetColor(Color c)
     {
         BackgroundImage.color = c;
+        backgrFader.opaqueColor = c;
     }
 
     public float SetText(string Text)
@@ -27,8 +31,9 @@ public class Slab : MonoBehaviour
 
     }
 
-    public void SetHeight(float Height)
+    public void SetHeight(float _Height)
     {
+        Height = _Height;
         Vector2 d = BackgroundImage.rectTransform.sizeDelta;
         d.y = Height*1.5f;
         BackgroundImage.rectTransform.sizeDelta = d;
@@ -41,6 +46,11 @@ public class Slab : MonoBehaviour
         d.y = Height;
         TextComponent.rectTransform.sizeDelta = d;
         //TextComponent.preferredHeight = Height;
+    }
+
+    public float GetHeight()
+    {
+        return Height;
     }
 
     // Update is called once per frame

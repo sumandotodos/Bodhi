@@ -54,7 +54,7 @@ public class UIEnableImageOnTimeout : MonoBehaviour {
 
 	public void keepAlive() {
 		theImage.enabled = false;
-		text.GetComponent<UITextBlinker> ().disable ();
+		//text.GetComponent<UITextBlinker> ().disable ();
 		text.GetComponent<UITextBlinker> ().stopBlink ();
 		text.gameObject.SetActive(false);
 		//text.enabled = false;
