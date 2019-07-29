@@ -53,6 +53,11 @@ public class Slab : MonoBehaviour
         return Height;
     }
 
+    public float GetEffectiveHeight()
+    {
+        return Height + 15.0f + Height / 6.0f;
+    }
+
     // Update is called once per frame
     void Update()
     {

@@ -14,7 +14,7 @@ public class DragController : MonoBehaviour
 
     System.Action TouchUpdate;
 
-    const float Factor = 3.5f;
+    float Factor = 3.8f;
 
     float EffectiveHeight;
 
@@ -23,6 +23,7 @@ public class DragController : MonoBehaviour
     private void Awake()
     {
         TouchUpdate = NotTouching;
+        Factor = (1920.0f / ((float)Screen.height));
     }
 
     private void Update()
@@ -74,7 +75,8 @@ public class DragController : MonoBehaviour
                 for(int i = CurrentPositionInList; i < PositionInList; ++i)
                 {
                     listController.GetSlab(i+1).GetComponent<Magnetor>().DisplaceTargetPosition(new Vector2(0, EffectiveHeight));
-                    slabTransform.GetComponent<Magnetor>().DisplaceTargetPosition(new Vector2(0, -EffectiveHeight));
+                    float movedSlabHeight = listController.GetSlab(i + 1).GetEffectiveHeight();
+                    slabTransform.GetComponent<Magnetor>().DisplaceTargetPosition(new Vector2(0, -movedSlabHeight));
                 }
                 for(int i = CurrentPositionInList; i < PositionInList; ++i)
                 {
@@ -86,7 +88,8 @@ public class DragController : MonoBehaviour
                 for (int i = CurrentPositionInList; i > PositionInList; --i)
                 {
                     listController.GetSlab(i-1).GetComponent<Magnetor>().DisplaceTargetPosition(new Vector2(0, -EffectiveHeight));
-                    slabTransform.GetComponent<Magnetor>().DisplaceTargetPosition(new Vector2(0, EffectiveHeight));
+                    float movedSlabHeight = listController.GetSlab(i - 1).GetEffectiveHeight();
+                    slabTransform.GetComponent<Magnetor>().DisplaceTargetPosition(new Vector2(0, movedSlabHeight));
                 }
                 for (int i = CurrentPositionInList; i > PositionInList; i--)
                 {
@@ -108,6 +111,6 @@ public class DragController : MonoBehaviour
                 return i;
             }
         }
-        return 0;
+        return listController.GetNumberOfSlabs() - 1;
     }
 }

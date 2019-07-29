@@ -43,6 +43,16 @@ public class ListController : MonoBehaviour
         slabs[j].Index = j;
     }
 
+    public float GetTotalHeight()
+    {
+        float Total = 0.0f;
+        foreach(Slab s in slabs)
+        {
+            Total += s.GetEffectiveHeight();
+        }
+        return Total;
+    }
+
     public void DismissItem(int index)
     {
         Slab slabToRemove = slabs[index];

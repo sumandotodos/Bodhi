@@ -20,6 +20,7 @@ public class FavsController : MonoBehaviour
     public ListController listController;
 
     public Transform SlabsParent;
+    public Transform SlabsScroll;
     public GameObject SlabPrefab;
     public UIFader fader;
     float CurrentDestinationY = 665.0f;
