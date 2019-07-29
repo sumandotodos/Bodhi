@@ -90,6 +90,8 @@ public class FGTable : MonoBehaviour {
 
 	public object getElement(int c, int r) {
 
+        Initialize();
+
 		object res = 0;
 
 		if (column [c].getType () == TypeInteger) {

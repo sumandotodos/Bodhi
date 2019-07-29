@@ -60,6 +60,16 @@ public class ContentsManager : MonoBehaviour
         random = new System.Random();
     }
 
+    public string RetrieveText(int CatIndex, int TopicIndex, int TableIndex, int RowIndex)
+    {
+        Category cat = category[CatIndex];
+        Topic top = cat.topics[TopicIndex];
+        FGTable tab = top.tables[TableIndex];
+        string res = (string)tab.getElement(0, RowIndex);
+        return res;
+        //return (string)category[CatIndex].topics[TopicIndex].tables[TableIndex].getElement(0, RowIndex);
+    }
+
     public FGTable GetCategoryTopicTable(string Cat, string Top)
     {
         int CatIndex = FGUtils.findInList<Category>(category, (e) => (e.name == Cat));

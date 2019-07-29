@@ -18,7 +18,7 @@ public class Slab : MonoBehaviour
     public float SetText(string Text)
     {
         TextComponent.text = Text;
-        return 2.5f * TextComponent.cachedTextGenerator.GetPreferredHeight(Text, TextComponent.GetGenerationSettings(new Vector2(BackgroundImage.rectTransform.sizeDelta.x, 1000.0f)));
+        return 8.0f * TextComponent.cachedTextGenerator.GetPreferredHeight(Text, TextComponent.GetGenerationSettings(new Vector2(BackgroundImage.rectTransform.sizeDelta.x, 1000.0f)));
     }
 
     // Start is called before the first frame update
