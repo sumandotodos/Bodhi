@@ -57,7 +57,7 @@ public class ListController : MonoBehaviour
     {
         Slab slabToRemove = slabs[index];
         float HeightToRemove = slabToRemove.GetHeight();
-        float EffectiveHeight = (HeightToRemove + 15.0f + HeightToRemove / 6.0f);
+        float EffectiveHeight = Slab.Adjust(HeightToRemove);//(HeightToRemove + 15.0f + HeightToRemove / 6.0f);
         slabs.RemoveAt(index);
         Destroy(slabToRemove.gameObject);
         StartCoroutine(DismissCoroutine(index, EffectiveHeight));

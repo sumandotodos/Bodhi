@@ -13,6 +13,10 @@ public class Slab : MonoBehaviour
     public string id;
     float Height;
 
+    float Factor;
+
+    const float LineHeight = 1.8f;
+
     public void SetColor(Color c)
     {
         BackgroundImage.color = c;
@@ -21,14 +25,11 @@ public class Slab : MonoBehaviour
 
     public float SetText(string Text)
     {
+        Factor = (1920.0f / ((float)Screen.height));
         TextComponent.text = Text;
-        return 8.0f * TextComponent.cachedTextGenerator.GetPreferredHeight(Text, TextComponent.GetGenerationSettings(new Vector2(BackgroundImage.rectTransform.sizeDelta.x, 1000.0f)));
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
+        float Height = LineHeight * Factor * TextComponent.cachedTextGenerator.GetPreferredHeight(Text, TextComponent.GetGenerationSettings(new Vector2(BackgroundImage.rectTransform.sizeDelta.x, BackgroundImage.rectTransform.sizeDelta.y)));
+        Debug.Log("  ...  " + Height);
+        return Height;
     }
 
     public void SetHeight(float _Height)
@@ -55,7 +56,12 @@ public class Slab : MonoBehaviour
 
     public float GetEffectiveHeight()
     {
-        return Height + 15.0f + Height / 6.0f;
+        return Adjust(Height);
+    }
+
+    static public float Adjust(float H)
+    {
+        return H - 35.0f + H / 3.0f;
     }
 
     // Update is called once per frame

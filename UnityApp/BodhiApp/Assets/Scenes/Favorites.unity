@@ -397,6 +397,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScrollTransform: {fileID: 1923931661}
   listController: {fileID: 1224620746}
+  YScroll: 0
+  Mass: 1
+  Friction: 50
+  Speed: 0
+  SpeedFactor: 1
+  TrespassEgressSpeed: 12
+  LastFrameY: 0
+  NextToLastFrameY: 0
+  ThisFrameY: 0
   MaxTrespass: 350
 --- !u!4 &437304389 stripped
 Transform:
@@ -1371,9 +1380,14 @@ MonoBehaviour:
     color: {r: 1, g: 0, b: 0.7351265, a: 1}
   - id: 2:0:1:2
     color: {r: 1, g: 0, b: 0.7372549, a: 1}
+  - id: 2:0:0:2
+    color: {r: 0, g: 0.98239803, b: 1, a: 1}
+  - id: 2:0:0:3
+    color: {r: 0, g: 0.98239803, b: 1, a: 1}
   contentsManager: {fileID: 2063813245}
   dragController: {fileID: 119732779}
   listController: {fileID: 1224620746}
+  MinSlabHeight: 225
   SlabsParent: {fileID: 1819438634}
   SlabsScroll: {fileID: 1923931661}
   SlabPrefab: {fileID: 8749595256118015313, guid: c4d299b6c59bf4b1d92020d41981d8b1,

@@ -41,7 +41,7 @@ public class DragController : MonoBehaviour
         OriginalPosition = slabTransform.GetComponent<Magnetor>().Destination;
         slabTransform.GetComponent<Magnetor>().Going = false;
         float SlabHeight = touchedSlab.GetHeight();
-        EffectiveHeight = (SlabHeight + 15.0f + SlabHeight / 6.0f);
+        EffectiveHeight = Slab.Adjust(SlabHeight);//(SlabHeight + 15.0f + SlabHeight / 6.0f);
         TouchUpdate = Touching;
         CurrentPositionInList = index;
     }

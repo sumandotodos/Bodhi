@@ -19,6 +19,8 @@ public class FavsController : MonoBehaviour
     public DragController dragController;
     public ListController listController;
 
+    public float MinSlabHeight = 200.0f;
+
     public Transform SlabsParent;
     public Transform SlabsScroll;
     public GameObject SlabPrefab;
@@ -46,9 +48,9 @@ public class FavsController : MonoBehaviour
         newSlab.id = item.id;
 
         float h = newSlab.SetText(GetText(item));
-        h = Mathf.Max(h, 180.0f);
+        h = Mathf.Max(h, MinSlabHeight);
         newSlab.SetHeight(h);
-        CurrentDestinationY -= (h + 15.0f + h / 6);
+        CurrentDestinationY -= Slab.Adjust(h);
         return newSlab;
     }
 
@@ -77,28 +79,7 @@ public class FavsController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.L))
-        {
-            Slab newSlab = SpawnSlab(new Vector2(11.0f, CurrentDestinationY), new Vector2(11.0f, CurrentDestinationY - 1850.0f));
-            newSlab.SetColor(Color.cyan);
 
-            float h = newSlab.SetText("Me cago en todo lo que se menea. La verdad sea dicha. Todo lo que un médico puede llegar a ser en Asturias. Esto es una cosa abracadabrante que te cagas por las patas abajo. Nada puede ser todo o todo puede ser algo aguna vez. No me cuenters más ghistorias. Ne me parece nada divertido lo que estás haciendo con los geranios de Uma, la abogada del primo de ferran el manitas del cuarto");
-            Debug.Log("<color=purple>" + h + "</color>");
-            h = Mathf.Max(h, 225.0f);
-            newSlab.SetHeight(h);
-            CurrentDestinationY -= (h + 30.0f + h/4);
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            Slab newSlab = SpawnSlab(new Vector2(11.0f, CurrentDestinationY), new Vector2(11.0f, CurrentDestinationY - 1850.0f));
-            newSlab.SetColor(Color.green);
-
-            float h = newSlab.SetText("Tampoco hacía falta...");
-            Debug.Log("<color=purple>" + h + "</color>");
-            h = Mathf.Max(h, 225.0f);
-            newSlab.SetHeight(h);
-            CurrentDestinationY -= (h + 30.0f + h / 4);
-        }
     }
 
     Slab SpawnSlab(Vector2 destination, Vector2 initialPosition)
