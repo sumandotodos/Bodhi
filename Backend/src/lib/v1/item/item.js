@@ -3,6 +3,7 @@ var router = express.Router()
 const mongoose = require('mongoose')
 const Items = require('../../schema/Items/Items').model
 const Users = require('../../schema/Users/Users').model
+const Favorites = require('../../schema/Favorites/Favorites').model
 
 router.get('/list', function(req, res) {
 	const user = req.headers["userid"]
@@ -73,6 +74,67 @@ router.delete('/:id', function(req, res) {
 		}
 		else {
 			res.status(403).json({result:'forbidden'})
+		}
+	})
+})
+
+router.post('/favorite/:id', function(req, res) {
+	const id = req.params["id"]
+        const currentUser = req.headers["userid"]
+
+	console.log("Favoriting: " + id + " by " + currentUser)
+
+	Favorites.findOne({_userid:currentUser}, function(err, fav) {
+		if(err != null) {
+			Favorites.create({_userid:currentUser, favorites:[id]}, function(err, newFav) {
+				if(err != null) {
+					res.status(500).json({result:'error', error:err})
+				} 
+				else {
+					res.json({result:'success'})
+				}
+			})
+		}
+		else {
+			fav.favorites.push(id)
+			fav.save()
+			res.json({result:'success'})
+		}
+	})	
+})
+
+router.delete('/favorite/:id', function(req, res) {
+	const id = req.params["id"]
+        const currentUser = req.headers["userid"]
+
+	console.log("Defavoriting: " + id + " by " + currentUser)
+
+	Favorites.findOne({_userid:currentUser}, function(err, fav) {
+		if(err != null) {
+                        res.status(500).json({result:'error', error:err})
+                }
+		else {
+			var indexOfFav = fav.favorites.indexOf(id)
+			if(indexOfFav != -1) {
+				fav.favorites.splice(indexOfFav,1)
+				fav.save()
+				res.json({result:'success'})
+			}
+			else {
+				res.status(400).json({result:'error', error:(id+" was not favorited by user "+currentUser)})
+			}
+		}
+	})
+})
+
+router.get('/favorites', function(req, res) {
+	const currentUser = req.headers["userid"]
+	Favorites.findOne({_userid:currentUser}, function(err, fav) {
+		if(err != null) {
+			res.status(500).json({result:'error', error:err})
+		}
+		else {
+			res.json({favorites:fav.favorites})
 		}
 	})
 })
