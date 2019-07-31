@@ -10,6 +10,7 @@ public class LoginStatusData
     public bool loggedIn;
     public string FBid;
     public string IGid;
+    public string AppToken;
     public string id;
 
     public LoginStatusData()
@@ -17,6 +18,7 @@ public class LoginStatusData
         loggedIn = false;
         FBid = "";
         IGid = "";
+        AppToken = "";
         id = "";
     }
 
@@ -39,6 +41,7 @@ public class LoginController : MonoBehaviour
     {
         loadLoginData();
         loginStatus.Initialize(loginStatusData);
+        LoginConfigurations.init();
     }
 
     IEnumerator _ShowLoginButtonsSequence()
@@ -137,6 +140,7 @@ public class LoginController : MonoBehaviour
         loginStatusData.loggedIn = true;
         loginStatusData.id = id;
         loginStatusData.FBid = FBid;
+        loginStatusData.AppToken = FBid;
         loginStatus.Refresh(loginStatusData);
         saveLoginData();
     }
@@ -148,6 +152,7 @@ public class LoginController : MonoBehaviour
         loginStatusData.loggedIn = true;
         loginStatusData.id = id;
         loginStatusData.IGid = IGid;
+        loginStatusData.AppToken = IGid;
         loginStatus.Refresh(loginStatusData);
         saveLoginData();
     }

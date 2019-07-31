@@ -50,6 +50,8 @@ public class Raycaster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (DontTouchController.GetSingleton().TouchPrevented) return;
+
         if (Input.GetMouseButtonDown(0) && isActive)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

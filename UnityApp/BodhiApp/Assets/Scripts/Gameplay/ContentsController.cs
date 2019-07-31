@@ -17,6 +17,9 @@ public class ContentsController : MonoBehaviour
 
    public bool isShowingText;
 
+    string triId;
+    string tetraId;
+
     static ContentsController contentsController = null;
 
     private void Awake()
@@ -52,7 +55,8 @@ public class ContentsController : MonoBehaviour
         {
             ContentTopic = DefaultTopic;
         }
-        contentsTable = ContentsManager.GetSingleton().GetCategoryTopicTable(ContentType, ContentTopic);
+        triId = ContentsManager.GetSingleton().GetCategoryTopicId(ContentType, ContentTopic);
+        contentsTable = ContentsManager.GetSingleton().GetCategoryTopicTable(triId); //ContentType, ContentTopic);
         CategoryHasHeader = ContentsManager.GetSingleton().CategoryHasHeader(ContentType);
         return CategoryHasHeader ? contentsTable.nRows()-1 : contentsTable.nRows();
     }
@@ -85,6 +89,12 @@ public class ContentsController : MonoBehaviour
         contentsText.text = 
             (string)contentsTable.getElement(0, Row)
             + "\n\n";
+        tetraId = triId + ":" + Row;
+    }
+
+    public string RetrieveId()
+    {
+        return tetraId;
     }
 
 }
