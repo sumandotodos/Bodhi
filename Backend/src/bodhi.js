@@ -4,6 +4,7 @@ const s3urlgen = require('./lib/s3urlGenerator')
 const db = require('./lib/db')
 const bodyParser = require('body-parser')
 const item = require('./lib/v1/item/item')
+const login = require('./lib/v1/login/login')
 
 function checkUserToken(req, res, next) {
 	if (req.headers["userid"] != "") {
@@ -36,7 +37,11 @@ function checkUserNotNull(req, res, next) {
 app = express()
 app.use(bodyParser.text());
 app.use(checkPSK)
-app.use(checkUserNotNull)
+//app.use(checkUserNotNull)
+
+app.get("/healthcheck", function(req, res) {
+	res.json({result:'success'})
+})
 
 app.get("/uploadUrl/:user", function(req, res) {
 	randomname = 
@@ -52,6 +57,7 @@ app.get("/uploadUrl/:user", function(req, res) {
 })
 
 app.use('/v1/item', item)
+app.use('/v1/login', login)
 
 console.log("Listening on port 7675");
 app.listen(7675);

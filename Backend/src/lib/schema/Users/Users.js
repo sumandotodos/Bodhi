@@ -3,6 +3,8 @@ const Items = require('../Items/Items')
 
 const UserSchema = new mongoose.Schema({
 	_id: String,
+	appid: String,
+	deviceuuid: String
 })
 mongoose.model('Users', UserSchema)
 
