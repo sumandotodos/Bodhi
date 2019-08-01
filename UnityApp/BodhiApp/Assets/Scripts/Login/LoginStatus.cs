@@ -26,10 +26,29 @@ public class LoginStatus : MonoBehaviour
         REST.GetSingleton().GET(LoginConfigurations.MakeUserIdLoginRequest(loginStatusData.AppToken),
             (err, res) =>
             {
-                Debug.Log("<color=purple> Bodhi user id: " + res + "</color>");
-                LightImage.texture = loginStatusData.loggedIn ? LoggedInTex : LoggedOutTex;
-                LabelText.text = loginStatusData.loggedIn ? LoginString + loginStatusData.id : LogoutString;
-                return 0;
+                if (err == null)
+                {
+                    //@TODO handle error 
+                    RESTResult_String result = JsonUtility.FromJson<RESTResult_String>(res);
+                    PlayerPrefs.SetString("UserId", result.result);
+                    if (LoginConfigurations.Headers.ContainsKey("userid"))
+                    {
+                        LoginConfigurations.Headers["userid"] = result.result;
+                    }
+                    else
+                    {
+                        LoginConfigurations.Headers.Add("userid", result.result);
+                    }
+                    LightImage.texture = loginStatusData.loggedIn ? LoggedInTex : LoggedOutTex;
+                    LabelText.text = loginStatusData.loggedIn ? LoginString + loginStatusData.id : LogoutString;
+                    return 0;
+                }
+                else
+                {
+                    LightImage.texture = LoggedOutTex;
+                    LabelText.text = LogoutString;
+                    return 0;
+                }
             });
     }
 
