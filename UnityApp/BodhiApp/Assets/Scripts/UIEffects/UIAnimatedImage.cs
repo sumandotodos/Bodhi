@@ -16,13 +16,14 @@ public class AnimSegment
 public class UIAnimatedImage : MonoBehaviour {
 
 	public Sprite[] image;
-	SpriteRenderer theImage;
-	int currentFrame;
+	public SpriteRenderer theSpriteRenderer;
+    public Image theImage;
+	public int currentFrame;
 	public bool autostart = true;
 	public bool loop = true;
 	public int offset = 0;
-	int state = 0;
-	float time;
+	public int state = 0;
+	public float time;
 	public float animationSpeed;
 
 	bool started = false;
@@ -45,9 +46,17 @@ public class UIAnimatedImage : MonoBehaviour {
 		started = true;
 	
 		currentFrame = offset % image.Length;
-		theImage = this.GetComponent<SpriteRenderer> ();
-		theImage.sprite = image [0];
-		time = 0.0f;
+		theImage = this.GetComponent<Image> ();
+        theSpriteRenderer = this.GetComponent<SpriteRenderer>();
+        if (theImage != null)
+        {
+            theImage.sprite = image[0];
+        }
+        if (theSpriteRenderer != null)
+        {
+            theSpriteRenderer.sprite = image[0];
+        }
+        time = 0.0f;
 		state = 0;
 
         if (randomStartFrame)
@@ -102,9 +111,16 @@ public class UIAnimatedImage : MonoBehaviour {
 
 
                 }
-                theImage.sprite = image[currentFrame];
+                if (theImage != null)
+                {
+                    theImage.sprite = image[currentFrame];
+                }
+                if (theSpriteRenderer != null)
+                {
+                    theSpriteRenderer.sprite = image[currentFrame];
+                }
 
-			}
+            }
 		}
         if(state == 2)
         {
@@ -112,7 +128,14 @@ public class UIAnimatedImage : MonoBehaviour {
             if(time < 0.0f)
             {
                 currentFrame = PlayheadStart;
-                theImage.sprite = image[currentFrame];
+                if (theImage != null)
+                {
+                    theImage.sprite = image[currentFrame];
+                }
+                if (theSpriteRenderer != null)
+                {
+                    theSpriteRenderer.sprite = image[currentFrame];
+                }
                 time = 0.0f;
                 state = 1;
             }
@@ -122,12 +145,26 @@ public class UIAnimatedImage : MonoBehaviour {
 
 	public void setFrame(int f) {
 		currentFrame = (f % image.Length);
-		theImage.sprite = image [currentFrame];
-	}
+        if (theImage != null)
+        {
+            theImage.sprite = image[currentFrame];
+        }
+        if (theSpriteRenderer != null)
+        {
+            theSpriteRenderer.sprite = image[currentFrame];
+        }
+    }
 
 	public void go() {
         currentFrame = PlayheadStart;
-        theImage.sprite = image[currentFrame];
+        if (theImage != null)
+        {
+            theImage.sprite = image[currentFrame];
+        }
+        if (theSpriteRenderer != null)
+        {
+            theSpriteRenderer.sprite = image[currentFrame];
+        }
         state = 1;
 	}
 
@@ -140,8 +177,15 @@ public class UIAnimatedImage : MonoBehaviour {
     public void reset() {
 		state = 0;
 		currentFrame = 0;
-		theImage.sprite = image [0];
-		time = 0.0f;
+        if (theImage != null)
+        {
+            theImage.sprite = image[0];
+        }
+        if (theSpriteRenderer != null)
+        {
+            theSpriteRenderer.sprite = image[0];
+        }
+        time = 0.0f;
 	}
 
     public void PlaySegment(int s)
@@ -154,6 +198,7 @@ public class UIAnimatedImage : MonoBehaviour {
         {
             animationSpeed = segments[s].speed;
         }
+        go();
     }
 
     public void PlaySegment(string name)

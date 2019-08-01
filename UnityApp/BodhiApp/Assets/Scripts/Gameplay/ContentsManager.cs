@@ -80,6 +80,36 @@ public class ContentsManager : MonoBehaviour
         return null;
     }
 
+    public FGTable GetCategoryTopicTable(string id)
+    {
+        string[] fields = id.Split(':');
+        int cat;
+        int top;
+        int tab;
+        int.TryParse(fields[0], out cat);
+        int.TryParse(fields[1], out top);
+        int.TryParse(fields[2], out tab);
+        return category[cat].topics[top].tables[tab];
+    }
+
+    public string GetCategoryTopicId(string Cat, string Top)
+    {
+        int CatIndex = FGUtils.findInList<Category>(category, (e) => (e.name == Cat));
+        if (CatIndex != -1)
+        {
+            int TopicIndex = 0;
+            List<Topic> topic = category[CatIndex].topics;
+            TopicIndex = FGUtils.findInList<Topic>(topic, (e) => (e.name == Top));
+            if (TopicIndex != -1)
+            {
+                double r = random.NextDouble();
+                int ta = Mathf.FloorToInt((float)(((double)topic[TopicIndex].tables.Count) * r));
+                return CatIndex + ":" + TopicIndex + ":" + ta;
+            }
+        }
+        return "";
+    }
+
     public FGTable GetTopicTable(int CatIndex, string TopicName)
     {
         if (CatIndex != -1)

@@ -10,6 +10,16 @@ public class TokensInfo {
 
 public class LoginConfigurations : MonoBehaviour
 {
+    public static string APIVersion = "v1";
+
+    public static string PSK = "vQb9BpkcLGQWlmAild4B";
+    public static Dictionary<string, string> Headers = new Dictionary<string, string>();
+    public static string Version = "V 1.0.0";
+    public static void init()
+    {
+        Headers.Add("psk", PSK);
+    }
+
     /* Instagram app code & secret */
     public static string IGClient = "66ad8286ae5446f0ace3ef0fb4b695cc";
     public static string IGSecret = "1f22db5493244b38a5ab94def0773b87";
@@ -41,6 +51,17 @@ public class LoginConfigurations : MonoBehaviour
     public static string MakeIGTokenCheckURL(string token)
     {
         return InstagramCheckTokenURL.Replace("ACCESS-TOKEN", token);
+    }
+
+    public static string MakeUserIdLoginRequest(string token)
+    {
+        string uuid = SystemInfo.deviceUniqueIdentifier;
+        return MakeServerBaseURL() + "/"+APIVersion+"/login/user/" + uuid + "/" + token;
+    }
+
+    public static string MakeServerBaseURL()
+    {
+        return "https://apps.flygames.org/bodhi";
     }
 
     public static string MakeFBTokenFromCodeURL(string code)
