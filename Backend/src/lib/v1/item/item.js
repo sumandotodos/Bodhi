@@ -43,6 +43,21 @@ router.get('/list/:userid', function(req, res) {
         })
 })
 
+router.get('/favorites', function(req, res) {
+        const currentUser = req.headers["userid"]
+
+        console.log("Asking for favorites of user " + currentUser)
+
+        Favorites.findOne({_userid:currentUser}, function(err, fav) {
+                if(err != null) {
+                        res.status(500).json({result:'error', error:err})
+                }
+                else {
+                        res.json({favorites:fav.favorites})
+                }
+        })
+})
+
 router.get('/:id', function(req, res) {
 	const id = req.params["id"]
 	console.log("Gets item " + req.params["id"])
@@ -86,6 +101,9 @@ router.post('/favorite/:id', function(req, res) {
 
 	Favorites.findOne({_userid:currentUser}, function(err, fav) {
 		if(err != null) {
+			res.status(500).json({result:'error', error:err})
+		} 
+		else if (fav == null) {
 			Favorites.create({_userid:currentUser, favorites:[id]}, function(err, newFav) {
 				if(err != null) {
 					res.status(500).json({result:'error', error:err})
@@ -101,6 +119,24 @@ router.post('/favorite/:id', function(req, res) {
 			res.json({result:'success'})
 		}
 	})	
+})
+
+router.get('/favorite/:id', function(req, res) {
+	const id = req.params["id"]
+	const currentUser = req.headers["userid"]
+
+	console.log("Consulting if " + id + " is favved by " + currentUser + "...")
+
+	Favorites.findOne({_userid:currentUser}, function(err, fav) {
+		if(err != null) {
+			res.status(500).json({result:'error', error:err})
+		}
+		else {
+			var result = (fav.favorites.indexOf(id) != -1)
+			console.log("  >>> ...and the result is: " + result)
+			res.json({result:result})
+		}
+	})
 })
 
 router.delete('/favorite/:id', function(req, res) {
@@ -123,18 +159,6 @@ router.delete('/favorite/:id', function(req, res) {
 			else {
 				res.status(400).json({result:'error', error:(id+" was not favorited by user "+currentUser)})
 			}
-		}
-	})
-})
-
-router.get('/favorites', function(req, res) {
-	const currentUser = req.headers["userid"]
-	Favorites.findOne({_userid:currentUser}, function(err, fav) {
-		if(err != null) {
-			res.status(500).json({result:'error', error:err})
-		}
-		else {
-			res.json({favorites:fav.favorites})
 		}
 	})
 })
