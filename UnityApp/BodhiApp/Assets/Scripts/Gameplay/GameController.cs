@@ -53,20 +53,26 @@ public class GameController : MonoBehaviour
         string Category = PlayerPrefs.GetString("ContentType");
         int nPhrases = ContentsController.GetSingleton().ChooseTopic();
         Bichos = Mathf.Max(6, nPhrases);
-        //UIanimation.Play(HiddenAnimationName);
+    
         FrameScaler.setEaseType(EaseType.cubicIn);
         FrameScaler.SetSpeed(3.0f);
         FrameScaler.scaleOutImmediately();
+
         CameraZ = new TweenableSoftFloat();
         CameraZ.setValueImmediate(10.0f);
         CameraZ.setEaseType(EaseType.cubicOut);
         CameraZ.setSpeed(3.0f);
+
         gridSpawner_A.BuildGrid(Columns, Rows, Bichos);
+
         remainingText.Start();
         remainingText.SetText("" + Bichos);
+
         TotalCells = Columns * Rows;
+
         fader.Start();
         fader.fadeToTransparent();
+
         Header = ContentsController.GetSingleton().GetHeader();
         if (Header != "")
         {
@@ -206,9 +212,7 @@ public class GameController : MonoBehaviour
     }
 
     public void ReportClearedCells(int c)
-    {
-        //Debug.Log("<color=purple>Faded: " + c + "</color>");
-        //if (c == TotalCells)
+    { 
         if(Bichos == 0)
         {
             FinishGameSequence();

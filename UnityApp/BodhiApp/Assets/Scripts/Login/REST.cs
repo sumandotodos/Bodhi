@@ -44,28 +44,28 @@ public class REST : MonoBehaviour
         Headers = _Headers;
     }
 
-    public void GET(string url, System.Func<string, string, int> callback)
+    public Coroutine GET(string url, System.Func<string, string, int> callback)
     {
         UnityWebRequest res = UnityWebRequest.Get(url);
-        StartCoroutine(REST_Coroutine(res, url, callback));
+        return StartCoroutine(REST_Coroutine(res, url, callback));
     }
 
-    public void DELETE(string url, System.Func<string, string, int> callback)
+    public Coroutine DELETE(string url, System.Func<string, string, int> callback)
     {
         UnityWebRequest res = UnityWebRequest.Delete(url);
-        StartCoroutine(REST_Coroutine(res, url, callback));
+        return StartCoroutine(REST_Coroutine(res, url, callback));
     }
 
-    public void PUT(string url, string body, System.Func<string, string, int> callback)
+    public Coroutine PUT(string url, string body, System.Func<string, string, int> callback)
     {
         UnityWebRequest res = UnityWebRequest.Put(url, body);
-        StartCoroutine(REST_Coroutine(res, url, callback));
+        return StartCoroutine(REST_Coroutine(res, url, callback));
     }
 
-    public void POST(string url, string body, System.Func<string, string, int> callback)
+    public Coroutine POST(string url, string body, System.Func<string, string, int> callback)
     {
         UnityWebRequest res = UnityWebRequest.Post(url, body);
-        StartCoroutine(REST_Coroutine(res, url, callback));
+        return StartCoroutine(REST_Coroutine(res, url, callback));
     }
 
     IEnumerator REST_Coroutine(UnityWebRequest res, string url, System.Func<string, string, int> callback)
@@ -81,16 +81,19 @@ public class REST : MonoBehaviour
         //do
         //{
             yield return res.SendWebRequest();
-          //  if(res.error != null)
-           // {
-            //    yield return new WaitForSeconds(RetryTimeout);
-           // }
-           // else
-           // {
-           //     Succeded = true;
-           // }
+        //  if(res.error != null)
+        // {
+        //    yield return new WaitForSeconds(RetryTimeout);
+        // }
+        // else
+        // {
+        //     Succeded = true;
+        // }
         //} while (!Succeded);
-        callback(res.error, res.downloadHandler.text);
+        if (callback != null)
+        {
+            callback(res.error, res.downloadHandler.text);
+        }
     }
 
 

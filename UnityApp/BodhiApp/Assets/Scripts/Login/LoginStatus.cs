@@ -52,4 +52,10 @@ public class LoginStatus : MonoBehaviour
             });
     }
 
+    public void ForceLoggedIn(string UserId)
+    {
+        LightImage.texture = LoggedInTex;
+        LabelText.text = "Forced";
+    }
+
 }

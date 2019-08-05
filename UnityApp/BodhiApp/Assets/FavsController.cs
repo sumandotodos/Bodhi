@@ -8,12 +8,24 @@ public class FavItem
 {
     public string id;
     public Color color;
+
+    public FavItem(string _id, Color _color)
+    {
+        id = _id;
+        color = _color;
+    }
+}
+
+[System.Serializable]
+public class Favorites_REST
+{
+    public List<string> favorites;
 }
 
 public class FavsController : MonoBehaviour
 {
 
-    public FavItem[] favItems;
+    //public FavItem[] favItems;
 
     public ContentsManager contentsManager;
     public DragController dragController;
@@ -30,15 +42,26 @@ public class FavsController : MonoBehaviour
     IEnumerator Start()
     {
         fader.Start();
-        fader.fadeToTransparent();
+        yield return new WaitForSeconds(0.1f);
+        List<FavItem> favItems = new List<FavItem>();
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        yield return API.GetSingleton().GetFavoritesList(PlayerPrefs.GetString("UserId"), (err, text) =>
+        {
+            Favorites_REST favs = JsonUtility.FromJson<Favorites_REST>(text);
+            for(int i = 0; i < favs.favorites.Count; ++i)
+            {
+                favItems.Add(new FavItem(favs.favorites[i], Color.green));
+            }
+            return 0;
+        });
+
         foreach(FavItem item in favItems)
         {
             listController.AddSlab(SpawnSlab(item));
             yield return new WaitForSeconds(0.15f);
         }
+        fader.fadeToTransparent();
     }
-
-
 
     Slab SpawnSlab(FavItem item)
     {
