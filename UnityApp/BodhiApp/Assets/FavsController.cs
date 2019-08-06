@@ -50,7 +50,8 @@ public class FavsController : MonoBehaviour
             Favorites_REST favs = JsonUtility.FromJson<Favorites_REST>(text);
             for(int i = 0; i < favs.favorites.Count; ++i)
             {
-                favItems.Add(new FavItem(favs.favorites[i], Color.green));
+                Color col = ColorByCategory.GetSingleton().ResolveColor(favs.favorites[i]);
+                favItems.Add(new FavItem(favs.favorites[i], col));
             }
             return 0;
         });
@@ -134,5 +135,6 @@ public class FavsController : MonoBehaviour
     {
         // do something with id and save to file
         listController.DismissItem(index);
+        API.GetSingleton().DestroyFavorite(PlayerPrefs.GetString("UserId"), id);
     }
 }

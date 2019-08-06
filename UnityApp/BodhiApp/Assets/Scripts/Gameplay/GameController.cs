@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
     public UIFader skyFader;
     public CrossfadeText remainingText;
     public UITextFader TitleFader;
+    public BombController bombController;
 
     public string SpringOutAnimationName = "SpringUpOK";
     public string SpringInAnimationName = "SpringDown";
@@ -203,11 +204,15 @@ public class GameController : MonoBehaviour
 
     public void TouchScore(int score, Vector3 atLocalCoords)
     {
-        if (score > 5) 
+        if (score >= 5) 
         {
             GameObject newGO = (GameObject)Instantiate(ScorePrefab);
             newGO.GetComponent<FleetingScore>().Init(score);
             newGO.transform.position = atLocalCoords;
+        }
+        if(score >= 20)
+        {
+            bombController.AddBomb();
         }
     }
 

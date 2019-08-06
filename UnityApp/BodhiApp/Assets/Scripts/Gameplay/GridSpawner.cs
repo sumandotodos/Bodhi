@@ -115,6 +115,20 @@ public class GridSpawner : MonoBehaviour
         cells[i, j].touch(delay);
     }
 
+    public void Bomb()
+    {
+        for(int i = 0; i < Rows; ++i)
+        {
+            for(int j = 0; j < Columns; ++j)
+            {
+                if(!cells[i,j].getBicho())
+                {
+                    ++TotalFaded;
+                    FadeCellAt(i, j, 1);
+                }
+            }
+        }
+    }
 
     public void Touch(int i, int j, Vector2 screenCoords)
     {
