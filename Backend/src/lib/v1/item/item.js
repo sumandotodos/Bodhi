@@ -25,6 +25,35 @@ router.get('/list', function(req, res) {
 	})
 })
 
+router.get('/comments', function(req, res) {
+        const owner = req.headers["userid"]
+        Items.find({_userid:owner}, function(err, items) {
+                result = []
+                if(items != null) {
+                        for(var i = 0; i < items.length; ++i) {
+                                result.push(items[i]._id)
+                        }
+                }
+                res.json({result:result})
+        })
+})
+
+router.get('/comment/:id', function(req, res) {
+        const owner = req.headers["userid"]
+        const id = req.params["id"]
+	Items.findOne({_id:id}, function(err, item) {
+		if(err != null) {
+			res.json({result:'error', error:err})
+		}
+		else if(item == null) {
+			res.status(404).json({result:'not found'})
+		}
+		else {
+			res.json(item)
+		}
+	})
+})
+
 router.get('/list/:userid', function(req, res) {
 	const user = req.params["userid"]
         console.log("Getting items for user " + req.params["userid"])
@@ -52,6 +81,9 @@ router.get('/favorites', function(req, res) {
                 if(err != null) {
                         res.status(500).json({result:'error', error:err})
                 }
+		else if (fav == null) {
+			res.json({result:'warning', warning:'user does not exist'})
+		}
                 else {
                         res.json({favorites:fav.favorites})
                 }
@@ -199,7 +231,7 @@ router.post('/downvote/:id', function(req, res) {
 
 router.post('/comment', function(req, res) {
 	const owner = req.headers["userid"]
-	Items.create({_id:new mongoose.Types.ObjectId(),_userid:owner,upvotes:0,downvotes:0,type:'comment',content:req.body}, function(err, item) {
+	Items.create({_id:new mongoose.Types.ObjectId(),_userid:owner,upvotes:0,downvotes:0,type:'comment',content:req.body.comment}, function(err, item) {
 		if (err != null) {
 			res.status(500).json({result:'error', error:err})
 		}
@@ -207,6 +239,14 @@ router.post('/comment', function(req, res) {
 			res.json({result:'success'})
 		}
 	})
+})
+
+router.put('/comment', function(req, res) {
+        const owner = req.headers["userid"]
+
+        console.log(" put comment called, user: " + owner + ", comment body: " + JSON.stringify(req.body))
+
+	res.json({result:'success'})
 })
 
 router.post('/echo/:id', function(req, res) {
