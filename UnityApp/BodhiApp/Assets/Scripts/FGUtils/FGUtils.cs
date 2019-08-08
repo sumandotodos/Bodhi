@@ -494,6 +494,10 @@ public class BootStrapData {
 
 public enum UICoordinateType { Physical, Virtual, Normalized };
 
+public enum UISpaceType { Local, World };
+
+public enum UITransformType { Relative, Absolute };
+
 public class FGUtils : MonoBehaviour {
 
 	/* constants */

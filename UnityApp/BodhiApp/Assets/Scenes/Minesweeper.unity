@@ -1131,6 +1131,7 @@ GameObject:
   - component: {fileID: 453011816}
   - component: {fileID: 453011815}
   - component: {fileID: 453011817}
+  - component: {fileID: 453011818}
   m_Layer: 5
   m_Name: Bomb2
   m_TagString: Untagged
@@ -1225,6 +1226,44 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
+--- !u!114 &453011818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453011813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6294b8d868c54857a0d5ea2215d7b36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waiters: []
+  waitCounter: 0
+  _state: 0
+  sReturnValue: 
+  iReturnValue: 0
+  currentSubprogramName: _main
+  waitingForRMC: 
+  allTarget: all
+  prevValue: 0
+  value: 0
+  scaleValue: 0
+  scaleTarget: 0
+  scale:
+    prevValue: 0
+    linSpaceTarget: 0
+    linSpaceValue: 0
+    linSpaceOrigin: 0
+    tParam: 0
+  maxScale: 0.2592593
+  minScale: 0
+  speed: 1
+  linSpaceTarget: 0
+  linSpaceOrigin: 0
+  linSpaceValue: 0
+  easeType: 2
+  startScaledOut: 1
 --- !u!1 &503554102
 GameObject:
   m_ObjectHideFlags: 0
@@ -1683,6 +1722,7 @@ GameObject:
   - component: {fileID: 802622776}
   - component: {fileID: 802622775}
   - component: {fileID: 802622777}
+  - component: {fileID: 802622778}
   m_Layer: 5
   m_Name: Bomb3
   m_TagString: Untagged
@@ -1777,6 +1817,44 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
+--- !u!114 &802622778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802622773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6294b8d868c54857a0d5ea2215d7b36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waiters: []
+  waitCounter: 0
+  _state: 0
+  sReturnValue: 
+  iReturnValue: 0
+  currentSubprogramName: _main
+  waitingForRMC: 
+  allTarget: all
+  prevValue: 0
+  value: 0
+  scaleValue: 0
+  scaleTarget: 0
+  scale:
+    prevValue: 0
+    linSpaceTarget: 0
+    linSpaceValue: 0
+    linSpaceOrigin: 0
+    tParam: 0
+  maxScale: 0.2592593
+  minScale: 0
+  speed: 1
+  linSpaceTarget: 0
+  linSpaceOrigin: 0
+  linSpaceValue: 0
+  easeType: 2
+  startScaledOut: 1
 --- !u!1 &803344352
 GameObject:
   m_ObjectHideFlags: 0
@@ -2818,6 +2896,7 @@ GameObject:
   - component: {fileID: 1608803541}
   - component: {fileID: 1608803540}
   - component: {fileID: 1608803542}
+  - component: {fileID: 1608803543}
   m_Layer: 5
   m_Name: Bomb1
   m_TagString: Untagged
@@ -2914,6 +2993,44 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
+--- !u!114 &1608803543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1608803538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6294b8d868c54857a0d5ea2215d7b36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waiters: []
+  waitCounter: 0
+  _state: 0
+  sReturnValue: 
+  iReturnValue: 0
+  currentSubprogramName: _main
+  waitingForRMC: 
+  allTarget: all
+  prevValue: 0
+  value: 0
+  scaleValue: 0
+  scaleTarget: 0
+  scale:
+    prevValue: 0
+    linSpaceTarget: 0
+    linSpaceValue: 0
+    linSpaceOrigin: 0
+    tParam: 0
+  maxScale: 0.2592593
+  minScale: 0
+  speed: 1
+  linSpaceTarget: 0
+  linSpaceOrigin: 0
+  linSpaceValue: 0
+  easeType: 2
+  startScaledOut: 1
 --- !u!4 &1687661555 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7489660623179764524, guid: 9cb365477865a47bfb6866d5078af8b6,

@@ -38,13 +38,29 @@ public class BombController : MonoBehaviour
         }
     }
 
+    void ScaleInBomb(int n)
+    {
+        UIScaleFader scaler = BombImages[n].GetComponent<UIScaleFader>();
+        scaler.setEaseType(EaseType.boingOut);
+        scaler.scaleIn();
+    }
+
+    void ScaleOutBomb(int n)
+    {
+        UIScaleFader scaler = BombImages[n].GetComponent<UIScaleFader>();
+        scaler.setEaseType(EaseType.cubicIn);
+        scaler.scaleOut();
+    }
+
     void SetNBombs(int n)
     {
         if(n <= BombImages.Length)
         {
             for(int i = 0; i < BombImages.Length; ++i)
             {
-                BombImages[i].enabled = (i < n);
+                //(i < n) ? ScaleInBomb(i) : ScaleOutBomb(i);
+                if (i < n) ScaleInBomb(i);
+                else ScaleOutBomb(i);
             }
             AmountText.enabled = false;
             TimesText.enabled = false;
@@ -53,7 +69,9 @@ public class BombController : MonoBehaviour
         {
             for(int i = 0; i < BombImages.Length; ++i)
             {
-                BombImages[i].enabled = (i == 0);
+                //BombImages[i].enabled = (i == 0);
+                if (i == 0) ScaleInBomb(i);
+                else ScaleOutBomb(i);
             }
             AmountText.enabled = true;
             TimesText.enabled = true;

@@ -7,6 +7,8 @@ public class PlanetSpawner : MonoBehaviour
     public GameObject NormalPlanetPrefab;
     public GameObject IdeasPrefab;
     public GameObject FavsPrefab;
+    public GameObject WritePrefab;
+    public GameObject MessagesPrefab;
     public Transform PlanetsParent;
 
     public string DefaultCase = "";
@@ -15,7 +17,7 @@ public class PlanetSpawner : MonoBehaviour
     void Start()
     {
         string TypeOfMenu = PlayerPrefs.GetString("TypeOfMenu");
-        if(DefaultCase != "") 
+        if(TypeOfMenu == "") 
         {
             SetupScene(DefaultCase);
         }

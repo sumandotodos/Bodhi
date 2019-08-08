@@ -264,7 +264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceae83588b3a04caaaf19396091baf24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForceId: 
+  ForceId: 9
   loginStatus: {fileID: 0}
   FBfader: {fileID: 0}
   GIFader: {fileID: 0}
@@ -321,7 +321,7 @@ PrefabInstance:
     - target: {fileID: 3445182488190430412, guid: 06b4405f949ee4f2cb342247b5a84e4b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3445182488190430412, guid: 06b4405f949ee4f2cb342247b5a84e4b,
         type: 3}

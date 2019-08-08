@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.043458275, g: 0.041858114, b: 0.04489567, a: 1}
+  m_IndirectSpecularColor: {r: 0.04116925, g: 0.039304197, b: 0.04175975, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1483,6 +1483,7 @@ Transform:
   - {fileID: 653914435}
   - {fileID: 102971167}
   - {fileID: 392910875}
+  - {fileID: 1918325399}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2458,6 +2459,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd9f667474cce456a9dbd6b428432d25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1918325398
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1918325399}
+  - component: {fileID: 1918325400}
+  m_Layer: 0
+  m_Name: LoginController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1918325399
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918325398}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1235016046}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1918325400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918325398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceae83588b3a04caaaf19396091baf24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ForceId: 9
+  loginStatus: {fileID: 0}
+  FBfader: {fileID: 0}
+  GIFader: {fileID: 0}
+  LogoutFader: {fileID: 0}
+  goForwardFader: {fileID: 0}
+  goForwardOpWiggle: {fileID: 0}
 --- !u!4 &1983670470 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4917402488086544702, guid: f10b15b3346794d2c8feb4b87ed3f138,

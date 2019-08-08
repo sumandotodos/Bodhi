@@ -23,6 +23,9 @@ public class RESTResult_Bool
 
 public class REST : MonoBehaviour
 {
+
+    public LoadWaitController loadWaitController_N;
+
     const float RetryTimeout = 5.0f;
 
     public static REST instance;
@@ -64,12 +67,21 @@ public class REST : MonoBehaviour
 
     public Coroutine POST(string url, string body, System.Func<string, string, int> callback)
     {
-        UnityWebRequest res = UnityWebRequest.Post(url, body);
+        WWWForm form = new WWWForm();
+        form.AddField("comment", body);
+        UnityWebRequest res = UnityWebRequest.Post(url, form);
         return StartCoroutine(REST_Coroutine(res, url, callback));
     }
 
     IEnumerator REST_Coroutine(UnityWebRequest res, string url, System.Func<string, string, int> callback)
     {
+        if(loadWaitController_N!=null)
+        {
+            loadWaitController_N.StartNetworkTransfer();
+        }
+
+        Debug.Log("Doing business @ url: " + url);
+
         if (Headers != null)
         {
             foreach (KeyValuePair<string, string> entry in Headers)
@@ -77,23 +89,34 @@ public class REST : MonoBehaviour
                 res.SetRequestHeader(entry.Key, entry.Value);
             }
         }
-        //bool Succeded = false;
-        //do
-        //{
+        bool Succeded = false;
+        do
+        {
             yield return res.SendWebRequest();
-        //  if(res.error != null)
-        // {
-        //    yield return new WaitForSeconds(RetryTimeout);
-        // }
-        // else
-        // {
-        //     Succeded = true;
-        // }
-        //} while (!Succeded);
+          if(res.error != null)
+         {
+                Debug.Log("There was this error: " + res.error);
+                res.Abort();
+                yield return new WaitForSeconds(RetryTimeout);
+
+         }
+         else
+         {
+                Debug.Log("No error");
+                Succeded = true;
+         }
+        } while (!Succeded);
+        Debug.Log("Break out of do while");
         if (callback != null)
         {
             callback(res.error, res.downloadHandler.text);
         }
+
+        if (loadWaitController_N != null)
+        {
+            loadWaitController_N.CompleteNetworkTransfer();
+        }
+
     }
 
 

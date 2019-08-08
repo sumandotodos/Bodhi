@@ -18,6 +18,14 @@ public class API : MonoBehaviour
         return instance;
     }
 
+    public Coroutine PostComment(string userid, string body, System.Func<string, string, int> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+            "/item/comment";
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        return REST.GetSingleton().POST(url, body, callback);
+    }
+
     public Coroutine GetFavoritesList(string userid, System.Func<string, string, int> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
