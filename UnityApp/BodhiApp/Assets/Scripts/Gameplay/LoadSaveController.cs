@@ -16,6 +16,13 @@ public class MsgIndex
     public int from;
 }
 
+[System.Serializable]
+public class BombsInfo
+{
+    public int NBombs;
+    public string Fingerprint;
+}
+
 public class LoadSaveController : MonoBehaviour
 {
 
@@ -64,6 +71,38 @@ public class LoadSaveController : MonoBehaviour
             int from = ((MsgIndex)formatter.Deserialize(file)).from;
             file.Close();
             return from;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    public static void SaveBombs(int n)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+        FileStream file = File.Open(Application.persistentDataPath + "/save.002.dat", FileMode.Create);
+        BombsInfo data = new BombsInfo();
+        data.NBombs = n;
+        data.Fingerprint = FGUtils.sha256_hash("SHA256fingerprint" + n);
+        formatter.Serialize(file, data);
+        file.Close();
+    }
+
+    public static int LoadBombs()
+    {
+        if(File.Exists(Application.persistentDataPath + "/save.002.dat"))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/save.002.dat", FileMode.Open);
+            BombsInfo bi = ((BombsInfo)formatter.Deserialize(file));
+            file.Close();
+            string fp = FGUtils.sha256_hash("SHA256fingerprint" + bi.NBombs);
+            if(fp == bi.Fingerprint)
+            {
+                return bi.NBombs;
+            }
+            return 0;
         }
         else
         {

@@ -13,6 +13,8 @@ public class ContentsController : MonoBehaviour
 
     public Text contentsText;
 
+    public Favoritizer favoritizer;
+
     bool CategoryHasHeader;
 
    public bool isShowingText;
@@ -90,6 +92,16 @@ public class ContentsController : MonoBehaviour
             (string)contentsTable.getElement(0, Row)
             + "\n\n";
         tetraId = triId + ":" + Row;
+        favoritizer.ResetIcon();
+        favoritizer.ContentId = tetraId;
+        API.GetSingleton().IsFavorite(PlayerPrefs.GetString("UserId"), tetraId, (isFav) =>
+        {
+            if(isFav)
+            {
+                favoritizer.SetIsFavorite();
+            }
+            return 0;
+        });
     }
 
     public string RetrieveId()

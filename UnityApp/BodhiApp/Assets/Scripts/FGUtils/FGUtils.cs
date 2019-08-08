@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+
 public enum EaseType { linear, tanh, cubicOut, boingOut, boingOutMore, sigmoid, cubicIn };
 
 public class TweenTransforms {
@@ -629,6 +630,13 @@ public class FGUtils : MonoBehaviour {
     public static Vector2 HadamardProduct(Vector2 A, Vector2 B) 
     {
         return new Vector2(A.x * B.x, A.y * B.y);
+    }
+
+    public static string sha256_hash(string value)
+    {
+        return System.BitConverter.ToString((System.Security.Cryptography.SHA256.Create()
+                .ComputeHash(System.Text.Encoding.UTF8.GetBytes(value)))).Replace("-", "");
+                //.Select(item => item.ToString("x2")));
     }
 
     public static char decToHexChar(int d) {

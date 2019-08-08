@@ -26,6 +26,7 @@ public class LoginStatusData
 
 public class LoginController : MonoBehaviour
 {
+    public string ForceId = "";
 
     public LoginStatus loginStatus;
 
@@ -37,11 +38,46 @@ public class LoginController : MonoBehaviour
 
     LoginStatusData loginStatusData;
 
+    public static bool Initialized = false;
+
+    private void Start()
+    {
+        Initialize();
+    }
+
     public void Initialize()
     {
-        loadLoginData();
-        loginStatus.Initialize(loginStatusData);
-        LoginConfigurations.init();
+        if(Initialized)
+            return;
+        Initialized = true;
+
+        if (ForceId != "")
+        {
+            loginStatusData = new LoginStatusData();
+            loginStatusData.id = ForceId;
+            loginStatusData.AppToken = "Forced";
+            loginStatusData.loggedIn = true;
+            PlayerPrefs.SetString("UserId", ForceId);
+            if (LoginConfigurations.Headers.ContainsKey("userid"))
+            {
+                LoginConfigurations.Headers["userid"] = ForceId;
+            }
+            else
+            {
+                LoginConfigurations.Headers.Add("userid", ForceId);
+            }
+            if (loginStatus != null)
+            {
+                loginStatus.ForceLoggedIn(ForceId);
+            }
+            LoginConfigurations.init();
+        }
+        else
+        {
+            loadLoginData();
+            loginStatus.Initialize(loginStatusData);
+            LoginConfigurations.init();
+        }
     }
 
     IEnumerator _ShowLoginButtonsSequence()
