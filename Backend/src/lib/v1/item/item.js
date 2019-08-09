@@ -229,9 +229,11 @@ router.post('/downvote/:id', function(req, res) {
         })
 })
 
-router.post('/comment', function(req, res) {
+router.post('/comment/:prefix', function(req, res) {
 	const owner = req.headers["userid"]
-	Items.create({_id:new mongoose.Types.ObjectId(),_userid:owner,upvotes:0,downvotes:0,type:'comment',content:req.body.comment}, function(err, item) {
+	const prefix = req.params["prefix"]
+	newId = prefix + mongoose.Types.ObjectId().toString()	
+	Items.create({_id:newId,_userid:owner,upvotes:0,downvotes:0,type:'comment',content:req.body.comment,validated:false}, function(err, item) {
 		if (err != null) {
 			res.status(500).json({result:'error', error:err})
 		}

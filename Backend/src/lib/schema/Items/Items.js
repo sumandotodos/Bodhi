@@ -6,7 +6,8 @@ const ItemSchema = new mongoose.Schema({
 	upvotes: Number,
 	downvotes: Number,
 	type: String,
-	content: String
+	content: String,
+	validated: Boolean
 })
 mongoose.model('Items', ItemSchema)
 

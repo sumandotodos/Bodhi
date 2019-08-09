@@ -5,6 +5,7 @@ const db = require('./lib/db')
 const bodyParser = require('body-parser')
 const item = require('./lib/v1/item/item')
 const login = require('./lib/v1/login/login')
+const table = require('./lib/v1/table/table')
 
 function checkUserToken(req, res, next) {
 	if (req.headers["userid"] != "") {
@@ -60,6 +61,7 @@ app.get("/uploadUrl/:user", function(req, res) {
 
 app.use('/v1/item', item)
 app.use('/v1/login', login)
+app.use('/v1/table', table)
 
 console.log("Listening on port 7675");
 app.listen(7675);
