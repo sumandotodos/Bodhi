@@ -52,15 +52,55 @@ router.get('/unapproved/:prefix', function(req, res) {
 })
 
 router.post('/table', function(req, res) {
-
-})
-
-router.get('/tables', function(req, res) {
-
+	newTable = req.body
+	console.log("Parsed body:")
+	console.dir(newTable)
+	newTable.ids.forEach(function(id) {
+		Items.findOne({_id:id}, function(err, item) {
+			if(err == null && item != null) {
+				item.validated = true
+				item.save()
+			}
+		})
+	})
+	newId = newTable.prefix + ":" + mongoose.Types.ObjectId().toString()
+	Tables.create({_id:newId, contentIds:newTable.ids}, function(err, newTable) {
+		if(err!=null) {
+			res.send(500).json({error:err})
+		}
+		else {
+			res.json({result:'success'})
+		}
+	})
 })
 
 router.get('/table/:prefix', function(req, res) {
+	const prefix = req.params["prefix"]
+	Tables.find({_id:RegExp("^"+prefix)}, function(err, tables) {
+		if(err!=null) {
+                        res.send(500).json({error:err})
+                }
+                else if(tables == null) {
+                        res.json([])
+                }
+                else {
+                        res.json(tables)
+                }
+	})
+})
 
+router.get('/tables', function(req, res) {
+        Tables.find({}, function(err, tables) {
+                if(err!=null) {
+                        res.send(500).json({error:err})
+                }
+                else if(tables == null) {
+                        res.json([])
+                }
+                else {
+                        res.json(tables)
+                }
+        })
 })
 
 module.exports = router
