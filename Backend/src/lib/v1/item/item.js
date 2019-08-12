@@ -153,6 +153,37 @@ router.post('/favorite/:id', function(req, res) {
 	})	
 })
 
+router.post('/exchangefavorite/:from/:to', function(req, res) {
+	const from = parseInt(req.params["from"])
+	const to = parseInt(req.params["to"])
+	const currentUser = req.headers["userid"]	
+
+	console.log("Exchanging favorite items " + from + " and " + to)
+
+	Favorites.findOne({_userid:currentUser}, function(err, favs) {
+		if(err != null) {
+                        res.status(500).json({result:'error', error:err})
+                }
+		else if(favs == null) {
+			res.status(400).json({result:'inexistent items'})
+		}
+		else if(to>=favs.favorites.length || from>favs.favorites.length) {
+			res.status(400).json({result:'inexistent items'})
+		}
+		else {
+			//console.log("   >> Favs before: " + JSON.stringify(favs.favorites))
+			[favs.favorites[from], favs.favorites[to]] = [favs.favorites[to], favs.favorites[from]]
+			//t = favs.favorites[to]
+			//favs.favorites[to] = favs.favorites[from]
+			//favs.favorites[from] = t 
+			favs.save()
+			favs.markModified('favorites');
+			//console.log("   >> Favs after: " + JSON.stringify(favs.favorites))
+			res.json({result:'success'})
+		}
+	})
+})
+
 router.get('/favorite/:id', function(req, res) {
 	const id = req.params["id"]
 	const currentUser = req.headers["userid"]
