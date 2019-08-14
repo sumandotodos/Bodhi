@@ -4,6 +4,65 @@ const mongoose = require('mongoose')
 const Items = require('../../schema/Items/Items').model
 const Users = require('../../schema/Users/Users').model
 const Favorites = require('../../schema/Favorites/Favorites').model
+const Avatars = require('../../schema/Avatars/Avatars').model
+
+router.put('/avatar', function(req, res) {
+        const currentUser = req.headers["userid"]
+
+        console.log("putting avatar called")
+
+        BufferData = req.body
+
+	Avatars.findOne({_id:currentUser}, function(err, av) {
+		if(err != null) {
+                        res.status(500).json({error:err})
+                }
+		else if (av == null) {
+			Avatars.create({_id:currentUser, avatar:BufferData}, function(err, newAvatar) {
+		                if(err != null) {
+                		        res.status(500).json({error:err})
+                		}
+                		else if(newAvatar == null) {
+                        		res.status(500).json({error:'could not add new avatar data'})
+                		}
+                		else {
+                        		res.json({result:'kosher'})
+                		}
+        		})
+		}
+		else {
+			av.avatar = BufferData
+			av.markModified('avatar');
+			av.save()
+		}
+	})
+
+})
+
+function RetrieveAvatarForUser(user, res) {
+	Avatars.findOne({_id:user}, function(err, av) {
+		if(err != null) {
+                	res.status(500).json({error:err})
+                }
+		if(av == null) {
+			res.json({})
+		}
+		else {
+			res.set('Content-Type', 'image/jpeg');
+        		res.end(av.avatar);
+		}
+	})
+}
+
+router.get('/avatar', function(req, res) {
+        const user = req.headers["userid"]
+	RetrieveAvatarForUser(user, res)
+})
+
+router.get('/avatar/:id', function(req, res) {
+	const user = req.headers["id"]
+	RetrieveAvatarForUser(user, res)
+})
 
 router.get('/list', function(req, res) {
 	const user = req.headers["userid"]
@@ -11,7 +70,7 @@ router.get('/list', function(req, res) {
 	Items.find({_userid:user}, function(err, items) {
 		if (err) {
 			console.log("   >> erroraco: " + err)
-			res.json({result:'error', error:err})
+			res.status(500).json({result:'error', error:err})
 		}
 		else {
 			console.log("   >> found")
@@ -43,7 +102,7 @@ router.get('/comment/:id', function(req, res) {
         const id = req.params["id"]
 	Items.findOne({_id:id}, function(err, item) {
 		if(err != null) {
-			res.json({result:'error', error:err})
+			res.status(500).json({result:'error', error:err})
 		}
 		else if(item == null) {
 			res.status(404).json({result:'not found'})
