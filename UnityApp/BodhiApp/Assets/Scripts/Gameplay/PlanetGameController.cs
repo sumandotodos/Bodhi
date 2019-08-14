@@ -54,10 +54,7 @@ public class PlanetGameController : MonoBehaviour
         orbitalCamera_A.SetZoomInConfiguration();
         orbitalCamera_A.SetPosition(planet.GetComponentInChildren<SphereCollider>().gameObject.transform.position);
         orbitalCamera_A.SetZDistance(1.0f);
-        PlayerPrefs.SetString("MinesweeperPrefab", planet.MinesweeperType);
-        PlayerPrefs.SetString("ContentType", planet.Category);
-        PlayerPrefs.SetString("ContentTopic", planet.Topic);
-        PlanetsToSweeperSequence();
+        planet.MakePlanetControllerProceedToNextScreen(this);
     }
 
     public void PlanetsToSweeperSequence()
@@ -71,6 +68,45 @@ public class PlanetGameController : MonoBehaviour
         fader.fadeToOpaque();
         yield return new WaitForSeconds(1.0f);
         yield return SceneManager.LoadSceneAsync("Minesweeper");
+    }
+
+    public void PlanetsToFavoritesSequence()
+    {
+        StartCoroutine(_PlanetsToFavoritesSequence());
+    }
+
+    IEnumerator _PlanetsToFavoritesSequence()
+    {
+        yield return new WaitForSeconds(0.3f);
+        fader.fadeToOpaque();
+        yield return new WaitForSeconds(1.0f);
+        yield return SceneManager.LoadSceneAsync("Favorites");
+    }
+
+    public void PlanetsToComposeSequence()
+    {
+        StartCoroutine(_PlanetsToComposeSequence());
+    }
+
+    IEnumerator _PlanetsToComposeSequence()
+    {
+        yield return new WaitForSeconds(0.3f);
+        fader.fadeToOpaque();
+        yield return new WaitForSeconds(1.0f);
+        yield return SceneManager.LoadSceneAsync("Compose");
+    }
+
+    public void PlanetsToSequence(string Seq)
+    {
+        StartCoroutine(_PlanetsToSequence(Seq));
+    }
+
+    IEnumerator _PlanetsToSequence(string Seq)
+    {
+        yield return new WaitForSeconds(0.3f);
+        fader.fadeToOpaque();
+        yield return new WaitForSeconds(1.0f);
+        yield return SceneManager.LoadSceneAsync(Seq);
     }
 
     public void TouchGoBack()

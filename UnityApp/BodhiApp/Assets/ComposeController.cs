@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ComposeController : MonoBehaviour
 {
@@ -18,10 +19,19 @@ public class ComposeController : MonoBehaviour
 
     public Image NotebookImage;
 
+    public string ContentPrefix;
+
+    public float HorizontalDisplacement = 1152.0f;
+    public GameObject IdeasButtons;
+    public GameObject PreguntasButtons;
+
+    public System.Action GoBackAction;
+
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(ShowButtons());   
+        StartCoroutine(ShowButtons());
+        GoBackAction = ReturnFromLeftPanel; 
     }
 
     IEnumerator ShowButtons()
@@ -38,25 +48,26 @@ public class ComposeController : MonoBehaviour
 
     public void TouchIdea()
     {
-        StartCoroutine(TouchIdeaCoroutine());
-    }
-
-    IEnumerator TouchIdeaCoroutine()
-    {
-        yield return new WaitForSeconds(0.25f);
         NotebookImage.color = IdeaColor;
-        scrollMover.Go();
+        IdeasButtons.SetActive(true);
+        PreguntasButtons.SetActive(false);
+        StartCoroutine(FirstPanelCoroutine());
     }
 
     public void TouchQuestion()
     {
-        StartCoroutine(TouchQuestionCoroutine());
+        NotebookImage.color = QuestionColor;
+        IdeasButtons.SetActive(false);
+        PreguntasButtons.SetActive(true);
+        StartCoroutine(FirstPanelCoroutine());
     }
 
-    IEnumerator TouchQuestionCoroutine()
+    IEnumerator FirstPanelCoroutine()
     {
-        yield return new WaitForSeconds(0.5f);
-        NotebookImage.color = QuestionColor;
+        GoBackAction = ReturnFromCenterPanel;
+        yield return new WaitForSeconds(0.25f);
+        scrollMover.PointA = new Vector2(0.0f, 0.0f);
+        scrollMover.PointB = new Vector2(-HorizontalDisplacement, 0.0f);
         scrollMover.Go();
     }
 
@@ -73,13 +84,84 @@ public class ComposeController : MonoBehaviour
 
     IEnumerator SubmitCoroutine()
     {
-        yield return API.GetSingleton().PostComment(PlayerPrefs.GetString("UserId"), 
-        notebookText.text, 
+        yield return API.GetSingleton().PostComment(
+        PlayerPrefs.GetString("UserId"),
+        notebookText.text,
+        ContentPrefix,
             (err, text) =>
              {
-                 Debug.Log("Post comment request returned: " + text);
+                 MessagesController.GetSingleton().ShowMessage("Tu comentario se ha enviado exitosamente", Color.blue);
                  TouchClear();
-                 return 0;
              });
+    }
+
+    public void TouchOnMejoraPersonal()
+    {
+        ContentPrefix = CategoryCodes.EncodeCategoryPrefix(CategoryCodes.Category_MejoraPersonal, true);
+        StartCoroutine(SecondPanelCoroutine());
+    }
+
+    public void TouchOnMejoraMundo()
+    {
+        ContentPrefix = CategoryCodes.EncodeCategoryPrefix(CategoryCodes.Category_MejoraMundo, true);
+        StartCoroutine(SecondPanelCoroutine());
+    }
+
+    public void TouchOnAutoconocimiento()
+    {
+        ContentPrefix = CategoryCodes.EncodeCategoryPrefix(CategoryCodes.Category_Autoconocimiento, true);
+        StartCoroutine(SecondPanelCoroutine());
+    }
+
+    public void TouchOnTrascendencia()
+    {
+        ContentPrefix = CategoryCodes.EncodeCategoryPrefix(CategoryCodes.Category_Trascendencia, true);
+        StartCoroutine(SecondPanelCoroutine());
+    }
+
+    public void TouchOnAgobios()
+    {
+        ContentPrefix = CategoryCodes.EncodeCategoryPrefix(CategoryCodes.Category_Agobios, true);
+        StartCoroutine(SecondPanelCoroutine());
+    }
+
+    IEnumerator SecondPanelCoroutine()
+    {
+        GoBackAction = ReturnFromRightPanel;
+        yield return new WaitForSeconds(0.25f);
+        scrollMover.PointA = new Vector2(-HorizontalDisplacement, 0.0f);
+        scrollMover.PointB = new Vector2(-2.0f * HorizontalDisplacement, 0.0f);
+        scrollMover.Go();
+    }
+
+    public void ReturnFromRightPanel()
+    {
+        scrollMover.PointA = new Vector2(-2.0f * HorizontalDisplacement, 0.0f);
+        scrollMover.PointB = new Vector2(-HorizontalDisplacement, 0.0f);
+        scrollMover.Go();
+        GoBackAction = ReturnFromCenterPanel;
+    }
+    public void ReturnFromCenterPanel()
+    {
+        scrollMover.PointA = new Vector2(-HorizontalDisplacement, 0.0f);
+        scrollMover.PointB = new Vector2(0.0f, 0.0f);
+        scrollMover.Go();
+        GoBackAction = ReturnFromLeftPanel;
+    }
+    public void ReturnFromLeftPanel()
+    {
+        StartCoroutine(GoBackCoroutine());
+    }
+
+    public void GoBackButton()
+    {
+        GoBackAction();
+    }
+
+    IEnumerator GoBackCoroutine()
+    {
+        fader.fadeToOpaque();
+        yield return new WaitForSeconds(1.0f);
+        yield return SceneManager.LoadSceneAsync("Planets");
     }
 }

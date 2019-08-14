@@ -456,14 +456,14 @@ public class TweenableSoftFloat:SoftVariable {
 			linSpaceValue -= speed * Time.deltaTime;
 			if (linSpaceValue < linSpaceTarget) {
 				linSpaceValue = linSpaceTarget;
-				return false;
+				return true;
 			}
 			return true;
 		} else if (linSpaceValue < linSpaceTarget) {
 			linSpaceValue += speed * Time.deltaTime;
 			if (linSpaceValue > linSpaceTarget) {
 				linSpaceValue = linSpaceTarget;
-				return false;
+				return true;
 			}
 			return true;
 		} else

@@ -75,4 +75,12 @@ public class ListController : MonoBehaviour
             yield return new WaitForSeconds(0.15f);
         }
     }
+
+    public void listIds()
+    {
+        for(int i = 0; i < slabs.Count; ++i)
+        {
+            //Debug.Log("<color=red>"+slabs[i].id+"</color>");
+        }
+    }
 }

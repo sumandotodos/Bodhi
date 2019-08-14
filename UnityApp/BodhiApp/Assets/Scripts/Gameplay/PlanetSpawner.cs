@@ -6,16 +6,20 @@ public class PlanetSpawner : MonoBehaviour
 {
     public GameObject NormalPlanetPrefab;
     public GameObject IdeasPrefab;
+    public GameObject CameraPrefab;
     public GameObject FavsPrefab;
     public GameObject WritePrefab;
     public GameObject MessagesPrefab;
     public Transform PlanetsParent;
+    public SpriteRenderer spriteRenderer;
+    public AvatarTaker avatarTaker;
 
     public string DefaultCase = "";
 
     // Start is called before the first frame update
     void Start()
     {
+        spriteRenderer.enabled = false;
         string TypeOfMenu = PlayerPrefs.GetString("TypeOfMenu");
         if(TypeOfMenu == "") 
         {
@@ -54,10 +58,7 @@ public class PlanetSpawner : MonoBehaviour
         GameObject newGO = (GameObject)Instantiate(FavsPrefab);
         newGO.transform.SetParent(PlanetsParent);
         newGO.transform.localScale = Vector3.one;
-        Planet newPlanet = newGO.GetComponent<Planet>();
-        newPlanet.InnerRing = true;
-        newPlanet.OuterRing = true;
-        newPlanet.MiddleRing = true;
+        Planet newPlanet = newGO.GetComponent<Heart>();
         newPlanet.Start();
         newGO.transform.position = Vector3.zero;
         newGO.transform.rotation = Quaternion.Euler(6.0f, 100.0f, 0.0f);
@@ -65,20 +66,32 @@ public class PlanetSpawner : MonoBehaviour
         newPlanet.SetScale(0.8f);
         newPlanet.SetRadius(3.8f);
 
-        newGO = (GameObject)Instantiate(NormalPlanetPrefab);
+        newGO = (GameObject)Instantiate(WritePrefab);
         newGO.transform.SetParent(PlanetsParent);
         newGO.transform.localScale = Vector3.one;
-        newPlanet = newGO.GetComponent<Planet>();
-        newPlanet.SetLabel("Favoritos");
-        newPlanet.MinesweeperType = "Factory";
-        newPlanet.InnerRing = false;
-        newPlanet.OuterRing = false;
-        newPlanet.MiddleRing = false;
+        newPlanet = newGO.GetComponent<Pencil>();
         newPlanet.Start();
+        newPlanet.SetLabel("Redactar");
         newGO.transform.position = Vector3.zero;
         newGO.transform.rotation = Quaternion.Euler(-3.0f, -32.0f, 0.0f);
         newPlanet.SetScale(1.0f);
         newPlanet.SetRadius(4.0f);
+
+        newGO = (GameObject)Instantiate(CameraPrefab);
+        newGO.transform.SetParent(PlanetsParent);
+        newGO.transform.localScale = Vector3.one;
+        newPlanet = newGO.GetComponent<CameraPlanet>();
+        newPlanet.Start();
+        newPlanet.SetLabel("Avatar");
+        newGO.transform.position = Vector3.zero;
+        newGO.transform.rotation = Quaternion.Euler(-16.0f, 60.0f, 0.0f);
+        newPlanet.SetScale(1.0f);
+        newPlanet.SetRadius(3.0f);
+
+        Texture2D avatarTex = avatarTaker.ApplyMaskTexture(avatarTaker.LoadAvatar());
+        Sprite avatarSprite = Sprite.Create(avatarTex, new Rect(0, 0, avatarTex.width, avatarTex.height), new Vector2(0.5f, 0.5f));
+        spriteRenderer.enabled = true;
+        spriteRenderer.sprite = avatarSprite;
     }
 
     public void SetUpIdeas()

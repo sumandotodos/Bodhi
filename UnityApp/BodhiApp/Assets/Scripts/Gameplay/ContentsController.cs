@@ -100,7 +100,6 @@ public class ContentsController : MonoBehaviour
             {
                 favoritizer.SetIsFavorite();
             }
-            return 0;
         });
     }
 
