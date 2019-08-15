@@ -7,6 +7,47 @@ var Users = require('../../schema/Users/Users').model
 
 inRAMUserList = []
 
+router.get('/handle/:id', function(req, res) {
+        const userid = req.params["id"]
+        GetUserHandle(userid, res)
+})
+
+router.get('/handle', function(req, res) {
+        const currentUser = req.headers["userid"]
+        GetUserHandle(currentUser, res)
+})
+
+router.put('/handle', function(req, res) {
+        const currentUser = req.headers["userid"]
+        var newHandle = req.body
+
+        console.log(" putting new handle for user " + currentUser + ": " + newHandle)
+
+	if(!ValidateHandle(newHandle)) {
+
+		res.status(400).json({result:'invalid handle'})
+
+	}
+	else {
+
+        	Users.findOne({_id:currentUser}, function(err, user) {
+                	if(err != null) {
+                        	res.status(500).json({error:err})
+                	}
+                	else if(user == null) {
+                        	res.status(404).json({result:'not found'})
+                	}
+                	else {
+                        	user.handle = newHandle
+             			user.markModified('handle')
+				user.save()
+		        	res.json({result:'success'})
+                	}
+        	})
+
+	}
+})
+
 function findUserInList(user) {
 	index = inRAMUserList.map( (e) => (e.id == user) ).indexOf(true)
 	return index;
@@ -67,7 +108,7 @@ router.get('/user/:deviceuuid/:apptoken', function(req, res) {
 		}
 		else if (user==null) {
 			GetAndIncrementCounter( function(result) {
-				Users.create({_id:result, appid:apptoken, deviceuuid:deviceuuid}, function(err, user) {
+				Users.create({_id:result, appid:apptoken, deviceuuid:deviceuuid, handle:result}, function(err, user) {
 					if(err!=null) {
 						res.status(500).json({result:'error', error:err})
 					}
@@ -84,5 +125,38 @@ router.get('/user/:deviceuuid/:apptoken', function(req, res) {
 		}
 	})
 })
+
+function GetUserHandle(id, res) {
+	Users.findOne({_id:id}, function(err, user) {
+		if(err != null) {
+			res.status(500).json({error:err})
+		}
+		else if(user == null) {
+			res.status(404).json({result:'not found'})
+		}
+		else {
+			res.json({result:user.handle})
+		}
+	})
+}
+
+function ValidateHandle(handle) {
+	if(handle.length < 4) {
+		return false
+	}
+	if(handle.length > 32) {
+		return false
+	}
+	if(handle.indexOf(" ") != -1) {
+		return false
+	}
+	if(handle.indexOf(":") != -1) {
+		return false
+	}
+	if(handle.indexOf("/") != -1) {
+		return false
+	}
+	return true
+}
 
 module.exports = router
