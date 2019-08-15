@@ -12,6 +12,9 @@ public class DragController : MonoBehaviour
     Vector2 TouchPoint;
     Vector2 OriginalPosition;
 
+    int StartIndex;
+    int EndIndex;
+
     System.Action TouchUpdate;
 
     float Factor = 3.8f;
@@ -33,6 +36,7 @@ public class DragController : MonoBehaviour
 
     public void BeginTouch(int index)
     {
+        StartIndex = index;
         Slab touchedSlab = listController.GetSlab(index);
         touchedSlab.GetComponent<UIGeneralFader>().SetOpacity(0.35f);
         slabTransform = touchedSlab.GetComponent<Transform>();
@@ -53,7 +57,11 @@ public class DragController : MonoBehaviour
         slabTransform.GetComponent<Magnetor>().CurrentPosition = slabTransform.localPosition;
         //slabTransform.GetComponent<Magnetor>().Destination = OriginalPosition;
         slabTransform.GetComponent<Magnetor>().Going = true;
+        EndIndex = CalculatePositionInList(slabTransform.GetComponent<Magnetor>().Destination.y);
+        //Debug.Log("<color=green>Exchange " + StartIndex + " to " + EndIndex + "</color>");
+        FavsController.GetSingleton().NotifyDragEnd(StartIndex, EndIndex);
         TouchUpdate = NotTouching;
+        listController.listIds();
     }
 
     public void NotTouching()
@@ -107,7 +115,7 @@ public class DragController : MonoBehaviour
         {
             if(YCoord > (listController.GetSlab(i+1).GetComponent<Magnetor>().Destination.y+50.0f))
             {
-                Debug.Log("<color=purple>Pos in list: " + i + "</color>");
+                //Debug.Log("<color=purple>Pos in list: " + i + "</color>");
                 return i;
             }
         }

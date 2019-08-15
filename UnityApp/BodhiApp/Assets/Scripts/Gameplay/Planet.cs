@@ -5,7 +5,6 @@ using TMPro;
 
 public class Planet : MonoBehaviour
 {
-
     public bool OuterRing;
     public bool MiddleRing;
     public bool InnerRing;
@@ -77,6 +76,14 @@ public class Planet : MonoBehaviour
     public void SetRadius(float NewRadius)
     {
         RadiusTransform.localPosition = NewRadius * Vector3.left;
+    }
+
+    public virtual void MakePlanetControllerProceedToNextScreen(PlanetGameController controller)
+    {
+        PlayerPrefs.SetString("MinesweeperPrefab", MinesweeperType);
+        PlayerPrefs.SetString("ContentType", Category);
+        PlayerPrefs.SetString("ContentTopic", Topic);
+        controller.PlanetsToSweeperSequence();
     }
 
 

@@ -20,4 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Favorites.unity
     guid: 9e74d64c3831d4e2ab8b6fb0a6ced0d4
+  - enabled: 1
+    path: Assets/Scenes/Compose.unity
+    guid: 75e9f5869fd3741318e7911913381ef1
+  - enabled: 1
+    path: Assets/Scenes/Avatar.unity
+    guid: 7123f3ddb6a7947569af7a25d597ffcb
   m_configObjects: {}

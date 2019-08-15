@@ -541,7 +541,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 97f9450149a134733a14ff2139f38777, type: 3}
+  - {fileID: 2100000, guid: b207f5e45b7834a48b76a12e506a2fa3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -655,7 +655,9 @@ MonoBehaviour:
   InnerRing: 1
   ScaleObject: {fileID: 2538147952766989172}
   RadiusTransform: {fileID: 8816936985492636144}
-  PlanetName: 
+  MinesweeperType: 
+  Category: 
+  Topic: 
   OuterRingObject: {fileID: 2538147952766496592}
   MiddleRingObject: {fileID: 2538147952766496598}
   InnerRingObject: {fileID: 2538147952766496594}

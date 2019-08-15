@@ -24,7 +24,7 @@ public class Favorites_REST
 
 public class FavsController : MonoBehaviour
 {
-
+    public static FavsController instance;
     //public FavItem[] favItems;
 
     public ContentsManager contentsManager;
@@ -38,6 +38,17 @@ public class FavsController : MonoBehaviour
     public GameObject SlabPrefab;
     public UIFader fader;
     float CurrentDestinationY = 665.0f;
+
+    void Awake()
+    {
+        instance = this;
+    }
+
+    public static FavsController GetSingleton()
+    {
+        return instance;
+    }
+
     // Start is called before the first frame update
     IEnumerator Start()
     {
@@ -53,7 +64,6 @@ public class FavsController : MonoBehaviour
                 Color col = ColorByCategory.GetSingleton().ResolveColor(favs.favorites[i]);
                 favItems.Add(new FavItem(favs.favorites[i], col));
             }
-            return 0;
         });
 
         foreach(FavItem item in favItems)
@@ -100,10 +110,9 @@ public class FavsController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void NotifyDragEnd(int pos1, int pos2)
     {
-
+        API.GetSingleton().ReorderFavorite(PlayerPrefs.GetString("UserId"), pos1, pos2);
     }
 
     Slab SpawnSlab(Vector2 destination, Vector2 initialPosition)

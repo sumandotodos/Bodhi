@@ -47,25 +47,31 @@ public class REST : MonoBehaviour
         Headers = _Headers;
     }
 
-    public Coroutine GET(string url, System.Func<string, string, int> callback)
+    public Coroutine GET(string url, System.Action<string, string> callback)
     {
         UnityWebRequest res = UnityWebRequest.Get(url);
         return StartCoroutine(REST_Coroutine(res, url, callback));
     }
 
-    public Coroutine DELETE(string url, System.Func<string, string, int> callback)
+    public Coroutine DELETE(string url, System.Action<string, string> callback)
     {
         UnityWebRequest res = UnityWebRequest.Delete(url);
         return StartCoroutine(REST_Coroutine(res, url, callback));
     }
 
-    public Coroutine PUT(string url, string body, System.Func<string, string, int> callback)
+    public Coroutine PUT(string url, string body, System.Action<string, string> callback)
     {
         UnityWebRequest res = UnityWebRequest.Put(url, body);
         return StartCoroutine(REST_Coroutine(res, url, callback));
     }
 
-    public Coroutine POST(string url, string body, System.Func<string, string, int> callback)
+    public Coroutine PUT(string url, byte[] bodyData, System.Action<string, string> callback)
+    {
+        UnityWebRequest res = UnityWebRequest.Put(url, bodyData);
+        return StartCoroutine(REST_Coroutine(res, url, callback));
+    }
+
+    public Coroutine POST(string url, string body, System.Action<string, string> callback)
     {
         WWWForm form = new WWWForm();
         form.AddField("comment", body);
@@ -73,7 +79,7 @@ public class REST : MonoBehaviour
         return StartCoroutine(REST_Coroutine(res, url, callback));
     }
 
-    IEnumerator REST_Coroutine(UnityWebRequest res, string url, System.Func<string, string, int> callback)
+    IEnumerator REST_Coroutine(UnityWebRequest res, string url, System.Action<string, string> callback)
     {
         if(loadWaitController_N!=null)
         {
@@ -109,7 +115,21 @@ public class REST : MonoBehaviour
         Debug.Log("Break out of do while");
         if (callback != null)
         {
-            callback(res.error, res.downloadHandler.text);
+            if (res != null)
+            {
+                if (res.downloadHandler != null)
+                {
+                    callback(res.error, res.downloadHandler.text);
+                }
+                else
+                {
+                    Debug.Log("   >>> REST: res.downloadHandler is shit");
+                }
+            }
+            else
+            {
+                Debug.Log("   >>> REST: res is shit");
+            }
         }
 
         if (loadWaitController_N != null)

@@ -18,15 +18,23 @@ public class API : MonoBehaviour
         return instance;
     }
 
-    public Coroutine PostComment(string userid, string body, System.Func<string, string, int> callback)
+    public Coroutine PostComment(string userid, string body, string prefix, System.Action<string, string> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
-            "/item/comment";
+            "/item/comment/"+prefix;
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
         return REST.GetSingleton().POST(url, body, callback);
     }
 
-    public Coroutine GetFavoritesList(string userid, System.Func<string, string, int> callback)
+    public Coroutine PutAvatar(string userid, byte[] data, System.Action<string, string> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+          "/item/avatar";
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        return REST.GetSingleton().PUT(url, data, callback);
+    }
+
+    public Coroutine GetFavoritesList(string userid, System.Action<string, string> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
           "/item/favorites";
@@ -34,7 +42,7 @@ public class API : MonoBehaviour
         return REST.GetSingleton().GET(url, callback);
     }
 
-    public void IsFavorite(string userid, string contentid, System.Func<bool, int> callback)
+    public void IsFavorite(string userid, string contentid, System.Action<bool> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
           "/item/favorite/" + contentid;
@@ -43,7 +51,6 @@ public class API : MonoBehaviour
         {
             RESTResult_Bool IsFav = JsonUtility.FromJson<RESTResult_Bool>(text);
             callback(IsFav.result);
-            return 0;
         });
     }
 
@@ -55,7 +62,18 @@ public class API : MonoBehaviour
         REST.GetSingleton().POST(url, contentid, (err,text) => {
             Debug.Log("POST error: " + err);
             Debug.Log("POST response: " + text);
-                return 0; });
+          });
+    }
+
+    public void ReorderFavorite(string userid, int fav1, int fav2)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+            "/item/exchangefavorite/" + fav1 + "/" + fav2;
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        REST.GetSingleton().POST(url, "", (err, text) =>
+        {
+            Debug.Log("Exchange response: " + text);
+        });
     }
 
     public void DestroyFavorite(string userid, string contentid)
@@ -66,7 +84,6 @@ public class API : MonoBehaviour
         REST.GetSingleton().DELETE(url, (err, text) => {
             Debug.Log("DELETE error: " + err);
             Debug.Log("DELETE response: " + text);
-            return 0;
         });
     }
 

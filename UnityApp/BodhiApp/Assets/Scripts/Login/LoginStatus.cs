@@ -41,13 +41,11 @@ public class LoginStatus : MonoBehaviour
                     }
                     LightImage.texture = loginStatusData.loggedIn ? LoggedInTex : LoggedOutTex;
                     LabelText.text = loginStatusData.loggedIn ? LoginString + loginStatusData.id : LogoutString;
-                    return 0;
                 }
                 else
                 {
                     LightImage.texture = LoggedOutTex;
                     LabelText.text = LogoutString;
-                    return 0;
                 }
             });
     }
