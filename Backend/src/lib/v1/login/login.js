@@ -108,19 +108,24 @@ router.get('/user/:deviceuuid/:apptoken', function(req, res) {
 		}
 		else if (user==null) {
 			GetAndIncrementCounter( function(result) {
-				Users.create({_id:result, appid:apptoken, deviceuuid:deviceuuid, handle:result}, function(err, user) {
+				Users.create({_id:result, appid:apptoken, deviceuuid:deviceuuid, handle:result,
+						views:0, upvotes:0, downvotes:0, favoritized:0}, function(err, user) {
 					if(err!=null) {
+						console.log("error: " + err)
 						res.status(500).json({result:'error', error:err})
 					}
 					else {
+						console.log("AOK")
 						res.json({result:user._id})
 					}
 				})
 			}, function(err) {
+				console.log("error: " + err)
 				res.status(500).json({result:'error', error:err})
 			})
 		}
 		else {
+			console.log("AOK")
 			res.json({result:user._id})
 		}
 	})

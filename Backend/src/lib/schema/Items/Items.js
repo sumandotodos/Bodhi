@@ -5,6 +5,8 @@ const ItemSchema = new mongoose.Schema({
 	_userid: String,
 	upvotes: Number,
 	downvotes: Number,
+	views: Number,
+	favoritized: Number,
 	type: String,
 	content: String,
 	validated: Boolean

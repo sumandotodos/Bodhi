@@ -5,7 +5,11 @@ const UserSchema = new mongoose.Schema({
 	_id: String,
 	appid: String,
 	deviceuuid: String,
-	handle: String
+	handle: String,
+	views: Number,
+	upvotes: Number,
+	downvotes: Number,
+	favoritized: Number
 })
 mongoose.model('Users', UserSchema)
 

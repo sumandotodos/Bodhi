@@ -88,9 +88,9 @@ router.get('/comments', function(req, res) {
         const owner = req.headers["userid"]
         Items.find({_userid:owner}, function(err, items) {
                 result = []
-                if(items != null) {
+		if(items != null) {
                         for(var i = 0; i < items.length; ++i) {
-                                result.push(items[i]._id)
+                                result.push(items[i])
                         }
                 }
                 res.json({result:result})
@@ -100,6 +100,7 @@ router.get('/comments', function(req, res) {
 router.get('/comment/:id', function(req, res) {
         const owner = req.headers["userid"]
         const id = req.params["id"]
+	// incremening views should go here, i presume...
 	Items.findOne({_id:id}, function(err, item) {
 		if(err != null) {
 			res.status(500).json({result:'error', error:err})
@@ -108,6 +109,9 @@ router.get('/comment/:id', function(req, res) {
 			res.status(404).json({result:'not found'})
 		}
 		else {
+			item.views = item.views+1
+			item.markModified('views')
+			item.save()
 			res.json(item)
 		}
 	})
@@ -191,6 +195,7 @@ router.post('/favorite/:id', function(req, res) {
 	console.log("Favoriting: " + id + " by " + currentUser)
 
 	Favorites.findOne({_userid:currentUser}, function(err, fav) {
+		var success = false
 		if(err != null) {
 			res.status(500).json({result:'error', error:err})
 		} 
@@ -200,6 +205,7 @@ router.post('/favorite/:id', function(req, res) {
 					res.status(500).json({result:'error', error:err})
 				} 
 				else {
+					success = true	
 					res.json({result:'success'})
 				}
 			})
@@ -207,7 +213,21 @@ router.post('/favorite/:id', function(req, res) {
 		else {
 			fav.favorites.push(id)
 			fav.save()
+			success = true
 			res.json({result:'success'})
+		}
+		if(success) {
+			Items.findOne({_id:id}, function(err, item) {
+                                        if(err == null && item != null) {
+                                                var owner = item._userid
+                                                Users.findOne({_id:owner}, function(err, user) {
+                                                        if(err == null && user != null) {
+                                                                user.favoritized++
+                                                                user.save()
+                                                        }
+                                                })
+                                        }
+                         })
 		}
 	})	
 })
@@ -276,6 +296,17 @@ router.delete('/favorite/:id', function(req, res) {
 			if(indexOfFav != -1) {
 				fav.favorites.splice(indexOfFav,1)
 				fav.save()
+				Items.findOne({_id:id}, function(err, item) {
+					if(err == null && item != null) {
+						var owner = item._userid
+						Users.findOne({_id:owner}, function(err, user) {
+                                        		if(err == null && user != null) {
+                                                		user.favoritized = user.favoritized > 0 ? user.favoritized - 1 : 0
+                                                		user.save()
+                                        		}
+                                		})
+					}
+				})
 				res.json({result:'success'})
 			}
 			else {
@@ -295,8 +326,16 @@ router.post('/upvote/:id', function(req, res) {
 			res.json({result:'error', error:'no data'})
 		}
 		else {
+			// do not check state change: not critical
 			item.upvotes++
 			item.save()
+			var owner = item._userid
+			Users.findOne({_id:owner}, function(err, user) {
+				if(err == null && user != null) {
+					user.upvotes++
+					user.save()
+				}
+			})	
 			res.json({result:item.upvotes})
 		}
 	})	
@@ -312,8 +351,16 @@ router.post('/downvote/:id', function(req, res) {
                         res.json({result:'error', error:'no data'})
                 }
                 else {
+			// do not check state change: not critical
                         item.downvotes++
                         item.save()
+			var owner = item._userid
+			Users.findOne({_id:owner}, function(err, user) {
+                                if(err == null && user != null) {
+                                        user.downvotes++
+                                        user.save()
+                                }
+                        })
 			res.json({result:item.downvotes})
                 }
         })
@@ -323,7 +370,7 @@ router.post('/comment/:prefix', function(req, res) {
 	const owner = req.headers["userid"]
 	const prefix = req.params["prefix"]
 	newId = prefix + mongoose.Types.ObjectId().toString()	
-	Items.create({_id:newId,_userid:owner,upvotes:0,downvotes:0,type:'comment',content:req.body.comment,validated:false}, function(err, item) {
+	Items.create({_id:newId,_userid:owner,views:0,favoritized:0,upvotes:0,downvotes:0,type:'comment',content:req.body.comment,validated:false}, function(err, item) {
 		if (err != null) {
 			res.status(500).json({result:'error', error:err})
 		}
@@ -335,7 +382,7 @@ router.post('/comment/:prefix', function(req, res) {
 
 router.put('/comment', function(req, res) {
         const owner = req.headers["userid"]
-
+	// should remove this one?
         console.log(" put comment called, user: " + owner + ", comment body: " + JSON.stringify(req.body))
 
 	res.json({result:'success'})
@@ -352,7 +399,7 @@ router.post('/echo/:id', function(req, res) {
 		console.log("El comentario no es null: " + res.body + ", y esta niña cocina muy bien, tendríamos que llevarla a Master Chef")
 	}
 	const owner = req.headers["userid"]
-	Items.create({_id:new mongoose.Types.ObjectId(), _userid:owner,
+	Items.create({_id:new mongoose.Types.ObjectId(), _userid:owner, views:0, favoritized:0,
 	upvotes:0, downvotes:0, type:'echo', content:JSON.stringify({_id:originalPost,comment:isThereBodyData ? null : comment})},
 		function(err, item) {
 			if (err != null) {
