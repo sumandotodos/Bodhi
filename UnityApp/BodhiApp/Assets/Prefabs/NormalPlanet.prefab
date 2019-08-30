@@ -661,6 +661,7 @@ MonoBehaviour:
   OuterRingObject: {fileID: 2538147952766496592}
   MiddleRingObject: {fileID: 2538147952766496598}
   InnerRingObject: {fileID: 2538147952766496594}
+  PlanetObject: {fileID: 2538147952766496604}
 --- !u!1 &2834618933775803480
 GameObject:
   m_ObjectHideFlags: 0

@@ -70,8 +70,9 @@ public class PlanetGameController : MonoBehaviour
         yield return SceneManager.LoadSceneAsync("Minesweeper");
     }
 
-    public void PlanetsToFavoritesSequence()
+    public void PlanetsToFavoritesSequence(TypeOfContent favType)
     {
+        PlayerPrefs.SetString("FavoriteType", Heart.FavTypeToString(favType));
         StartCoroutine(_PlanetsToFavoritesSequence());
     }
 

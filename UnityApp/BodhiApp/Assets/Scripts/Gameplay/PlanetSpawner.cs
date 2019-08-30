@@ -8,11 +8,15 @@ public class PlanetSpawner : MonoBehaviour
     public GameObject IdeasPrefab;
     public GameObject CameraPrefab;
     public GameObject FavsPrefab;
+    public GameObject IdeaFavsPrefab;
+    public GameObject QuestionsFavsPrefab;
     public GameObject WritePrefab;
     public GameObject MessagesPrefab;
     public Transform PlanetsParent;
     public SpriteRenderer spriteRenderer;
     public AvatarTaker avatarTaker;
+    public Material[] planetMats;
+    public PlanetHandleController planetHandleController;
 
     public string DefaultCase = "";
 
@@ -55,14 +59,25 @@ public class PlanetSpawner : MonoBehaviour
 
     public void SetUpHome()
     {
-        GameObject newGO = (GameObject)Instantiate(FavsPrefab);
+        GameObject newGO = (GameObject)Instantiate(IdeaFavsPrefab);
         newGO.transform.SetParent(PlanetsParent);
         newGO.transform.localScale = Vector3.one;
         Planet newPlanet = newGO.GetComponent<Heart>();
         newPlanet.Start();
         newGO.transform.position = Vector3.zero;
         newGO.transform.rotation = Quaternion.Euler(6.0f, 100.0f, 0.0f);
-        newPlanet.SetLabel("Favoritos");
+        //newPlanet.SetLabel("Favoritos");
+        newPlanet.SetScale(0.8f);
+        newPlanet.SetRadius(3.8f);
+
+        newGO = (GameObject)Instantiate(QuestionsFavsPrefab);
+        newGO.transform.SetParent(PlanetsParent);
+        newGO.transform.localScale = Vector3.one;
+        newPlanet = newGO.GetComponent<Heart>();
+        newPlanet.Start();
+        newGO.transform.position = Vector3.zero;
+        newGO.transform.rotation = Quaternion.Euler(6.0f, 130.0f, 0.0f);
+        //newPlanet.SetLabel("Favoritos");
         newPlanet.SetScale(0.8f);
         newPlanet.SetRadius(3.8f);
 
@@ -88,10 +103,23 @@ public class PlanetSpawner : MonoBehaviour
         newPlanet.SetScale(1.0f);
         newPlanet.SetRadius(3.0f);
 
+        newGO = (GameObject)Instantiate(MessagesPrefab);
+        newGO.transform.SetParent(PlanetsParent);
+        newGO.transform.localScale = Vector3.one;
+        newPlanet = newGO.GetComponent<LetterPlanet>();
+        newPlanet.Start();
+        newPlanet.SetLabel("Mensajes");
+        newGO.transform.position = Vector3.zero;
+        newGO.transform.rotation = Quaternion.Euler(-8.0f, 200.0f, 0.0f);
+        newPlanet.SetScale(1.0f);
+        newPlanet.SetRadius(3.5f);
+
         Texture2D avatarTex = avatarTaker.ApplyMaskTexture(avatarTaker.LoadAvatar());
         Sprite avatarSprite = Sprite.Create(avatarTex, new Rect(0, 0, avatarTex.width, avatarTex.height), new Vector2(0.5f, 0.5f));
         spriteRenderer.enabled = true;
         spriteRenderer.sprite = avatarSprite;
+
+        planetHandleController.ShowHandle();
     }
 
     public void SetUpIdeas()
@@ -100,6 +128,7 @@ public class PlanetSpawner : MonoBehaviour
         newGO.transform.SetParent(PlanetsParent);
         newGO.transform.localScale = Vector3.one;
         Planet newPlanet = newGO.GetComponent<Planet>();
+        newPlanet.SetMaterial(planetMats[0]);
         newPlanet.InnerRing = true;
         newPlanet.OuterRing = true;
         newPlanet.MiddleRing = true;
@@ -115,6 +144,7 @@ public class PlanetSpawner : MonoBehaviour
         newGO.transform.SetParent(PlanetsParent);
         newGO.transform.localScale = Vector3.one;
         newPlanet = newGO.GetComponent<Planet>();
+        newPlanet.SetMaterial(planetMats[1]);
         newPlanet.SetCategoryAndTopic("Arreglar el mundo", "Mejora del mundo");
         newPlanet.MinesweeperType = "Factory";
         newPlanet.InnerRing = false;
@@ -125,6 +155,8 @@ public class PlanetSpawner : MonoBehaviour
         newGO.transform.rotation = Quaternion.Euler(-4.0f, -42.0f, 0.0f);
         newPlanet.SetScale(1.0f);
         newPlanet.SetRadius(4.0f);
+
+        planetHandleController.HideHandle();
     }
 
     public void SetUpQuestions()
@@ -133,13 +165,14 @@ public class PlanetSpawner : MonoBehaviour
         newGO.transform.SetParent(PlanetsParent);
         newGO.transform.localScale = Vector3.one;
         Planet newPlanet = newGO.GetComponent<Planet>();
+        newPlanet.SetMaterial(planetMats[2]);
         newPlanet.InnerRing = true;
         newPlanet.OuterRing = true;
         newPlanet.MiddleRing = true;
         newPlanet.Start();
         newGO.transform.position = Vector3.zero;
         newGO.transform.rotation = Quaternion.Euler(12.0f, 100.0f, 1.0f);
-        newPlanet.SetCategory("Autoconocimiento");
+        newPlanet.SetCategoryAndTopic("Autoconocimiento", "Autoconocimiento");
         newPlanet.SetScale(0.8f);
         newPlanet.SetRadius(3.8f);
         newPlanet.MinesweeperType = "Lighthouse";
@@ -148,7 +181,8 @@ public class PlanetSpawner : MonoBehaviour
         newGO.transform.SetParent(PlanetsParent);
         newGO.transform.localScale = Vector3.one;
         newPlanet = newGO.GetComponent<Planet>();
-        newPlanet.SetCategory("Agobios");
+        newPlanet.SetMaterial(planetMats[3]);
+        newPlanet.SetCategoryAndTopic("Agobios", "Agobios");
         newPlanet.MinesweeperType = "Apartment";
         newPlanet.InnerRing = false;
         newPlanet.OuterRing = false;
@@ -163,7 +197,8 @@ public class PlanetSpawner : MonoBehaviour
         newGO.transform.SetParent(PlanetsParent);
         newGO.transform.localScale = Vector3.one;
         newPlanet = newGO.GetComponent<Planet>();
-        newPlanet.SetCategory("Trascendencia");
+        newPlanet.SetMaterial(planetMats[4]);
+        newPlanet.SetCategoryAndTopic("Trascendencia", "Trascendencia");
         newPlanet.MinesweeperType = "Temple";
         newPlanet.InnerRing = false;
         newPlanet.OuterRing = true;
@@ -173,6 +208,8 @@ public class PlanetSpawner : MonoBehaviour
         newGO.transform.rotation = Quaternion.Euler(-4.0f, -82.0f, -1.0f);
         newPlanet.SetScale(0.75f);
         newPlanet.SetRadius(4.2f);
+
+        planetHandleController.HideHandle();
     }
 
     public void SetUpPersons()

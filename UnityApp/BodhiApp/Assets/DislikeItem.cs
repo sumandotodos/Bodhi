@@ -5,15 +5,15 @@ using UnityEngine;
 public class DislikeItem : MonoBehaviour
 {
     public Slab slab;
-    FavsController favsController;
+    ItemsController itemsController;
 
     private void Awake()
     {
-        favsController = FindObjectOfType<FavsController>();
+        itemsController = FindObjectOfType<ItemsController>();
     }
 
     public void Dislike()
     {
-        favsController.Dislike(slab.id, slab.Index);
+        itemsController.Dislike(slab.id, slab.Index);
     }
 }

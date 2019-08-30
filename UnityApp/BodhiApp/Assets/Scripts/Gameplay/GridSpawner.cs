@@ -142,6 +142,8 @@ public class GridSpawner : MonoBehaviour
             FadeCellAt(i, j, 1);
             return;
         }
+
+        cells[i, j].gameObject.GetComponentInChildren<SoundEffect>().PlaySoundFromList();
         touchScore = 0;
         touchScoreAveragePosition = Vector2.zero;
         AddPropagator(i, j, 1);
