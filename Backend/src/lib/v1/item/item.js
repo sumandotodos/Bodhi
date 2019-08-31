@@ -5,6 +5,7 @@ const Items = require('../../schema/Items/Items').model
 const Users = require('../../schema/Users/Users').model
 const Favorites = require('../../schema/Favorites/Favorites').model
 const Avatars = require('../../schema/Avatars/Avatars').model
+const helpers = require('../Helpers')
 
 router.put('/avatar', function(req, res) {
         const currentUser = req.headers["userid"]
@@ -53,6 +54,18 @@ function RetrieveAvatarForUser(user, res) {
 		}
 	})
 }
+
+router.get('/favoritesandupvotescount', function(req, res) {
+        const currentUser = req.headers["userid"]
+        helpers.gatherUpvotesAndFavorites(currentUser,
+                function(result) {
+                        res.json(result)
+                },
+                function(error) {
+                        res.status(500).json(error)
+                }
+        )
+})
 
 router.get('/avatar', function(req, res) {
         const user = req.headers["userid"]
@@ -134,7 +147,27 @@ router.get('/list/:userid', function(req, res) {
                 }
         })
 })
-
+/*
+function gatherUpvotesAndFavorites(userId, successCallback, errorCallback) {
+	Items.find({_userid:userId}, function(err, items) {
+		if(err != null) {
+			errorCallback(err)
+		}
+		else if (items == null) {
+			successCallback({upvotes:0, favorites:0})
+		}
+		else {
+			var upvotes = 0
+			var favorites = 0
+			for(var i = 0; i < items.length; ++i) {
+				favorites += items[i].favoritized
+				upvotes += items[i].upvotes
+			}
+			successCallback({upvotes:upvotes,favorites:favorites})
+		}
+	})
+}
+*/
 router.get('/favorites', function(req, res) {
         const currentUser = req.headers["userid"]
 
@@ -219,13 +252,15 @@ router.post('/favorite/:id', function(req, res) {
 		if(success) {
 			Items.findOne({_id:id}, function(err, item) {
                                         if(err == null && item != null) {
-                                                var owner = item._userid
-                                                Users.findOne({_id:owner}, function(err, user) {
-                                                        if(err == null && user != null) {
-                                                                user.favoritized++
-                                                                user.save()
-                                                        }
-                                                })
+                                                item.favoritized++
+						item.save()
+						//var owner = item._userid
+                                                //Users.findOne({_id:owner}, function(err, user) {
+                                                //        if(err == null && user != null) {
+                                                //                user.favoritized++
+                                                //                user.save()
+                                                //        }
+                                                //})
                                         }
                          })
 		}
@@ -296,17 +331,17 @@ router.delete('/favorite/:id', function(req, res) {
 			if(indexOfFav != -1) {
 				fav.favorites.splice(indexOfFav,1)
 				fav.save()
-				Items.findOne({_id:id}, function(err, item) {
-					if(err == null && item != null) {
-						var owner = item._userid
-						Users.findOne({_id:owner}, function(err, user) {
-                                        		if(err == null && user != null) {
-                                                		user.favoritized = user.favoritized > 0 ? user.favoritized - 1 : 0
-                                                		user.save()
-                                        		}
-                                		})
-					}
-				})
+				//Items.findOne({_id:id}, function(err, item) {
+				//	if(err == null && item != null) {
+						//var owner = item._userid
+						//Users.findOne({_id:owner}, function(err, user) {
+                                        	//	if(err == null && user != null) {
+                                                //		user.favoritized = user.favoritized > 0 ? user.favoritized - 1 : 0
+                                                //		user.save()
+                                        	//	}
+                                		//})
+				//	}
+				//})
 				res.json({result:'success'})
 			}
 			else {
@@ -329,13 +364,13 @@ router.post('/upvote/:id', function(req, res) {
 			// do not check state change: not critical
 			item.upvotes++
 			item.save()
-			var owner = item._userid
-			Users.findOne({_id:owner}, function(err, user) {
-				if(err == null && user != null) {
-					user.upvotes++
-					user.save()
-				}
-			})	
+			//var owner = item._userid
+			//Users.findOne({_id:owner}, function(err, user) {
+			//	if(err == null && user != null) {
+			//		user.upvotes++
+			//		user.save()
+			//	}
+			//})	
 			res.json({result:item.upvotes})
 		}
 	})	
@@ -354,13 +389,13 @@ router.post('/downvote/:id', function(req, res) {
 			// do not check state change: not critical
                         item.downvotes++
                         item.save()
-			var owner = item._userid
-			Users.findOne({_id:owner}, function(err, user) {
-                                if(err == null && user != null) {
-                                        user.downvotes++
-                                        user.save()
-                                }
-                        })
+			//var owner = item._userid
+			//Users.findOne({_id:owner}, function(err, user) {
+                        //        if(err == null && user != null) {
+                        //                user.downvotes++
+                        //                user.save()
+                        //        }
+                        //})
 			res.json({result:item.downvotes})
                 }
         })

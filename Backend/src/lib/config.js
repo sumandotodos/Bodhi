@@ -22,13 +22,15 @@ const ProductionConfig = {
 
 function patchInEnv()
 {
-	if (process.env.AWSACCESSKEY != "")
+	if (process.env.AWSACCESSKEY != undefined && process.env.AWSACCESSKEY != "")
 	{
 		config.accessKeyId = process.env.AWSACCESSKEY
+		console.log("Using AWS access key: " + config.accessKeyId)
 	}
-	if (process.env.AWSSECRETKEY != "")
+	if (process.env.AWSSECRETKEY != undefined && process.env.AWSSECRETKEY != "")
 	{
 		config.secretAccessKey = process.env.AWSSECRETKEY
+		console.log("Using AWS secret key: " + config.secretAccessKey)
 	}
 	//if (process.env.DBHOST != "")
 	//{
