@@ -71,10 +71,26 @@ public class API : MonoBehaviour
         return REST.GetSingleton().GET(url, callback);
     }
 
+    public Coroutine GetUnreadMessagesCount(string userid, System.Action<string, string> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+          "/message/unreadcount";
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        return REST.GetSingleton().GET(url, callback);
+    }
+
     public Coroutine GetContributionsList(string userid, System.Action<string, string> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
           "/item/comments";
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        return REST.GetSingleton().GET(url, callback);
+    }
+
+    public Coroutine GetMessagesList(string userid, System.Action<string, string> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+          "/message/";
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
         return REST.GetSingleton().GET(url, callback);
     }

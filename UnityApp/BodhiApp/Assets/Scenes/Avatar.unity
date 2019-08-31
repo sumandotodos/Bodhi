@@ -601,7 +601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceae83588b3a04caaaf19396091baf24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForceId: 9
+  ForceId: 
   loginStatus: {fileID: 0}
   FBfader: {fileID: 0}
   GIFader: {fileID: 0}

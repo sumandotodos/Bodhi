@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1080856131}
   - component: {fileID: 1080856130}
   - component: {fileID: 1080856129}
+  - component: {fileID: 5451210454172361684}
   m_Layer: 0
   m_Name: NewMessages
   m_TagString: Untagged
@@ -223,6 +224,19 @@ MonoBehaviour:
   Camera_A: {fileID: 0}
   Height: 0
   ParentLocation: {fileID: 0}
+--- !u!114 &5451210454172361684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1080856127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7478fcc5ee5b647beac1219bc36748e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 1080856130}
 --- !u!135 &1264331319
 SphereCollider:
   m_ObjectHideFlags: 0
