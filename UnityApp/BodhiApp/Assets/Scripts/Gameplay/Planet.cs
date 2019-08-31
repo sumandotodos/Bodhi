@@ -19,6 +19,7 @@ public class Planet : MonoBehaviour
     public GameObject OuterRingObject;
     public GameObject MiddleRingObject;
     public GameObject InnerRingObject;
+    public GameObject PlanetObject;
 
     bool started = false;
 
@@ -84,6 +85,14 @@ public class Planet : MonoBehaviour
         PlayerPrefs.SetString("ContentType", Category);
         PlayerPrefs.SetString("ContentTopic", Topic);
         controller.PlanetsToSweeperSequence();
+    }
+
+    public void SetMaterial(Material m)
+    {
+        OuterRingObject.GetComponent<MeshRenderer>().material = m;
+        MiddleRingObject.GetComponent<MeshRenderer>().material = m;
+        InnerRingObject.GetComponent<MeshRenderer>().material = m;
+        PlanetObject.GetComponent<MeshRenderer>().material = m;
     }
 
 

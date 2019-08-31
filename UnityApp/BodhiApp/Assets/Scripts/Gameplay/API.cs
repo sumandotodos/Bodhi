@@ -18,6 +18,27 @@ public class API : MonoBehaviour
         return instance;
     }
 
+    public Coroutine GetHandle(string userid, System.Action<string, string> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+            "/login/handle/" + userid;
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        return REST.GetSingleton().GET(url, (err, response) => 
+            {
+                RESTResult_String Result = JsonUtility.FromJson<RESTResult_String>(response);
+                callback(err, Result.result);
+            });
+    }
+
+    public Coroutine UpdateHandle(string userid, string newHandle, System.Action<string, string> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+            "/login/handle";
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        REST.GetSingleton().AddHeader("content-type", "text/plain");
+        return REST.GetSingleton().PUT(url, newHandle, callback);
+    }
+
     public Coroutine PostComment(string userid, string body, string prefix, System.Action<string, string> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
@@ -34,10 +55,26 @@ public class API : MonoBehaviour
         return REST.GetSingleton().PUT(url, data, callback);
     }
 
+    public Coroutine GetItemContent(string itemid, System.Action<string, string> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+          "/item/" + itemid;
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        return REST.GetSingleton().GET(url, callback);
+    }
+
     public Coroutine GetFavoritesList(string userid, System.Action<string, string> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
           "/item/favorites";
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        return REST.GetSingleton().GET(url, callback);
+    }
+
+    public Coroutine GetContributionsList(string userid, System.Action<string, string> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+          "/item/comments";
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
         return REST.GetSingleton().GET(url, callback);
     }

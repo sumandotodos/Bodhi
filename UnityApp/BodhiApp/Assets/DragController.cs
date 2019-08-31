@@ -59,7 +59,7 @@ public class DragController : MonoBehaviour
         slabTransform.GetComponent<Magnetor>().Going = true;
         EndIndex = CalculatePositionInList(slabTransform.GetComponent<Magnetor>().Destination.y);
         //Debug.Log("<color=green>Exchange " + StartIndex + " to " + EndIndex + "</color>");
-        FavsController.GetSingleton().NotifyDragEnd(StartIndex, EndIndex);
+        ItemsController.GetSingleton().NotifyDragEnd(StartIndex, EndIndex);
         TouchUpdate = NotTouching;
         listController.listIds();
     }

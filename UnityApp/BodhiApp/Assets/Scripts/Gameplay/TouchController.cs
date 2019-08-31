@@ -14,7 +14,7 @@ public class TouchController : MonoBehaviour
     float Yaw = 0.0f;
     float Pitch = 0.0f;
 
-    float YawSpeed = 0;
+    public float YawSpeed = 0;
     float PitchSpeed = 0;
 
     public float Accel = 100.0f;
@@ -22,10 +22,14 @@ public class TouchController : MonoBehaviour
     float YawAccel = 0.0f;
     public float DeltaPixelsToSpeed = 1.0f;
 
+    public float RefreshTime = 0.32f;
+    float Remaining;
+
     // Start is called before the first frame update
     void Start()
     {
         updateDelegate = notTouchingUpdate;
+        Remaining = RefreshTime;
     }
 
     // Update is called once per frame
@@ -33,6 +37,16 @@ public class TouchController : MonoBehaviour
     {
         updateDelegate();
         updatePitchYaw();
+    }
+
+    private void LateUpdate()
+    {
+        Remaining -= Time.deltaTime;
+        if (Remaining <= 0.0f)
+        {
+            Remaining = RefreshTime;
+            lastFrameCoordinates = Input.mousePosition;
+        }
     }
 
     private void updatePitchYaw()
@@ -69,6 +83,8 @@ public class TouchController : MonoBehaviour
             updateDelegate = notTouchingUpdate;
             PitchSpeed = DeltaPixelsToSpeed * -(Input.mousePosition.y - lastFrameCoordinates.y);
             YawSpeed = DeltaPixelsToSpeed * (Input.mousePosition.x - lastFrameCoordinates.x);
+
+            Debug.Log("<color=blue>" + YawSpeed + "</color>");
             if(PitchSpeed > 0.0f)
             {
                 PitchAccel = -Accel;
@@ -87,7 +103,7 @@ public class TouchController : MonoBehaviour
             }
 
         }
-        lastFrameCoordinates = Input.mousePosition;
+
     }
 
     void notTouchingUpdate()

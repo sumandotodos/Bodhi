@@ -17,7 +17,10 @@ public class LoginConfigurations : MonoBehaviour
     public static string Version = "V 1.0.0";
     public static void init()
     {
-        Headers.Add("psk", PSK);
+        if (!Headers.ContainsKey("psk"))
+        {
+            Headers.Add("psk", PSK);
+        }
     }
 
     /* Instagram app code & secret */

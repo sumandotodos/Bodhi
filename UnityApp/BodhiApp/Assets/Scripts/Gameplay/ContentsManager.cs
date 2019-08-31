@@ -168,4 +168,17 @@ public class ContentsManager : MonoBehaviour
     {
         category = new List<Category>();
     }
+
+    public TypeOfContent TypeFromId(string id)
+    {
+        string[] fields = id.Split(':');
+        int catIndex;
+        int.TryParse(fields[0], out catIndex);
+        if(catIndex<0)
+        {
+            catIndex = (-catIndex) - 1;
+        }
+
+        return category[catIndex].typeOfContent;
+    }
 }

@@ -10664,7 +10664,7 @@ MonoBehaviour:
       - {fileID: 7489660622710325620}
       - {fileID: 7489660623025526171}
   - name: Autoconocimiento
-    typeOfContent: 1
+    typeOfContent: 0
     hasHeader: 0
     topics:
     - name: Autoconocimiento
@@ -10692,7 +10692,7 @@ MonoBehaviour:
       - {fileID: 7489660623232435524}
       - {fileID: 7489660623717706116}
   - name: Trascendencia
-    typeOfContent: 1
+    typeOfContent: 0
     hasHeader: 1
     topics:
     - name: Trascendencia
@@ -10744,7 +10744,7 @@ MonoBehaviour:
       - {fileID: 7489660624018649843}
       - {fileID: 7489660623383112281}
   - name: Agobios
-    typeOfContent: 1
+    typeOfContent: 0
     hasHeader: 1
     topics:
     - name: Agobios

@@ -7,7 +7,8 @@ public class CameraFacingBillboard : MonoBehaviour
 
     public float Height = 0.0f;
 
-    Vector3 InitialPosition;
+    Vector3 InitialLocalPosition;
+    public Transform ParentLocation;
 
     private void Awake()
     {
@@ -15,7 +16,11 @@ public class CameraFacingBillboard : MonoBehaviour
         {
             Camera_A = FindObjectOfType<Camera>();
         }
-        InitialPosition = this.transform.position;
+        if(ParentLocation == null)
+        {
+            ParentLocation = this.transform;
+        }
+        InitialLocalPosition = this.transform.localPosition;
     }
 
     //Orient the camera after all movement is completed this frame to avoid jittering
@@ -26,7 +31,13 @@ public class CameraFacingBillboard : MonoBehaviour
 
         if (Height > 0.0f)
         {
-            this.transform.position = InitialPosition + (Camera_A.transform.position - InitialPosition).normalized * Height;
+            this.transform.position = InitialLocalPosition + ParentLocation.position + (Camera_A.transform.position - (ParentLocation.position+ InitialLocalPosition)).normalized * Height;
+            if(Input.GetKeyDown(KeyCode.D))
+            {
+                Debug.Log("<color=red>" + Camera_A.transform.position + "</color>");
+                Debug.Log("<color=blue>" + ParentLocation.position + "</color>");
+                Debug.Log("<color=green>" + (Camera_A.transform.position - ParentLocation.position).normalized + "</color>");
+            }
         }
 
     }

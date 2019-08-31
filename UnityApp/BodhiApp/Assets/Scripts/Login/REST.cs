@@ -47,6 +47,11 @@ public class REST : MonoBehaviour
         Headers = _Headers;
     }
 
+    public void AddHeader(string key, string value)
+    {
+        Headers[key] = value;
+    }
+
     public Coroutine GET(string url, System.Action<string, string> callback)
     {
         UnityWebRequest res = UnityWebRequest.Get(url);

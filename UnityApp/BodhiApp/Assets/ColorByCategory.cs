@@ -40,6 +40,10 @@ public class ColorByCategory : MonoBehaviour
         string[] fields = id.Split(':');
         int cat;
         int.TryParse(fields[0], out cat);
+        if(cat < 0)
+        {
+            cat = (-cat) - 1;
+        }
         return ResolveColor(cat);
     }
 }
