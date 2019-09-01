@@ -7,6 +7,6 @@ public class LetterPlanet : Planet
 {
     public override void MakePlanetControllerProceedToNextScreen(PlanetGameController controller)
     {
-        controller.PlanetsToSequence("Messages");
+        controller.PlanetsToSceneSequence("Messages", TypeOfContent.Message);
     }
 }

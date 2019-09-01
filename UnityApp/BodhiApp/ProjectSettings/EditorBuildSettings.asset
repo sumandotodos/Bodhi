@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Avatar.unity
     guid: 7123f3ddb6a7947569af7a25d597ffcb
+  - enabled: 1
+    path: Assets/Scenes/Messages.unity
+    guid: 7b7fe4b83964d4679a72871cebe3ab4c
   m_configObjects: {}

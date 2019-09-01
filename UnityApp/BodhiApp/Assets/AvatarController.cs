@@ -27,6 +27,12 @@ public class AvatarController : MonoBehaviour
         avatarTaker.GetAvatarFromCamera((tex) => {
             UpdateAvatarRI(tex);
             avatarTaker.SaveAvatar(tex);
+            byte[] jpegData = avatarTaker.Rescale(avatarTaker.CropTextureToSquare(tex), 256, 256).EncodeToJPG(50);
+            Debug.Log("<color=purple>Image: " + jpegData.Length + " bytes</color>");
+            API.GetSingleton().PutAvatar(PlayerPrefs.GetString("UserId"), jpegData, (err, text) =>
+            {
+                Debug.Log(err + ", " + text);
+            });
         });
     }
 
@@ -35,7 +41,8 @@ public class AvatarController : MonoBehaviour
         avatarTaker.GetAvatarFromGallery((tex) => {
             UpdateAvatarRI(tex);
             avatarTaker.SaveAvatar(tex);
-            byte[] jpegData = avatarTaker.Rescale(avatarTaker.CropTextureToSquare(tex), 256, 256).EncodeToJPG();
+            byte[] jpegData = avatarTaker.Rescale(avatarTaker.CropTextureToSquare(tex), 256, 256).EncodeToJPG(50);
+            Debug.Log("<color=purple>Image: " + jpegData.Length + " bytes</color>");
             API.GetSingleton().PutAvatar(PlayerPrefs.GetString("UserId"), jpegData, (err, text) =>
             {
                 Debug.Log(err + ", " + text);

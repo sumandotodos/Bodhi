@@ -51,3 +51,10 @@ public class BoolResult
 {
     public bool result;
 }
+
+[System.Serializable]
+public class PerformanceResult
+{
+    public int favorites;
+    public int upvotes;
+}

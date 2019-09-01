@@ -23,6 +23,7 @@ public class UnreadMessagesUpdater : MonoBehaviour
         (err, text) =>
         {
             IntResult result = JsonUtility.FromJson<IntResult>(text);
+            Debug.Log("<color=red>" + result.result + "</color>");
             UnreadMessages = result.result;
         });
         textMesh.text = "" + UnreadMessages;

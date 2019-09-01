@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum TypeOfContent {  Question, Idea };
+public enum TypeOfContent {  Question, Idea, Message };
 
 [System.Serializable]
 public class Category
@@ -171,6 +171,11 @@ public class ContentsManager : MonoBehaviour
 
     public TypeOfContent TypeFromId(string id)
     {
+        if (id.IndexOf(':') == -1)
+        {
+            return TypeOfContent.Message;
+        }
+
         string[] fields = id.Split(':');
         int catIndex;
         int.TryParse(fields[0], out catIndex);

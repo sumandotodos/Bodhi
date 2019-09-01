@@ -10,4 +10,9 @@ public class ItemPopulator : MonoBehaviour
     {
         return null;
     }
+
+    virtual public void DeleteItemCallback(string id)
+    {
+
+    }
 }

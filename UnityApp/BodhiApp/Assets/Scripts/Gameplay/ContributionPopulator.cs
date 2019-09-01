@@ -23,4 +23,9 @@ public class ContributionPopulator : ItemPopulator
             }
         );
     }
+
+    override public void DeleteItemCallback(string id)
+    {
+        //API.GetSingleton().DeleteContribution(PlayerPrefs.GetString("UserId"), id);
+    }
 }

@@ -52,6 +52,7 @@ public class API : MonoBehaviour
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
           "/item/avatar";
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        REST.GetSingleton().AddHeader("content-type", "application/octet-stream");
         return REST.GetSingleton().PUT(url, data, callback);
     }
 
@@ -133,6 +134,17 @@ public class API : MonoBehaviour
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
             "/item/favorite/" + contentid;
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        REST.GetSingleton().DELETE(url, (err, text) => {
+            Debug.Log("DELETE error: " + err);
+            Debug.Log("DELETE response: " + text);
+        });
+    }
+
+    public void DeleteMessage(string userid, string messageid)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+            "/message/" + messageid;
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
         REST.GetSingleton().DELETE(url, (err, text) => {
             Debug.Log("DELETE error: " + err);

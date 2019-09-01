@@ -97,22 +97,26 @@ public class ItemsController : MonoBehaviour
         {
             if (ContentsManager.GetSingleton().TypeFromId(item.id) == contentFilter)
             {
-                if(!IsLocalContent(item.id) && item.content == "")
+                if (contentFilter != TypeOfContent.Message)
                 {
-                    yield return API.GetSingleton().GetItemContent(item.id, (err, text) =>
+                    if (!IsLocalContent(item.id) && item.content == "")
                     {
-                        Item _item = JsonUtility.FromJson<Item>(text);
-                        item.content = _item.content;
-                        if(!_item.validated)
+                        yield return API.GetSingleton().GetItemContent(item.id, (err, text) =>
                         {
-                            item.color = Color.gray;
-                        }
-                    });
+                            Item _item = JsonUtility.FromJson<Item>(text);
+                            item.content = _item.content;
+                            if (!_item.validated)
+                            {
+                                item.color = Color.gray;
+                            }
+                        });
+                    }
+                    else if (IsLocalContent(item.id))
+                    {
+                        item.content = GetText(item);
+                    }
                 }
-                else if(IsLocalContent(item.id))
-                {
-                    item.content = GetText(item);
-                }
+
                 listController.AddSlab(SpawnSlab(item));
                 yield return new WaitForSeconds(0.15f);
             }
@@ -205,6 +209,8 @@ public class ItemsController : MonoBehaviour
     {
         // do something with id and save to file
         listController.DismissItem(index);
-        API.GetSingleton().DestroyFavorite(PlayerPrefs.GetString("UserId"), id);
+        //API.GetSingleton().DestroyFavorite(PlayerPrefs.GetString("UserId"), id);
+        itemPopulator.DeleteItemCallback(id);
     }
+
 }

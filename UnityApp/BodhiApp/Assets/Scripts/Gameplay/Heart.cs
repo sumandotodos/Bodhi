@@ -9,7 +9,7 @@ public class Heart : Planet
 
     public override void MakePlanetControllerProceedToNextScreen(PlanetGameController controller)
     {
-        controller.PlanetsToFavoritesSequence(favType);
+        controller.PlanetsToSceneSequence("Favorites", favType);
     }
 
     public static string FavTypeToString(TypeOfContent favType)
@@ -20,6 +20,8 @@ public class Heart : Planet
                 return "Idea";
             case TypeOfContent.Question:
                 return "Question";
+            case TypeOfContent.Message:
+                return "Message";
         }
         return "";
     }
@@ -32,6 +34,8 @@ public class Heart : Planet
                 return TypeOfContent.Idea;
             case "Question":
                 return TypeOfContent.Question;
+            case "Message":
+                return TypeOfContent.Message;
         }
         return TypeOfContent.Idea;
     }

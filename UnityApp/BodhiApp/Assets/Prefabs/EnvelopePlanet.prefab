@@ -304,7 +304,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3597209095892308574}
-  - component: {fileID: 3112447785283411867}
   - component: {fileID: 1264331320}
   m_Layer: 0
   m_Name: EnvelopePlanet
@@ -328,30 +327,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3112447785283411867
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3597209095892308575}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28aea43b328f34aaea26ee5a1a6d720d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OuterRing: 0
-  MiddleRing: 0
-  InnerRing: 0
-  ScaleObject: {fileID: 3675969603681508258}
-  RadiusTransform: {fileID: 3675969603979510167}
-  MinesweeperType: 
-  Category: 
-  Topic: 
-  OuterRingObject: {fileID: 0}
-  MiddleRingObject: {fileID: 0}
-  InnerRingObject: {fileID: 0}
-  PlanetObject: {fileID: 0}
 --- !u!114 &1264331320
 MonoBehaviour:
   m_ObjectHideFlags: 0
