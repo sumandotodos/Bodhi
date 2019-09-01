@@ -51,11 +51,42 @@ router.get('/unreadcount', function(req, res) {
 	})
 })
 
-router.post('/advantageReport', function(req, res) {
-	
+router.post('/advantagereport', function(req, res) {
+	const userid = req.headers["userid"]
+	getFavoritesAndUpvotesAdvantage(userid,
+		function(result) {
+			if(result.favorites > 0 || result.upvotes > 0) {
+				Messages.create({
+                        		_id: mongoose.Types.ObjectId(),
+                        		_fromuserid:"system",
+                        		_touserid:userid,
+                        		type: 'Performance Report',
+                        		content: '',
+                       			extra: JSON.stringify(result),
+                        		viewed: false
+                  		}, function(err, msg) {
+                        		if(err != null) {
+                                		res.status(500).json({error:err})
+                        		}
+                       	 		else {
+                        	        	res.json({result:'success'})
+                        		}
+                  		})
+			}
+			else {
+				res.json(result)
+			}
+		
+		},
+		function(err) {
+			res.status(500).json(err)
+		},
+		true
+	)	
 })
-/*function getFavoritesAndUpvotesAdvantage(userId, successCallback, errorCallback, update) {
-	gatherUpvotesAndFavorites(usedId,
+
+function getFavoritesAndUpvotesAdvantage(userId, successCallback, errorCallback, update) {
+	helpers.gatherUpvotesAndFavorites(userId,
 		function(result) {
 			Users.findOne({_id:userId}, function(err, user) {
 				if(err != null) {
@@ -71,12 +102,12 @@ router.post('/advantageReport', function(req, res) {
 						user.favoritized = result.favorites
 						user.upvotes = result.upvotes
 						user.markModified('favoritized')
-						user.markMofified('upvotes')
+						user.markModified('upvotes')
 						user.save()
 					}
 					successCallback({
-						favorites:result.favorites-lastFavs,
-						upvotes:result.upvotes-lastUpvotes
+						favorites:result.favorites>lastFavs ? result.favorites : -1,
+						upvotes:result.upvotes>lastUpvotes ? result.upvotes : -1
 					})
 				}
 			})
@@ -86,7 +117,7 @@ router.post('/advantageReport', function(req, res) {
 		}
 	)
 }
-*/
+
 router.get('/getuploadurl', function(req, res) {
 	const currentUser = req.headers["userid"]
 	randomname =
@@ -127,22 +158,48 @@ router.post('/answertoquestion/:qid/:toid/:downloadurl', function(req, res) {
 router.post('/connectrequest/:toid', function(req, res) {
 	const currentUser = req.headers["userid"]
 	const toUser = req.params["toid"]
-	Messages.create({
-		_id: mongoose.Types.ObjectId(),
-		_fromuserid:currentUser, 
-		_touserid:toUser, 
-		type: 'Connect Request',
-		content: '',
-		extra: '',
-		viewed: false
-	}, function(err, msg) {
+	Users.findOne({_id:currentUser}, function(err, user) {
+	
 		if(err != null) {
-			res.status(500).json({error:err})
-		} 
+			res.status(500).json(err)
+		}	
+		else if(user == null) {
+			res.status(500).json({result:'error retrieving user'})
+		}
+		else {
+		  var currentUserHandle = user.handle
+		  Messages.create({
+			_id: mongoose.Types.ObjectId(),
+			_fromuserid:currentUser, 
+			_touserid:toUser, 
+			type: 'Connect Request',
+			content: '',
+			extra: currentUserHandle,
+			viewed: false
+		  }, function(err, msg) {
+			if(err != null) {
+				res.status(500).json({error:err})
+			} 
+			else {
+				res.json({result:'success'})
+			}
+		  })
+		}		
+
+	})
+})
+
+router.delete('/:id', function(req, res) {
+	var id = req.params["id"]
+	console.log("Delete message " + id + " called")
+	Messages.findOneAndRemove({_id:id}, function(err) {
+		if(err != null) {
+			res.status(500).json(err)
+		}
 		else {
 			res.json({result:'success'})
 		}
-	})		
+	})
 })
 
 module.exports = router

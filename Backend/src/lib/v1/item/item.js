@@ -12,8 +12,9 @@ router.put('/avatar', function(req, res) {
 
         console.log("putting avatar called")
 
-        BufferData = req.body
-
+        var BufferData = req.body
+	console.log("  >>  storing " + BufferData.length + " bytes")
+ 
 	Avatars.findOne({_id:currentUser}, function(err, av) {
 		if(err != null) {
                         res.status(500).json({error:err})
@@ -330,6 +331,7 @@ router.delete('/favorite/:id', function(req, res) {
 			var indexOfFav = fav.favorites.indexOf(id)
 			if(indexOfFav != -1) {
 				fav.favorites.splice(indexOfFav,1)
+				fav.markModified('favorites')
 				fav.save()
 				//Items.findOne({_id:id}, function(err, item) {
 				//	if(err == null && item != null) {
