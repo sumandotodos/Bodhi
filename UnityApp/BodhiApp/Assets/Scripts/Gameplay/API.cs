@@ -18,6 +18,17 @@ public class API : MonoBehaviour
         return instance;
     }
 
+    public void DeleteComment(string userid, string contentid)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+            "/item/comment/" + contentid;
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        REST.GetSingleton().DELETE(url, (err, text) => {
+            Debug.Log("DELETE error: " + err);
+            Debug.Log("DELETE response: " + text);
+        });
+    }
+
     public Coroutine GetProfile(string userid, System.Action<string, UserProfile> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +

@@ -26,6 +26,6 @@ public class ContributionPopulator : ItemPopulator
 
     override public void DeleteItemCallback(string id)
     {
-        //API.GetSingleton().DeleteContribution(PlayerPrefs.GetString("UserId"), id);
+        API.GetSingleton().DeleteComment(PlayerPrefs.GetString("UserId"), id);
     }
 }

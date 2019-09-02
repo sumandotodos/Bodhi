@@ -463,7 +463,7 @@ PrefabInstance:
     - target: {fileID: 3445182488190430412, guid: 06b4405f949ee4f2cb342247b5a84e4b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3445182488190430412, guid: 06b4405f949ee4f2cb342247b5a84e4b,
         type: 3}
@@ -1137,6 +1137,10 @@ MonoBehaviour:
   WritePrefab: {fileID: 7263905717528098888, guid: 1eeeb4ccbeea3481d9c17b5de4766006,
     type: 3}
   MessagesPrefab: {fileID: 3597209095892308575, guid: af4dc0852b0b44f5fa0b549b89b506f7,
+    type: 3}
+  MyIdeasPrefab: {fileID: 4897197773661409437, guid: d34fa68780a6549bc8dad68ac4a9b1b6,
+    type: 3}
+  MyQuestionsPrefab: {fileID: 7514908204188189318, guid: 9cb3ae7ac6de340c2bc69f4e1aecc29d,
     type: 3}
   PlanetsParent: {fileID: 951638917}
   spriteRenderer: {fileID: 655652665}
@@ -1823,7 +1827,7 @@ PrefabInstance:
     - target: {fileID: 8906175409693589344, guid: e09b4d4c2d7594b31acf29304a2ec2c1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8906175409693589344, guid: e09b4d4c2d7594b31acf29304a2ec2c1,
         type: 3}
