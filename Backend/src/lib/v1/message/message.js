@@ -51,39 +51,72 @@ router.get('/unreadcount', function(req, res) {
 	})
 })
 
+function attemptToIssueAdvantageReport(userid, callbackSuccess, callbackError) {
+	getFavoritesAndUpvotesAdvantage(userid,
+                function(result) {
+                        if(result.favorites > 0 || result.upvotes > 0) {
+                                Messages.create({
+                                        _id: mongoose.Types.ObjectId(),
+                                        _fromuserid:"system",
+                                        _touserid:userid,
+                                        type: 'Performance Report',
+                                        content: '',
+                                        extra: JSON.stringify(result),
+                                        viewed: false
+                                }, function(err, msg) {
+                                        if(err != null) {
+                                                //res.status(500).json({error:err})
+                                        	callbackError(err)
+					}
+                                        else {
+                                                //res.json({result:'success'})
+                                                callbackSuccess({result:'success'})
+                                        }
+                                })
+                        }
+                        else {
+                                //res.json(result)
+                        	callbackSuccess(result)
+			}
+
+                },
+                function(err) {
+                        //res.status(500).json(err)
+                	callbackError(err)
+		},
+                true
+        )
+}
+
 router.post('/advantagereport', function(req, res) {
 	const userid = req.headers["userid"]
-	getFavoritesAndUpvotesAdvantage(userid,
+	attemptToIssueAdvantageReport(userid, 
 		function(result) {
-			if(result.favorites > 0 || result.upvotes > 0) {
-				Messages.create({
-                        		_id: mongoose.Types.ObjectId(),
-                        		_fromuserid:"system",
-                        		_touserid:userid,
-                        		type: 'Performance Report',
-                        		content: '',
-                       			extra: JSON.stringify(result),
-                        		viewed: false
-                  		}, function(err, msg) {
-                        		if(err != null) {
-                                		res.status(500).json({error:err})
-                        		}
-                       	 		else {
-                        	        	res.json({result:'success'})
-                        		}
-                  		})
-			}
-			else {
-				res.json(result)
-			}
-		
+			res.json(result)
 		},
 		function(err) {
 			res.status(500).json(err)
-		},
-		true
-	)	
+		}
+	)
 })
+
+setInterval(function() {
+
+	Users.find({}, function(err, user) {
+		if(err == null && user != null) {
+			attemptToIssueAdvantageReport(user._id, 
+				function(result) {
+					// nothing here
+				},
+				function(err) {
+					console.log("Error issuing advatage report: " + err)
+				}
+			)	
+		}
+	})
+
+	}, 1000 * 60 * 60 * 24)
+
 
 function getFavoritesAndUpvotesAdvantage(userId, successCallback, errorCallback, update) {
 	helpers.gatherUpvotesAndFavorites(userId,

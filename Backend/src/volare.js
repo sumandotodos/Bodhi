@@ -8,6 +8,7 @@ const login = require('./lib/v1/login/login')
 const table = require('./lib/v1/table/table')
 const message = require('./lib/v1/message/message')
 const follow = require('./lib/v1/follow/follow')
+const user = require('./lib/v1/user/user')
 
 function checkUserToken(req, res, next) {
 	if (req.headers["userid"] != "") {
@@ -67,6 +68,7 @@ app.use('/v1/login', login)
 app.use('/v1/table', table)
 app.use('/v1/message', message)
 app.use('/v1/follow', follow)
+app.use('/v1/user', user)
 
 console.log("Listening on port 7675");
 app.listen(7675);
