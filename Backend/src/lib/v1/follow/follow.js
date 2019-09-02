@@ -79,8 +79,43 @@ router.get('/', function(req, res) {
 	})
 })
 
-router.get('/randomusers/:max', function(req, res) {
+const MaxUsers = 6
 
+function GetRandomUsers(maxUsers, successCallback, errorCallback) {
+	Users.find({}, function(err, users) {
+		if(err != null) {
+			errorCallback(err)
+		}
+		else if(users == null) {
+			successCallback([])
+		}
+		else {
+			successCallback(helpers.sampleArray(users, maxUsers))
+		}
+	})
+}
+
+router.get('/randomusers', function(req, res) {
+	GetRandomUsers(MaxUsers,
+		function(users) {
+			res.json({result:users})
+		},
+		function(error) {
+			res.status(500).json(error)
+		}
+	)
+})
+
+router.get('/randomusers/:max', function(req, res) {
+	const max = req.params["max"]
+	GetRandomUsers(max,
+		function(users) {
+			res.json({result:users})
+		},
+		function(error) {
+			res.status(500).json(error)
+		}
+	)
 })
 
 module.exports = router
