@@ -18,6 +18,36 @@ public class API : MonoBehaviour
         return instance;
     }
 
+    public Coroutine GetProfile(string userid, System.Action<string, UserProfile> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+            "/user/profile";
+        Debug.Log("<color=orange>5</color>");
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        Debug.Log("<color=orange>6</color>");
+        return REST.GetSingleton().GET(url, (err, response) =>
+        {
+            Debug.Log("<color=orange>Returned from get user profile</color>");
+            UserProfile Result = JsonUtility.FromJson<UserProfile>(response);
+            Debug.Log("<color=orange>parsed profile</color>");
+            callback(err, Result);
+        });
+    }
+
+    public Coroutine UpdateProfile(string userid, UserProfile profile, System.Action<string, string> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+            "/user/profile";
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        REST.GetSingleton().AddHeader("content-type", "application/json");
+        string profileString = JsonUtility.ToJson(profile);
+        return REST.GetSingleton().PUT(url, profileString, (err, response) =>
+        {
+            RESTResult_String Result = JsonUtility.FromJson<RESTResult_String>(response);
+            callback(err, Result.result);
+        });
+    }
+
     public Coroutine GetHandle(string userid, System.Action<string, string> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +

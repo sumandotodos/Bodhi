@@ -97,7 +97,7 @@ public class PlanetSpawner : MonoBehaviour
         newGO.transform.localScale = Vector3.one;
         newPlanet = newGO.GetComponent<CameraPlanet>();
         newPlanet.Start();
-        newPlanet.SetLabel("Avatar");
+        newPlanet.SetLabel("Avatar y perfil");
         newGO.transform.position = Vector3.zero;
         newGO.transform.rotation = Quaternion.Euler(-16.0f, 60.0f, 0.0f);
         newPlanet.SetScale(1.0f);
