@@ -53,6 +53,18 @@ public class BoolResult
 }
 
 [System.Serializable]
+public class StringResult
+{
+    public string result;
+}
+
+[System.Serializable]
+public class StringListResult
+{
+    public List<string> result;
+}
+
+[System.Serializable]
 public class PerformanceResult
 {
     public int favorites;

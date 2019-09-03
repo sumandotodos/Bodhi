@@ -62,6 +62,21 @@ public class DragController : MonoBehaviour
         ItemsController.GetSingleton().NotifyDragEnd(StartIndex, EndIndex);
         TouchUpdate = NotTouching;
         listController.listIds();
+
+        TypeOfContent contentFilter;
+
+        contentFilter = Heart.FavTypeFromString(PlayerPrefs.GetString("FavoriteType"));
+
+        if(contentFilter == TypeOfContent.Question)
+        {
+            string favId = listController.GetSlab(0).id;
+            API.GetSingleton().PutFavoriteQuestion(PlayerPrefs.GetString("UserId"), favId,
+                (err, text) =>
+                {
+
+                });
+        }
+
     }
 
     public void NotTouching()

@@ -113,6 +113,39 @@ public class API : MonoBehaviour
         return REST.GetSingleton().GET(url, callback);
     }
 
+    public Coroutine PutFavoriteQuestion(string userid, string fav, System.Action<string, string> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+          "/item/favoritequestion";
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        REST.GetSingleton().AddHeader("content-type", "text/plain");
+        return REST.GetSingleton().PUT(url, fav, callback);
+    }
+
+    public Coroutine GetFollows(string userid, System.Action<string, StringListResult> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+          "/follow";
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        return REST.GetSingleton().GET(url, (err, data) =>
+        {
+            StringListResult result = JsonUtility.FromJson<StringListResult>(data);
+            callback(err, result);
+        });
+    }
+
+    public Coroutine GetRandomUsers(string userid, System.Action<string, StringListResult> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+          "/follow";
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        return REST.GetSingleton().GET(url, (err, data) =>
+        {
+            StringListResult result = JsonUtility.FromJson<StringListResult>(data);
+            callback(err, result);
+        });
+    }
+
     public Coroutine GetUnreadMessagesCount(string userid, System.Action<string, string> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +

@@ -2,6 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class Person
+{
+    public string id;
+    public Texture2D avatar;
+    public string question;
+    public string profile;
+
+    public Person(string _id)
+    {
+        id = _id;
+        avatar = null;
+        question = "";
+        profile = "";
+    }
+}
+
 public class PlanetSpawner : MonoBehaviour
 {
     public GameObject NormalPlanetPrefab;
@@ -21,6 +38,10 @@ public class PlanetSpawner : MonoBehaviour
     public PlanetHandleController planetHandleController;
 
     public string DefaultCase = "";
+
+    public PlanetsUIController planetsUIController;
+
+    public int MaxPersonsPerPage = 6;
 
     // Start is called before the first frame update
     void Start()
@@ -61,6 +82,8 @@ public class PlanetSpawner : MonoBehaviour
 
     public void SetUpHome()
     {
+        planetsUIController.SetupNonPersonsConfiguration();
+
         GameObject newGO = (GameObject)Instantiate(IdeaFavsPrefab);
         newGO.transform.SetParent(PlanetsParent);
         newGO.transform.localScale = Vector3.one;
@@ -148,6 +171,8 @@ public class PlanetSpawner : MonoBehaviour
 
     public void SetUpIdeas()
     {
+        planetsUIController.SetupNonPersonsConfiguration();
+
         GameObject newGO = (GameObject)Instantiate(NormalPlanetPrefab);
         newGO.transform.SetParent(PlanetsParent);
         newGO.transform.localScale = Vector3.one;
@@ -185,6 +210,8 @@ public class PlanetSpawner : MonoBehaviour
 
     public void SetUpQuestions()
     {
+        planetsUIController.SetupNonPersonsConfiguration();
+
         GameObject newGO = (GameObject)Instantiate(NormalPlanetPrefab);
         newGO.transform.SetParent(PlanetsParent);
         newGO.transform.localScale = Vector3.one;
@@ -238,7 +265,33 @@ public class PlanetSpawner : MonoBehaviour
 
     public void SetUpPersons()
     {
+        planetsUIController.SetupPersonsConfiguration();
 
+        StartCoroutine(SetUpPersonsCoroutine());
+    }
+
+    IEnumerator SetUpPersonsCoroutine()
+    {
+        List<Person> persons = new List<Person>();
+        int page = PlayerPrefs.GetInt("PersonsPage");
+        yield return API.GetSingleton().GetFollows(PlayerPrefs.GetString("UserId"),
+                (err, list) =>
+                {
+                    foreach (string id in list.result)
+                    {
+                        persons.Add(new Person(id));
+                    }
+                });
+        int startIndex = page * MaxPersonsPerPage;
+        int endIndex = (page + 1) * MaxPersonsPerPage;
+        if(startIndex > persons.Count-1)
+        {
+            // all random users
+        }
+        else if(endIndex < persons.Count)
+        {
+            // add some random users
+        }
     }
 
     // Update is called once per frame
