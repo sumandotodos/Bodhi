@@ -5,8 +5,17 @@ using UnityEngine;
 [System.Serializable]
 public class Pencil : Planet
 {
+    public TypeOfContent favType;
+
     public override void MakePlanetControllerProceedToNextScreen(PlanetGameController controller)
     {
-        controller.PlanetsToComposeSequence();
+        if (favType == TypeOfContent.Idea || favType == TypeOfContent.Question)
+        {
+            controller.PlanetsToSceneSequence("Contributions", favType);
+        }
+        else
+        {
+            controller.PlanetsToSceneSequence("Compose", favType);
+        }
     }
 }

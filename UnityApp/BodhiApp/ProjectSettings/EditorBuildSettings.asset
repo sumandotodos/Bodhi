@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Messages.unity
     guid: 7b7fe4b83964d4679a72871cebe3ab4c
+  - enabled: 1
+    path: Assets/Scenes/Contributions.unity
+    guid: c1105236a55ac4812aee677143b8e8b3
   m_configObjects: {}

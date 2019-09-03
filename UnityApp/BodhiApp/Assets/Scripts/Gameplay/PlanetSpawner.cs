@@ -12,6 +12,8 @@ public class PlanetSpawner : MonoBehaviour
     public GameObject QuestionsFavsPrefab;
     public GameObject WritePrefab;
     public GameObject MessagesPrefab;
+    public GameObject MyIdeasPrefab;
+    public GameObject MyQuestionsPrefab;
     public Transform PlanetsParent;
     public SpriteRenderer spriteRenderer;
     public AvatarTaker avatarTaker;
@@ -90,7 +92,29 @@ public class PlanetSpawner : MonoBehaviour
         newGO.transform.position = Vector3.zero;
         newGO.transform.rotation = Quaternion.Euler(-3.0f, -32.0f, 0.0f);
         newPlanet.SetScale(1.0f);
-        newPlanet.SetRadius(4.0f);
+        newPlanet.SetRadius(3.6f);
+
+        newGO = (GameObject)Instantiate(MyQuestionsPrefab);
+        newGO.transform.SetParent(PlanetsParent);
+        newGO.transform.localScale = Vector3.one;
+        newPlanet = newGO.GetComponent<Pencil>();
+        newPlanet.Start();
+        newPlanet.SetLabel("Mis preguntas");
+        newGO.transform.position = Vector3.zero;
+        newGO.transform.rotation = Quaternion.Euler(3.0f, -04.0f, 0.0f);
+        newPlanet.SetScale(1.0f);
+        newPlanet.SetRadius(3.6f);
+
+        newGO = (GameObject)Instantiate(MyIdeasPrefab);
+        newGO.transform.SetParent(PlanetsParent);
+        newGO.transform.localScale = Vector3.one;
+        newPlanet = newGO.GetComponent<Pencil>();
+        newPlanet.Start();
+        newPlanet.SetLabel("Mis ides");
+        newGO.transform.position = Vector3.zero;
+        newGO.transform.rotation = Quaternion.Euler(6.4f, 18.0f, 0.0f);
+        newPlanet.SetScale(1.0f);
+        newPlanet.SetRadius(3.6f);
 
         newGO = (GameObject)Instantiate(CameraPrefab);
         newGO.transform.SetParent(PlanetsParent);
