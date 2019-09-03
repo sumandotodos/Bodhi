@@ -47,7 +47,7 @@ function RetrieveAvatarForUser(user, res) {
                 	res.status(500).json({error:err})
                 }
 		if(av == null) {
-			res.json({})
+			res.status(404).json({result:'not found'})
 		}
 		else {
 			res.set('Content-Type', 'image/jpeg');
@@ -74,7 +74,7 @@ router.get('/avatar', function(req, res) {
 })
 
 router.get('/avatar/:id', function(req, res) {
-	const user = req.headers["id"]
+	const user = req.params["id"]
 	RetrieveAvatarForUser(user, res)
 })
 
@@ -187,6 +187,22 @@ router.get('/favorites', function(req, res) {
         })
 })
 
+router.get('/favoritequestion/:userid', function(req, res) {
+	console.log("  >> calling item/favoritequestion/:userid")
+        const currentUser = req.headers["userid"]
+        Favorites.findOne({_userid:currentUser}, function(err, fav) {
+                if(err != null) {
+                        res.status(500).json({result:'error', error:err})
+                }
+                else if (fav == null) {
+                        res.json({result:""})
+                }
+                else {
+                        res.json({result:fav.favoritequestion})
+                }
+        })
+})
+
 router.get('/:id', function(req, res) {
 	const id = req.params["id"]
 	console.log("Gets item " + req.params["id"])
@@ -222,6 +238,34 @@ router.delete('/:id', function(req, res) {
 	})
 })
 
+router.put('/favoritequestion', function(req, res) {
+	var qid = req.body
+	const currentUser = req.headers["userid"]
+	console.log(" >> putting fav question for user " + currentUser + ": " + qid)
+	Favorites.findOne({_userid:currentUser}, function(err, fav) {
+		if(err != null) {
+                        res.status(500).json({result:'error', error:err})
+                }
+                else if (fav == null) {
+                        Favorites.create({_userid:currentUser, favoritequestion:qid, favorites:[qid]}, function(err, newFav) {
+                                if(err != null) {
+                                        res.status(500).json({result:'error', error:err})
+                                }
+                                else {
+                                        success = true
+                                        res.json({result:'success'})
+                                }
+                        })
+                }
+		else {
+			fav.favoritequestion = qid
+			fav.markModified('favoritequestion')
+			fav.save()
+			res.json({result:'success'})
+		}
+	})
+})
+
 router.post('/favorite/:id', function(req, res) {
 	const id = req.params["id"]
         const currentUser = req.headers["userid"]
@@ -234,7 +278,11 @@ router.post('/favorite/:id', function(req, res) {
 			res.status(500).json({result:'error', error:err})
 		} 
 		else if (fav == null) {
-			Favorites.create({_userid:currentUser, favorites:[id]}, function(err, newFav) {
+			var newFavQuestion = ""
+			if(helpers.isQuestion(id)) {
+				newFavQuestion = id
+			}
+			Favorites.create({_userid:currentUser, favoritequestion:newFavQuestion, favorites:[id]}, function(err, newFav) {
 				if(err != null) {
 					res.status(500).json({result:'error', error:err})
 				} 
@@ -245,6 +293,10 @@ router.post('/favorite/:id', function(req, res) {
 			})
 		}
 		else {
+			if(fav.favorites.length == 0 && helpers.isQuestion(id)) {
+				fav.favoritequestion = id
+				fav.markModified('favoritequestion')
+			}
 			fav.favorites.push(id)
 			fav.save()
 			success = true

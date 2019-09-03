@@ -71,10 +71,10 @@ router.get('/', function(req, res) {
 			res.status(500).json(res);
 		}
 		else if(fol == null) {
-			res.json([])
+			res.json({result:[]})
 		}
 		else {
-			res.json(fol.follows)
+			res.json({result:fol.follows})
 		}
 	})
 })
@@ -94,6 +94,28 @@ function GetRandomUsers(maxUsers, successCallback, errorCallback) {
 		}
 	})
 }
+
+router.get('/randomusers/:session/:cursor/:max', function(req, res) {
+	const currentUser = req.headers["userid"]
+	const session = req.params["session"]
+	var cursor = parseInt(req.params["cursor"])
+	var max = parseInt(req.params["max"])
+	Users.find({}, function(err, users) {
+		if(err != null) {
+			res.status(500).json(err)
+		}
+		else if(users == null) {
+			res.json({result:[]})
+		}
+		else {
+			var currentUserIndex = helpers.conditionalIndexOf(users, (u) => { return u._id == currentUser })
+			console.log("  >> ignoring index " + currentUserIndex + " belonging to user " + currentUser)
+			var usersLength = users.length
+			res.json({result:helpers.sampleArrayWithIndexes(users,
+				helpers.indexSamples(usersLength, session, currentUserIndex, cursor, max))}) 
+		}
+	})
+})
 
 router.get('/randomusers', function(req, res) {
 	GetRandomUsers(MaxUsers,

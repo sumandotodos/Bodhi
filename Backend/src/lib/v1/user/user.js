@@ -70,4 +70,31 @@ router.put('/profile', function(req, res) {
 	})
 })
 
+function GetUserIndex(user, successCallback, errorCallback) {
+	Users.find({}, function(err, users) {
+                if(err != null) {
+                	errorCallback(err)
+                }
+                else if(users == null) {
+                	successCallback({result:-1})
+                }
+                else {
+                        successCallback({result:helpers.conditionalIndexOf(users,
+				(u) => { return u._id == user })})
+                }
+        })
+}
+
+router.get('/index', function(req, res) {
+	const currentUser = req.headers["userid"]
+	GetUserIndex(currentUser,
+		function(data) {
+			res.json(data)
+		},
+		function(error) {
+			res.status(500).json(error)
+		}
+	)
+})
+
 module.exports = router
