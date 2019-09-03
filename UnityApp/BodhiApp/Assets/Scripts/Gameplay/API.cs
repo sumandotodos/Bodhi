@@ -97,6 +97,31 @@ public class API : MonoBehaviour
         return REST.GetSingleton().PUT(url, data, callback);
     }
 
+    public Coroutine GetUserProfileAndQuestion(string userid, System.Action<string, ProfileAndQuestion> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+          "/user/profileandquestion/" + userid;
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        return REST.GetSingleton().GET(url, (err, text) => {
+            ProfileAndQuestion result = JsonUtility.FromJson<ProfileAndQuestion>(text);
+            callback(err, result);
+        });
+
+    }
+
+    public Coroutine GetAvatar(string userid, System.Action<string, Texture2D> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+          "/item/avatar";
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        return REST.GetSingleton().GET_Binary(url, (err, data) =>
+        {
+            Texture2D newTexture = new Texture2D(2, 2);
+            ImageConversion.LoadImage(newTexture, data);
+            callback(err, newTexture);
+        });
+    }
+
     public Coroutine GetItemContent(string itemid, System.Action<string, string> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
@@ -122,26 +147,26 @@ public class API : MonoBehaviour
         return REST.GetSingleton().PUT(url, fav, callback);
     }
 
-    public Coroutine GetFollows(string userid, System.Action<string, StringListResult> callback)
+    public Coroutine GetFollows(string userid, System.Action<string, UserListResult> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
           "/follow";
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
         return REST.GetSingleton().GET(url, (err, data) =>
         {
-            StringListResult result = JsonUtility.FromJson<StringListResult>(data);
+            UserListResult result = JsonUtility.FromJson<UserListResult>(data);
             callback(err, result);
         });
     }
 
-    public Coroutine GetRandomUsers(string userid, System.Action<string, StringListResult> callback)
+    public Coroutine GetRandomUsers(string userid, System.Action<string, UserListResult> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
           "/follow";
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
         return REST.GetSingleton().GET(url, (err, data) =>
         {
-            StringListResult result = JsonUtility.FromJson<StringListResult>(data);
+            UserListResult result = JsonUtility.FromJson<UserListResult>(data);
             callback(err, result);
         });
     }

@@ -58,6 +58,12 @@ public class REST : MonoBehaviour
         return StartCoroutine(REST_Coroutine(res, url, callback));
     }
 
+    public Coroutine GET_Binary(string url, System.Action<string, byte[]> callback)
+    {
+        UnityWebRequest res = UnityWebRequest.Get(url);
+        return StartCoroutine(REST_Binary_Coroutine(res, url, callback));
+    }
+
     public Coroutine DELETE(string url, System.Action<string, string> callback)
     {
         UnityWebRequest res = UnityWebRequest.Delete(url);
@@ -84,14 +90,69 @@ public class REST : MonoBehaviour
         return StartCoroutine(REST_Coroutine(res, url, callback));
     }
 
+    IEnumerator REST_Binary_Coroutine(UnityWebRequest res, string url, System.Action<string, byte[]> callback)
+    {
+        if (loadWaitController_N != null)
+        {
+            loadWaitController_N.StartNetworkTransfer();
+        }
+
+        if (Headers != null)
+        {
+            foreach (KeyValuePair<string, string> entry in Headers)
+            {
+                res.SetRequestHeader(entry.Key, entry.Value);
+            }
+        }
+        bool Succeded = false;
+        do
+        {
+            yield return res.SendWebRequest();
+            if (res.error != null)
+            {
+                Debug.Log("There was this error: " + res.error);
+                res.Abort();
+                yield return new WaitForSeconds(RetryTimeout);
+
+            }
+            else
+            {
+                Debug.Log("No error");
+                Succeded = true;
+            }
+        } while (!Succeded);
+
+        if (callback != null)
+        {
+            if (res != null)
+            {
+                if (res.downloadHandler != null)
+                {
+                    callback(res.error, res.downloadHandler.data);
+                }
+                else
+                {
+                    Debug.Log("   >>> REST: res.downloadHandler is shit");
+                }
+            }
+            else
+            {
+                Debug.Log("   >>> REST: res is shit");
+            }
+        }
+
+        if (loadWaitController_N != null)
+        {
+            loadWaitController_N.CompleteNetworkTransfer();
+        }
+    }
+
     IEnumerator REST_Coroutine(UnityWebRequest res, string url, System.Action<string, string> callback)
     {
         if(loadWaitController_N!=null)
         {
             loadWaitController_N.StartNetworkTransfer();
         }
-
-        Debug.Log("Doing business @ url: " + url);
 
         if (Headers != null)
         {

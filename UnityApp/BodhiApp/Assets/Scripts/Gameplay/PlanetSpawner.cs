@@ -6,13 +6,17 @@ using UnityEngine;
 public class Person
 {
     public string id;
+    public int favoritized;
+    public int upvotes;
     public Texture2D avatar;
     public string question;
     public string profile;
 
-    public Person(string _id)
+    public Person(string _id, int _favoritized, int _upvotes)
     {
         id = _id;
+        favoritized = _favoritized;
+        upvotes = _upvotes;
         avatar = null;
         question = "";
         profile = "";
@@ -277,9 +281,9 @@ public class PlanetSpawner : MonoBehaviour
         yield return API.GetSingleton().GetFollows(PlayerPrefs.GetString("UserId"),
                 (err, list) =>
                 {
-                    foreach (string id in list.result)
+                    foreach (User u in list.result)
                     {
-                        persons.Add(new Person(id));
+                        persons.Add(new Person(u._id, u.favoritized, u.upvotes));
                     }
                 });
         int startIndex = page * MaxPersonsPerPage;

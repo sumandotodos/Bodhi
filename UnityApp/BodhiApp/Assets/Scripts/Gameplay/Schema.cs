@@ -3,6 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
+public class ProfileAndQuestion
+{
+    public string favquestionid;
+    public string favquestion;
+    public string profile;
+    public List<ContactOption> contactoptions;
+}
+
+[System.Serializable]
+public class User
+{
+    public string _id;
+    public string appid;
+    public string deviceuuid;
+    public string handle;
+    public int views;
+    public int upvotes;
+    public int downvotes;
+    public int favoritized;
+}
+
+[System.Serializable]
+public class UserListResult
+{
+    public List<User> result;
+}
+
+[System.Serializable]
 public class Message
 {
     public string _id;

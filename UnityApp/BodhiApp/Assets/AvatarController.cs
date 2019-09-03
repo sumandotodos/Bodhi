@@ -26,20 +26,20 @@ public class AvatarController : MonoBehaviour
     // Start is called before the first frame update
     IEnumerator Start()
     {
-        Debug.Log("<color=orange>Started avatar controller</color>");
+
         ForwardArrowAction = Screen1TouchForward;
         BackwardArrowAction = Screen1TouchBackward;
         fader.Start();
-        Debug.Log("<color=orange>2</color>");
+
         forwardArrowFader.GetComponentInChildren<UIOpacityWiggle>().isActive = true;
-        Debug.Log("<color=orange>3</color>");
+
         UpdateAvatarRI(avatarTaker.ApplyMaskTexture(avatarTaker.LoadAvatar()));
-        Debug.Log("<color=orange>4</color>");
+
         //avatarTaker.GetAvatarFromGallery((tex) => { UpdateAvatarRI(tex); });
         yield return API.GetSingleton().GetProfile(PlayerPrefs.GetString("UserId"),
             (err, profile) =>
             {
-                Debug.Log("<color=orange>About to populate</color>");
+
                 profileController.Populate(profile);
             });
         fader.fadeToTransparent();
