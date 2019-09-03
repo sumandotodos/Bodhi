@@ -74,7 +74,23 @@ router.get('/', function(req, res) {
 			res.json({result:[]})
 		}
 		else {
-			res.json({result:fol.follows})
+			Users.find({}, function(err, users) {
+				if(err != null) {
+                        		res.status(500).json(res);
+                		}
+				else if(users == null) {
+					res.json({result:[]})
+				}
+				else {
+					result = []
+					for(var i = 0; i < users.length; ++i) {
+						if(fol.follows.indexOf(users[i]._id) != -1) {
+							result.push(users[i])
+						}
+					}
+					res.json({result:result})
+				}
+			})
 		}
 	})
 })

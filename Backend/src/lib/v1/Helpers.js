@@ -48,6 +48,11 @@ helpers.indexSamples = function(arrayLength, seed, avoidIndex, skip, amount) {
 	return result
 }
 
+helpers.isLocalContent = function(id) {
+	if(id.startsWith("-")) return false
+	return true
+}
+
 helpers.isQuestion = function(id) {
 	if(id.startsWith("0:")) {
 		return false
