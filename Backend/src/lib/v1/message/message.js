@@ -171,7 +171,7 @@ router.post('/answertoquestion/:qid/:toid/:downloadurl', function(req, res) {
 	const downloadUrl = req.params["downloadurl"]
 	const questionId = req.params["qid"]
 // if it is not built in contents, retrieve question from items...	
-	Uploads.create({
+	/*Uploads.create({
 		_fromuserid: currentUser,
 		_touserid: toUser,
 		url: downloadUrl,
@@ -185,7 +185,23 @@ router.post('/answertoquestion/:qid/:toid/:downloadurl', function(req, res) {
 		else {
 			
 		}
-	})
+	})*/
+	Messages.create({
+                        _id: mongoose.Types.ObjectId(),
+                        _fromuserid:currentUser,
+                        _touserid:toUser,
+                        type: 'Question Answered',
+                        content: '',
+                        extra: '',
+                        viewed: false
+                  }, function(err, msg) {
+                        if(err != null) {
+                                res.status(500).json({error:err})
+                        }
+                        else {
+                                res.json({result:'success'})
+                        }
+                  })	
 })
 
 router.post('/connectrequest/:toid', function(req, res) {
