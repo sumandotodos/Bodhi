@@ -22,6 +22,8 @@ public class User
     public int upvotes;
     public int downvotes;
     public int favoritized;
+
+    public string favquestion;
 }
 
 [System.Serializable]

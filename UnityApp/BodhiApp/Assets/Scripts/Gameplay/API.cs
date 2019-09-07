@@ -109,16 +109,16 @@ public class API : MonoBehaviour
 
     }
 
-    public Coroutine GetAvatar(string userid, System.Action<string, Texture2D> callback)
+    public Coroutine GetAvatar(string userid, System.Action<string, bool, Texture2D> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
-          "/item/avatar";
+          "/item/avatar/" + userid;
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
         return REST.GetSingleton().GET_Binary(url, (err, data) =>
         {
             Texture2D newTexture = new Texture2D(2, 2);
-            ImageConversion.LoadImage(newTexture, data);
-            callback(err, newTexture);
+            bool success = ImageConversion.LoadImage(newTexture, data);
+            callback(err, success, newTexture);
         });
     }
 
@@ -159,10 +159,23 @@ public class API : MonoBehaviour
         });
     }
 
-    public Coroutine GetRandomUsers(string userid, System.Action<string, UserListResult> callback)
+    public Coroutine GetUserIndex(string userid, System.Action<string, int> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
-          "/follow";
+          "/user/index";
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        return REST.GetSingleton().GET(url, (err, data) =>
+        {
+            RESTResult_Int result = JsonUtility.FromJson<RESTResult_Int>(data);
+            callback(err, result.result);
+        });
+    }
+
+    public Coroutine GetRandomUsers(string userid, string session, int currentIndex, 
+        int maxUsers, System.Action<string, UserListResult> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+          "/follow/randomusers/" + session + "/" + currentIndex + "/" + maxUsers;
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
         return REST.GetSingleton().GET(url, (err, data) =>
         {

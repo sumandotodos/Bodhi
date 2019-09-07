@@ -543,9 +543,15 @@ public class FGUtils : MonoBehaviour {
 
 	public const int build = 23;
 
-	
+    public static float NormalizeAngle(float angle)
+    {
+        float result = angle;
+        if (result > 360.0f) result -= 360.0f;
+        if (result < 0.0f) result += 360.0f;
+        return result;
+    }
 
-	public static object getFirstNonNullElementWithTest(System.Func<object, bool> test, params object[] o) {
+    public static object getFirstNonNullElementWithTest(System.Func<object, bool> test, params object[] o) {
 		int nObjects = o.Length;
 		object result = null;
 		for (int i = 0; i < nObjects; ++i) {

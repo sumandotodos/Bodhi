@@ -84,7 +84,6 @@ public class TouchController : MonoBehaviour
             PitchSpeed = DeltaPixelsToSpeed * -(Input.mousePosition.y - lastFrameCoordinates.y);
             YawSpeed = DeltaPixelsToSpeed * (Input.mousePosition.x - lastFrameCoordinates.x);
 
-            Debug.Log("<color=blue>" + YawSpeed + "</color>");
             if(PitchSpeed > 0.0f)
             {
                 PitchAccel = -Accel;

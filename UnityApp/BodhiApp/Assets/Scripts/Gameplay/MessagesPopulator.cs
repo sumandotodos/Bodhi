@@ -46,7 +46,9 @@ public class MessagesPopulator : ItemPopulator
                 return "El usuario <color=white>" + extra + " </color>quiere conectar contigo";
 
             case "Question Answered":
-                return "";
+                return "El usuario <color=white>indigochild</color> ha contestado a tu pregunta <color=yellow>"+
+                    "¿Si hubieras nacido en otro país con otra religión o creencias, tu visión del mundo sería la misma que tienes ahora?"
+                    + "</color>";
 
             case "Performance Report":
                 PerformanceResult result = JsonUtility.FromJson<PerformanceResult>(extra);

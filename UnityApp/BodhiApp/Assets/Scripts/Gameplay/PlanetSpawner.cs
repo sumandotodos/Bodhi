@@ -40,6 +40,8 @@ public class PlanetSpawner : MonoBehaviour
     public AvatarTaker avatarTaker;
     public Material[] planetMats;
     public PlanetHandleController planetHandleController;
+    public QuestionController questionController;
+    public PersonsAvatarController personsAvatarController;
 
     public string DefaultCase = "";
 
@@ -276,9 +278,10 @@ public class PlanetSpawner : MonoBehaviour
 
     IEnumerator SetUpPersonsCoroutine()
     {
+        int MaxUsers = 6;
         List<Person> persons = new List<Person>();
         int page = PlayerPrefs.GetInt("PersonsPage");
-        yield return API.GetSingleton().GetFollows(PlayerPrefs.GetString("UserId"),
+        /*yield return API.GetSingleton().GetFollows(PlayerPrefs.GetString("UserId"),
                 (err, list) =>
                 {
                     foreach (User u in list.result)
@@ -295,7 +298,58 @@ public class PlanetSpawner : MonoBehaviour
         else if(endIndex < persons.Count)
         {
             // add some random users
-        }
+        }*/
+        int myUserIndex = 0;
+        List<User> myListOfUsers = null;
+        //yield return API.GetSingleton().GetUserIndex(PlayerPrefs.GetString("UserId"),
+        //    (text, index) => {
+        //        myUserIndex = index;
+        //        }
+        //     );
+        yield return API.GetSingleton().GetRandomUsers(PlayerPrefs.GetString("UserId"),
+            "session",
+            myUserIndex,
+            MaxUsers,
+            (text, userlist) =>
+            {
+                myListOfUsers = userlist.result;
+                int matIndex = 0;
+                int userIndex = 0;
+                foreach(User u in userlist.result)
+                {
+                    if(userIndex == 0) 
+                        u.favquestion = "¿De dónde surgen las emociones? ¿Surgen de los pensamientos?";
+                    if (userIndex == 1)
+                        u.favquestion = "¿Puede el hecho de practicar meditación y observar nuestro cuerpo, ayudarnos a detectar los momentos en los que estamos a punto de perder los nervios?";
+                    if (userIndex == 2)
+                        u.favquestion = "¿Cómo te gustaría ser en el futuro?";
+                    if (userIndex == 3)
+                        u.favquestion = "El hecho de que cada uno nos tomemos las cosas de una manera, ¿hace compatible la libertad personal con la ley del karma?  ";
+                    if (userIndex == 4)
+                        u.favquestion = "¿Si hubieras nacido en otro país con otra religión o creencias, tu visión del mundo sería la misma que tienes ahora?";
+                    if (userIndex == 5)
+                        u.favquestion = "¿Qué percepción tendemos a tener sobre lo felices o infelices que son los demás? ¿Pensamos que son más felices de lo que lo son realmente, o al revés? ¿Por qué?";
+                    GameObject newGO = (GameObject)Instantiate(NormalPlanetPrefab);
+                    newGO.transform.SetParent(PlanetsParent);
+                    newGO.transform.localScale = Vector3.one;
+                    Planet newPlanet = newGO.GetComponent<Planet>();
+                    newPlanet.SetMaterial(planetMats[matIndex]);
+                    matIndex = (matIndex + 1) % 4;
+                    newPlanet.InnerRing = false;
+                    newPlanet.OuterRing = false;
+                    newPlanet.MiddleRing = false;
+                    newPlanet.Start();
+                    newGO.transform.position = Vector3.zero;
+                    newGO.transform.rotation = Quaternion.Euler(0.0f + Random.Range(-12.0f, 12.0f), (360.0f / (float)MaxUsers) * (userIndex++), 1.0f);
+                    newPlanet.SetLabel(u.handle);
+                    newPlanet.SetScale(0.8f);
+                    newPlanet.SetRadius(3.8f + Random.Range(-0.8f, 0.4f));
+                    newPlanet.MinesweeperType = "Lighthouse";
+                }
+            });
+
+        questionController.SetListOfUsers(myListOfUsers);
+        personsAvatarController.SetListOfUsers(myListOfUsers);
     }
 
     // Update is called once per frame

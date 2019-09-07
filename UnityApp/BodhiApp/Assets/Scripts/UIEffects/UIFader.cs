@@ -15,6 +15,7 @@ public class UIFader : FGProgram, UITwoPointEffect {
 	bool started = false;
 	Image imageComponent;
     RawImage rawImageComponent;
+    SpriteRenderer spriteComponent;
 	public float maxOpacity = 1.0f;
 	public float minOpacity = 0.0f;
 	public float speed = 1.0f;
@@ -33,6 +34,8 @@ public class UIFader : FGProgram, UITwoPointEffect {
 		    imageComponent.color = newColor;
         if (rawImageComponent != null)
             rawImageComponent.color = newColor;
+        if (spriteComponent != null)
+            spriteComponent.color = newColor;
 	}
 
 	public void Start() {
@@ -43,6 +46,7 @@ public class UIFader : FGProgram, UITwoPointEffect {
 		//opacity.setTransformation (TweenTransforms.tanh);
 		imageComponent = this.GetComponent<Image> ();
         rawImageComponent = this.GetComponent<RawImage>();
+        spriteComponent = this.GetComponent<SpriteRenderer>();
         button_N = GetComponent<Button>();
 
         if (startOpaque) {
@@ -68,6 +72,8 @@ public class UIFader : FGProgram, UITwoPointEffect {
                 imageComponent.enabled = true;
             if (rawImageComponent != null)
                 rawImageComponent.enabled = true;
+            if (spriteComponent != null)
+                spriteComponent.enabled = true;
             if (button_N != null)
                 button_N.interactable = true;
         }
@@ -77,6 +83,8 @@ public class UIFader : FGProgram, UITwoPointEffect {
             imageComponent.enabled = false;
             if (rawImageComponent != null)
                 rawImageComponent.enabled = false;
+            if (spriteComponent != null)
+                spriteComponent.enabled = false;
             if (button_N != null)
                 button_N.interactable = false;
         }
@@ -91,6 +99,8 @@ public class UIFader : FGProgram, UITwoPointEffect {
             imageComponent.enabled = true;
         if (rawImageComponent != null)
             rawImageComponent.enabled = true;
+        if (spriteComponent != null)
+            spriteComponent.enabled = true;
         if (button_N != null)
             button_N.interactable = true;
         opacity.SetValue (maxOpacity);
@@ -99,19 +109,23 @@ public class UIFader : FGProgram, UITwoPointEffect {
 	public void fadeToTransparent() {
 		state = 1;
         if(imageComponent != null)
-		imageComponent.enabled = true;
+		    imageComponent.enabled = true;
         if (rawImageComponent != null)
             rawImageComponent.enabled = true;
-		opacity.SetValue (minOpacity);
+        if (spriteComponent != null)
+            spriteComponent.enabled = true;
+        opacity.SetValue (minOpacity);
 	}
 
     public void fadeToOpaqueImmediately()
     {
         state = 0;
         if(imageComponent != null)
-        imageComponent.enabled = (maxOpacity > 0.0f);
+            imageComponent.enabled = (maxOpacity > 0.0f);
         if (rawImageComponent != null)
             rawImageComponent.enabled = (maxOpacity > 0.0f);
+        if (spriteComponent != null)
+            spriteComponent.enabled = (maxOpacity > 0.0f);
         opacity.SetValueImmediate(maxOpacity);
         updateColor();
     }
@@ -120,9 +134,11 @@ public class UIFader : FGProgram, UITwoPointEffect {
     {
         state = 0;
         if(imageComponent != null)
-        imageComponent.enabled = (minOpacity > 0.0f);
+            imageComponent.enabled = (minOpacity > 0.0f);
         if (rawImageComponent != null)
             rawImageComponent.enabled = (minOpacity > 0.0f);
+        if (spriteComponent != null)
+            spriteComponent.enabled = (minOpacity > 0.0f);
         opacity.SetValueImmediate(minOpacity);
         updateColor();
     }
@@ -151,6 +167,8 @@ public class UIFader : FGProgram, UITwoPointEffect {
 					    imageComponent.enabled = false;
                     if (rawImageComponent != null)
                         rawImageComponent.enabled = false;
+                    if (spriteComponent != null)
+                        spriteComponent.enabled = false;
                     if (button_N != null)
                         button_N.interactable = false;
                 }
