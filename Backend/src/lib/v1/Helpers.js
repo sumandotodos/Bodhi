@@ -22,6 +22,7 @@ helpers.indexSamples = function(arrayLength, seed, avoidIndex, skip, amount) {
 	skipped = []
 	result = []
 	random.use(seedrandom(seed))
+	skip = (skip % arrayLength) // wrap around
 	if((skip + 1) >= arrayLength) {
 		return result
 	}
