@@ -8,10 +8,13 @@ public class QuestionController : MonoBehaviour
     public PlanetsUIController uiController;
     public List<User> listOfUsers = null;
     public float checkYRot;
+    public float PlanetaryOrbitalSpeed = 2.0f;
 
     float sectorWidth;
     int nSectors;
     int prevSection = 0;
+
+    float PlanetaryRotation = 0.0f;
 
     void Start()
     {
@@ -30,6 +33,8 @@ public class QuestionController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        PlanetaryRotation += Time.deltaTime * PlanetaryOrbitalSpeed;
+
         if(listOfUsers == null)
         {
             return;
@@ -41,7 +46,7 @@ public class QuestionController : MonoBehaviour
         }
 
         checkYRot = CameraYPivot.rotation.eulerAngles.y;
-        int section = (int)(FGUtils.NormalizeAngle(CameraYPivot.rotation.eulerAngles.y+sectorWidth/2.0f) / sectorWidth);
+        int section = (int)(FGUtils.NormalizeAngle(CameraYPivot.rotation.eulerAngles.y-PlanetaryRotation+sectorWidth/2.0f) / sectorWidth);
         if (section < 0) section = -section;
         section = section % listOfUsers.Count;
         if(section != prevSection)

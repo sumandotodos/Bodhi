@@ -169,6 +169,33 @@ public class ContentsManager : MonoBehaviour
         category = new List<Category>();
     }
 
+    static public bool IsLocalContent(string id)
+    {
+        int cat;
+        string[] fields = id.Split(':');
+        int.TryParse(fields[0], out cat);
+        return cat >= 0;
+    }
+
+    public string GetLocalContentFromId(string id)
+    {
+        if (!IsLocalContent(id))
+        {
+            return "";
+        }
+
+        string[] fields = id.Split(':');
+        int cat;
+        int top;
+        int tab;
+        int row;
+        int.TryParse(fields[0], out cat);
+        int.TryParse(fields[1], out top);
+        int.TryParse(fields[2], out tab);
+        int.TryParse(fields[3], out row);
+        return RetrieveText(cat, top, tab, row);
+    }
+
     public TypeOfContent TypeFromId(string id)
     {
         if (id.IndexOf(':') == -1)

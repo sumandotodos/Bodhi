@@ -97,14 +97,14 @@ public class API : MonoBehaviour
         return REST.GetSingleton().PUT(url, data, callback);
     }
 
-    public Coroutine GetUserProfileAndQuestion(string userid, System.Action<string, ProfileAndQuestion> callback)
+    public Coroutine GetUserProfileAndQuestion(string userid, User u, System.Action<string, User, ProfileAndQuestion> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
           "/user/profileandquestion/" + userid;
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
         return REST.GetSingleton().GET(url, (err, text) => {
             ProfileAndQuestion result = JsonUtility.FromJson<ProfileAndQuestion>(text);
-            callback(err, result);
+            callback(err, u, result);
         });
 
     }
@@ -171,11 +171,11 @@ public class API : MonoBehaviour
         });
     }
 
-    public Coroutine GetRandomUsers(string userid, string session, int currentIndex, 
-        int maxUsers, System.Action<string, UserListResult> callback)
+    public Coroutine GetRandomUsers(string userid, string session,
+        int skip, int maxUsers, System.Action<string, UserListResult> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
-          "/follow/randomusers/" + session + "/" + currentIndex + "/" + maxUsers;
+          "/follow/randomusers/" + session + "/" + skip + "/" + maxUsers;
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
         return REST.GetSingleton().GET(url, (err, data) =>
         {

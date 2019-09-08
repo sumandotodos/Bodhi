@@ -99,7 +99,7 @@ public class ItemsController : MonoBehaviour
             {
                 if (contentFilter != TypeOfContent.Message)
                 {
-                    if (!IsLocalContent(item.id) && item.content == "")
+                    if (!ContentsManager.IsLocalContent(item.id) && item.content == "")
                     {
                         yield return API.GetSingleton().GetItemContent(item.id, (err, text) =>
                         {
@@ -111,7 +111,7 @@ public class ItemsController : MonoBehaviour
                             }
                         });
                     }
-                    else if (IsLocalContent(item.id))
+                    else if (ContentsManager.IsLocalContent(item.id))
                     {
                         item.content = GetText(item);
                     }
@@ -145,13 +145,7 @@ public class ItemsController : MonoBehaviour
         return newSlab;
     }
 
-    bool IsLocalContent(string id)
-    {
-        int cat;
-        string[] fields = id.Split(':');
-        int.TryParse(fields[0], out cat);
-        return cat >= 0;
-    }
+
 
     string GetText(ListItem item)
     {

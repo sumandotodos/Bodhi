@@ -11,10 +11,13 @@ public class PersonsAvatarController : MonoBehaviour
     public PlanetsUIController uiController;
     public AvatarTaker avatarTaker;
     public List<User> listOfUsers = null;
+    public float PlanetaryOrbitalSpeed = 2.0f;
 
     public Texture2D LatestSuccessfulTexture;
 
     public Texture2D[] textures;
+
+    float PlanetaryRotation = 0.0f;
 
     Texture2D MaskedDefaultUserTexture;
 
@@ -81,6 +84,9 @@ public class PersonsAvatarController : MonoBehaviour
 
     void Update()
     {
+
+        PlanetaryRotation += Time.deltaTime * PlanetaryOrbitalSpeed;
+
         if (listOfUsers == null)
         {
             return;
@@ -91,7 +97,7 @@ public class PersonsAvatarController : MonoBehaviour
             return;
         }
 
-        int section = (int)(FGUtils.NormalizeAngle(CameraYPivot.rotation.eulerAngles.y + sectorWidth / 2.0f) / sectorWidth);
+        int section = (int)(FGUtils.NormalizeAngle(CameraYPivot.rotation.eulerAngles.y - PlanetaryRotation + sectorWidth / 2.0f) / sectorWidth);
         if (section < 0) section = -section;
         section = section % listOfUsers.Count;
         if (section != prevSection)

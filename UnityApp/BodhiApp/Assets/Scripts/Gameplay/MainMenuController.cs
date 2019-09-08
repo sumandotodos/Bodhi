@@ -28,6 +28,7 @@ public class MainMenuController : MonoBehaviour
     {
         fader.Start();
         fader.fadeToTransparent();
+        PlayerPrefs.SetInt("SkipUsers", 0);
     }
 
     public void TouchOnPersonsStar()

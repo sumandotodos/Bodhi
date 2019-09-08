@@ -110,6 +110,18 @@ public class PlanetGameController : MonoBehaviour
         yield return SceneManager.LoadSceneAsync(Seq);
     }
 
+    public void TouchReload()
+    {
+        StartCoroutine(ReloadCoroutine());
+    }
+
+    IEnumerator ReloadCoroutine()
+    {
+        fader.fadeToOpaque();
+        yield return new WaitForSeconds(1.0f);
+        yield return SceneManager.LoadSceneAsync("Planets");
+    }
+
     public void TouchGoBack()
     {
         StartCoroutine(GoBackCoroutine());
