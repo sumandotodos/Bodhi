@@ -18,7 +18,7 @@ public class Slab : MonoBehaviour
     const float LineHeight = 1.8f;
 
     public void SetColor(Color c)
-    {
+    { 
         BackgroundImage.color = c;
         backgrFader.opaqueColor = c;
     }
@@ -30,6 +30,11 @@ public class Slab : MonoBehaviour
         float Height = LineHeight * Factor * TextComponent.cachedTextGenerator.GetPreferredHeight(Text, TextComponent.GetGenerationSettings(new Vector2(BackgroundImage.rectTransform.sizeDelta.x, BackgroundImage.rectTransform.sizeDelta.y)));
         Debug.Log("  ...  " + Height);
         return Height;
+    }
+
+    public void ForceHeight(float _Height)
+    {
+        Height = _Height;
     }
 
     public void SetHeight(float _Height)

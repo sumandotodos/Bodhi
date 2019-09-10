@@ -32,15 +32,15 @@ public class API : MonoBehaviour
     public Coroutine GetProfile(string userid, System.Action<string, UserProfile> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
-            "/user/profile";
-        Debug.Log("<color=orange>5</color>");
+            "/user/profile/" + userid;
+       
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
-        Debug.Log("<color=orange>6</color>");
+
         return REST.GetSingleton().GET(url, (err, response) =>
         {
-            Debug.Log("<color=orange>Returned from get user profile</color>");
+        
             UserProfile Result = JsonUtility.FromJson<UserProfile>(response);
-            Debug.Log("<color=orange>parsed profile</color>");
+        
             callback(err, Result);
         });
     }
@@ -130,12 +130,16 @@ public class API : MonoBehaviour
         return REST.GetSingleton().GET(url, callback);
     }
 
-    public Coroutine GetFavoritesList(string userid, System.Action<string, string> callback)
+    public Coroutine GetFavoritesList(string userid, System.Action<string, FavoritesListResult> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
-          "/item/favorites";
+          "/item/favorites/" + userid;
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
-        return REST.GetSingleton().GET(url, callback);
+        return REST.GetSingleton().GET(url, (err, data) =>
+        {
+            FavoritesListResult favs = JsonUtility.FromJson<FavoritesListResult>(data);
+            callback(err, favs);
+        });
     }
 
     public Coroutine PutFavoriteQuestion(string userid, string fav, System.Action<string, string> callback)
@@ -192,12 +196,16 @@ public class API : MonoBehaviour
         return REST.GetSingleton().GET(url, callback);
     }
 
-    public Coroutine GetContributionsList(string userid, System.Action<string, string> callback)
+    public Coroutine GetContributionsList(string userid, System.Action<string, ItemListResult> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
-          "/item/comments";
+          "/item/comments/" + userid;
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
-        return REST.GetSingleton().GET(url, callback);
+        return REST.GetSingleton().GET(url, (err, data) =>
+        {
+            ItemListResult result = JsonUtility.FromJson<ItemListResult>(data);
+            callback(err, result);
+        });
     }
 
     public Coroutine GetMessagesList(string userid, System.Action<string, string> callback)

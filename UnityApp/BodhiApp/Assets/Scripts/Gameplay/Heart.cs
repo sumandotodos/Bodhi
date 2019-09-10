@@ -22,6 +22,8 @@ public class Heart : Planet
                 return "Question";
             case TypeOfContent.Message:
                 return "Message";
+            case TypeOfContent.Any:
+                return "Any";
         }
         return "";
     }
@@ -36,6 +38,8 @@ public class Heart : Planet
                 return TypeOfContent.Question;
             case "Message":
                 return TypeOfContent.Message;
+            case "Any":
+                return TypeOfContent.Any;
         }
         return TypeOfContent.Idea;
     }

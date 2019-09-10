@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PersonsAvatarController : MonoBehaviour
+public class OtherUsersPlanetsController : MonoBehaviour
 {
     public Texture2D DefaultUserTexture;
     public Transform CameraYPivot;
@@ -12,19 +12,19 @@ public class PersonsAvatarController : MonoBehaviour
     public AvatarTaker avatarTaker;
     public List<User> listOfUsers = null;
     public float PlanetaryOrbitalSpeed = 2.0f;
-    public Material[] mats;
-
-    public Texture2D LatestSuccessfulTexture;
-
-    public Texture2D[] textures;
-
-    float PlanetaryRotation = 0.0f;
-
-    Texture2D MaskedDefaultUserTexture;
+    public Material[] PlanetMaterials;
 
     float sectorWidth;
     int nSectors;
     int prevSection = 0;
+
+    float PlanetaryRotation = 0.0f;
+
+    Texture2D[] textures;
+
+    ScaleFader[] planetScaleFaders;
+
+    Texture2D MaskedDefaultUserTexture;
 
     void Start()
     {
@@ -34,24 +34,27 @@ public class PersonsAvatarController : MonoBehaviour
         MaskedDefaultUserTexture = avatarTaker.ApplyMaskTexture(DefaultUserTexture);
     }
 
+
+    public void SetPlanetsScaleFaders(List<ScaleFader> Faders)
+    {
+        planetScaleFaders = Faders.ToArray();
+    }
+
     public void SetListOfUsers(List<User> newList)
     {
         listOfUsers = newList;
         nSectors = listOfUsers.Count;
         sectorWidth = (360.0f) / (float)nSectors;
         SetUpNumberOfTextures(nSectors);
-        for(int i = 0; i < nSectors; ++i)
+        for (int i = 0; i < nSectors; ++i)
         {
-            DownloadTextureForUser(listOfUsers[i]._id, i, (index, tex) =>
+            DownloadTextureForUser(listOfUsers[i]._id, i, (index, tex, origTex) =>
             {
-                Debug.Log("<color=red>DownloadTextureForUser counterpart</color>");
-                Debug.Log("<color=red>i: "+index+", Tex size: " + tex.width + ", " + tex.height + "</color>");
-                if (tex != MaskedDefaultUserTexture)
+                if(tex != MaskedDefaultUserTexture)
                 {
-                    mats[index].mainTexture = avatarTaker.Sphericalize(tex);
+                    PlanetMaterials[index].mainTexture = avatarTaker.Sphericalize(origTex);
                 }
                 textures[index] = tex;
-
             });
         }
     }
@@ -60,30 +63,33 @@ public class PersonsAvatarController : MonoBehaviour
     private void SetUpNumberOfTextures(int n)
     {
         textures = new Texture2D[n];
-        for(int i = 0; i < n; ++i)
+        for (int i = 0; i < n; ++i)
         {
             textures[i] = MaskedDefaultUserTexture;
         }
     }
 
-    public void DownloadTextureForUser(string id, int index, System.Action<int, Texture2D> callback)
+
+    public void DownloadTextureForUser(string id, int index, System.Action<int, Texture2D, Texture2D> callback)
     {
         StartCoroutine(DownloadTextureCoroutine(id, index, callback));
     }
 
-    IEnumerator DownloadTextureCoroutine(string id, int index, System.Action<int, Texture2D> callback)
+
+    IEnumerator DownloadTextureCoroutine(string id, int index, System.Action<int, Texture2D, Texture2D> callback)
     {
         yield return API.GetSingleton().GetAvatar(id, (err, success, tex) => {
             if (success)
             {
-                callback(index, avatarTaker.ApplyMaskTexture(tex));
+                callback(index, avatarTaker.ApplyMaskTexture(tex), tex);
             }
             else
             {
-                callback(index, MaskedDefaultUserTexture);
+                callback(index, MaskedDefaultUserTexture, MaskedDefaultUserTexture);
             }
         });
     }
+
 
     void Update()
     {
@@ -95,21 +101,37 @@ public class PersonsAvatarController : MonoBehaviour
             return;
         }
 
-        if(listOfUsers.Count == 0)
+        if (listOfUsers.Count == 0)
         {
             return;
         }
 
-        int section = (int)(FGUtils.NormalizeAngle(CameraYPivot.rotation.eulerAngles.y - PlanetaryRotation + sectorWidth / 2.0f) / sectorWidth);
+        int section = (int)(FGUtils.NormalizeAngle((listOfUsers.Count-1) * sectorWidth + CameraYPivot.rotation.eulerAngles.y - PlanetaryRotation + sectorWidth / 2.0f) / sectorWidth);
         if (section < 0) section = -section;
         section = section % listOfUsers.Count;
         if (section != prevSection)
         {
             uiController.changeAvatar(textures[section]);
+            uiController.changeQuestion(listOfUsers[section].favquestion);
+            ScaleHighlightPlanet(section);
             prevSection = section;
         }
     }
 
- 
+
+    private void ScaleHighlightPlanet(int n)
+    {
+        for(int i = 0; i < planetScaleFaders.Length; ++i)
+        {
+            if(i==n)
+            {
+                planetScaleFaders[i].scaleIn();
+            }
+            else
+            {
+                planetScaleFaders[i].scaleOut();
+            }
+        }
+    }
 
 }

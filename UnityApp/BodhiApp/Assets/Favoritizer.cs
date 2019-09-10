@@ -39,4 +39,24 @@ public class Favoritizer : MonoBehaviour
         animatedImage.PlaySegment("AlreadyFavorite");
         isFavorite = true;
     }
+
+    void Start()
+    {
+        if(ContentId == "")
+        {
+            return;
+        }
+        API.GetSingleton().IsFavorite(PlayerPrefs.GetString("UserId"), ContentId, (isFav) =>
+        {
+            if (isFav)
+            {
+                SetIsFavorite();
+            }
+            else
+            {
+                ResetIcon();
+            }
+        });
+
+    }
 }

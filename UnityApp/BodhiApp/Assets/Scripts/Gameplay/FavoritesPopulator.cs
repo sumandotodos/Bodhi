@@ -6,14 +6,13 @@ public class FavoritesPopulator : ItemPopulator
 {
     override public Coroutine GetItems(System.Action<List<ListItem>> callback)
     {
-        return API.GetSingleton().GetFavoritesList(PlayerPrefs.GetString("UserId"), (err, text) =>
+        return API.GetSingleton().GetFavoritesList(PlayerPrefs.GetString("UserId"), (err, favs) =>
         {
             List<ListItem> listItems = new List<ListItem>();
-            Favorites_REST favs = JsonUtility.FromJson<Favorites_REST>(text);
             for (int i = 0; i < favs.favorites.Count; ++i)
             {
                 Color col = ColorByCategory.GetSingleton().ResolveColor(favs.favorites[i]);
-                listItems.Add(new ListItem(favs.favorites[i], col, ""));
+                listItems.Add(new ListItem(favs.favorites[i], col, "", SlabPrefab));
             }
             callback(listItems);
         });

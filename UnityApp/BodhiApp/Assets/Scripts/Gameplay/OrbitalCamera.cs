@@ -39,6 +39,7 @@ public class OrbitalCamera : OrbitalObject
         position = new SoftVector3();
         position.setValueImmediate(this.transform.position);
         SoftX.setSpeed(30.0f);
+        SoftX.setValueImmediate(18.5f);
         SoftY.setSpeed(30.0f);
         SoftDist.setSpeed(14.0f);
         position.speed = 0.5f;
