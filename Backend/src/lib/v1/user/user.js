@@ -18,8 +18,24 @@ function blankProfile() {
 	}
 }
 
+router.get('/profile/:id', function(req, res) {
+        console.log("getting profile for user " + req.params["id"])
+        userId = req.params["id"]
+        Profiles.findOne({_userid:userId}, function(err, profile) {
+                if(err != null) {
+                        res.status(500).json(err)
+                }
+                else if(profile == null) {
+                        res.json(blankProfile())
+                }
+                else {
+                        res.json(profile)
+                }
+        })
+})
+
 router.get('/profile', function(req, res) {
-	console.log("getting profile")
+	console.log("getting profile for user in headers")
 	currentUser = req.headers["userid"]
 	Profiles.findOne({_userid:currentUser}, function(err, profile) {
 		if(err != null) {

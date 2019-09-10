@@ -98,6 +98,19 @@ router.get('/list', function(req, res) {
 	})
 })
 
+router.get('/comments/:id', function(req, res) {
+        const owner = req.params["id"]
+        Items.find({_userid:owner}, function(err, items) {
+                result = []
+                if(items != null) {
+                        for(var i = 0; i < items.length; ++i) {
+                                result.push(items[i])
+                        }
+                }
+                res.json({result:result})
+        })
+})
+
 router.get('/comments', function(req, res) {
         const owner = req.headers["userid"]
         Items.find({_userid:owner}, function(err, items) {
@@ -186,6 +199,26 @@ router.get('/favorites', function(req, res) {
                 }
         })
 })
+
+
+router.get('/favorites/:id', function(req, res) {
+        const userId = req.params["id"]
+
+        console.log("Asking for favorites of user " + userId)
+
+        Favorites.findOne({_userid:userId}, function(err, fav) {
+                if(err != null) {
+                        res.status(500).json({result:'error', error:err})
+                }
+                else if (fav == null) {
+                        res.json({result:'warning', warning:'user does not exist'})
+                }
+                else {
+                        res.json({favorites:fav.favorites})
+                }
+        })
+})
+
 
 router.get('/favoritequestion/:userid', function(req, res) {
 	console.log("  >> calling item/favoritequestion/:userid")
