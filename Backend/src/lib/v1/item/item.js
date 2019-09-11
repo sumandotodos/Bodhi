@@ -6,6 +6,21 @@ const Users = require('../../schema/Users/Users').model
 const Favorites = require('../../schema/Favorites/Favorites').model
 const Avatars = require('../../schema/Avatars/Avatars').model
 const helpers = require('../Helpers')
+const s3upload = require('../../s3urlGenerator')
+
+router.get('/uploadurl', function(req, res) {
+	const userId = req.headers["userid"]
+	const randomId = Math.random().toString(36).substring(2, 15) +
+                Math.random().toString(36).substring(2, 15)	
+	randomname =
+                "video/" +
+                userId + "/" +
+                randomId
+		".mp4";
+        url = s3upload.s3putGen(randomname)
+        url.id = randomId
+	res.json(url)
+})
 
 router.put('/avatar', function(req, res) {
         const currentUser = req.headers["userid"]

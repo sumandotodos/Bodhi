@@ -1,10 +1,12 @@
+const awskeys = require('../../../../AWSKeys')
+
 var config = {}
 
 const DevelopmentConfig = {
 	accessKeyId: '<accessKeyId>', 
 	secretAccessKey: '<secretAccessKey>',
-	bucketName: 'myfoldraccel',	
-	region: 'eu-west-2',
+	bucketName: 'fg-volare-videos-development',	
+	region: 'eu-west-1',
 	psk: 'vQb9BpkcLGQWlmAild4B',
 	dbhost: 'localhost',
 	dbport: '27017'
@@ -22,16 +24,22 @@ const ProductionConfig = {
 
 function patchInEnv()
 {
-	if (process.env.AWSACCESSKEY != undefined && process.env.AWSACCESSKEY != "")
-	{
+	if (process.env.AWSACCESSKEY != undefined && process.env.AWSACCESSKEY != "") {
 		config.accessKeyId = process.env.AWSACCESSKEY
-		console.log("Using AWS access key: " + config.accessKeyId)
 	}
-	if (process.env.AWSSECRETKEY != undefined && process.env.AWSSECRETKEY != "")
-	{
+	else {
+		config.accessKeyId = awskeys.accessKeyId
+		
+	}
+	if (process.env.AWSSECRETKEY != undefined && process.env.AWSSECRETKEY != "") {
 		config.secretAccessKey = process.env.AWSSECRETKEY
-		console.log("Using AWS secret key: " + config.secretAccessKey)
 	}
+	else {
+		config.secretAccessKey = awskeys.secretAccessKey
+	}
+
+	console.log("Using AWS access key: " + config.accessKeyId)
+	console.log("Using AWS secret key: " + config.secretAccessKey)
 	//if (process.env.DBHOST != "")
 	//{
 	//	config.dbhost = process.env.DBHOST

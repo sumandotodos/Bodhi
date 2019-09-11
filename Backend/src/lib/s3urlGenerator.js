@@ -9,7 +9,9 @@ AWS.config.update(
 		signatureVersion: 'v4',
 		region: config.region
 	})
-
+console.log("  >> s3 using accessKey: " + config.accessKeyId + ", " 
+	+ ", secretKey: " + config.secretAccessKey + ", bucket name: " +
+	config.bucketName)
 //AWS.config.update({region: 'eu-west-2'})
 
 var s3 = new AWS.S3()
