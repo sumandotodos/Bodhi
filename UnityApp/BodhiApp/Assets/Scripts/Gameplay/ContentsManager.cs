@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum TypeOfContent {  Question, Idea, Message, None };
+public enum TypeOfContent {  Question, Idea, Message, Any };
 
 [System.Serializable]
 public class Category

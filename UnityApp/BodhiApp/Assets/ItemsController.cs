@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 [System.Serializable]
@@ -22,12 +23,16 @@ public class ListItem
     public string id;
     public Color color;
     public string content;
+    public GameObject Prefab;
+    public float fixedSize = -1.0f;
 
-    public ListItem(string _id, Color _color, string _content)
+    public ListItem(string _id, Color _color, string _content, GameObject _Prefab, float FixedSize = -1.0f)
     {
         id = _id;
         color = _color;
         content = _content;
+        Prefab = _Prefab;
+        fixedSize = FixedSize;
     }
 }
 
@@ -51,7 +56,7 @@ public class ItemsController : MonoBehaviour
 
     public Transform SlabsParent;
     public Transform SlabsScroll;
-    GameObject SlabPrefab;
+
     public UIFader fader;
     float CurrentDestinationY = 665.0f;
 
@@ -69,35 +74,23 @@ public class ItemsController : MonoBehaviour
     IEnumerator Start()
     {
 
-        SlabPrefab = itemPopulator.SlabPrefab;
-
         TypeOfContent contentFilter;
 
-        contentFilter = Heart.FavTypeFromString(PlayerPrefs.GetString("FavoriteType"));
+        contentFilter = TypeOfContent.Any; //Heart.FavTypeFromString(PlayerPrefs.GetString("FavoriteType"));
 
         fader.Start();
         yield return new WaitForSeconds(0.1f);
         List<ListItem> listItems = new List<ListItem>();
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
 
-        //--
-        /*yield return API.GetSingleton().GetFavoritesList(PlayerPrefs.GetString("UserId"), (err, text) =>
-        {
-            Favorites_REST favs = JsonUtility.FromJson<Favorites_REST>(text);
-            for(int i = 0; i < favs.favorites.Count; ++i)
-            {
-                Color col = ColorByCategory.GetSingleton().ResolveColor(favs.favorites[i]);
-                listItems.Add(new ListItem(favs.favorites[i], col, ""));
-            }
-        });*/
-        //--
         yield return itemPopulator.GetItems((_listItems) => { listItems = _listItems; });
 
+        //@TODO the next block of code is a nightmare, refactor
         foreach(ListItem item in listItems)
         {
-            if (ContentsManager.GetSingleton().TypeFromId(item.id) == contentFilter)
+            if (contentFilter == TypeOfContent.Any || ContentsManager.GetSingleton().TypeFromId(item.id) == contentFilter)
             {
-                if (contentFilter != TypeOfContent.Message)
+                if (contentFilter == TypeOfContent.Question || contentFilter == TypeOfContent.Idea)
                 {
                     if (!ContentsManager.IsLocalContent(item.id) && item.content == "")
                     {
@@ -117,6 +110,7 @@ public class ItemsController : MonoBehaviour
                     }
                 }
 
+
                 listController.AddSlab(SpawnSlab(item));
                 yield return new WaitForSeconds(0.15f);
             }
@@ -126,21 +120,31 @@ public class ItemsController : MonoBehaviour
 
     Slab SpawnSlab(ListItem item)
     {
-        Slab newSlab = SpawnSlab(new Vector2(11.0f, CurrentDestinationY), new Vector2(11.0f, CurrentDestinationY - 1850.0f));
+        Slab newSlab = SpawnSlab(item.Prefab, new Vector2(11.0f, CurrentDestinationY), new Vector2(11.0f, CurrentDestinationY - 1850.0f));
         newSlab.SetColor(item.color);
         newSlab.Index = listController.GetNumberOfSlabs();
         newSlab.id = item.id;
         float h = 0.0f;
-        if (item.content == "")
+        if (item.fixedSize > -1.0f)
         {
-            h = newSlab.SetText(GetText(item));
+            h = item.fixedSize;
+            newSlab.GetComponentInChildren<Text>().text = item.content;
+            newSlab.ForceHeight(h);
         }
         else
         {
-            h = newSlab.SetText(item.content);
+            if (item.content == "")
+            {
+                h = newSlab.SetText(GetText(item));
+            }
+            else
+            {
+                h = newSlab.SetText(item.content);
+            }
+            h = Mathf.Max(h, MinSlabHeight);
+            newSlab.SetHeight(h);
         }
-        h = Mathf.Max(h, MinSlabHeight);
-        newSlab.SetHeight(h);
+
         CurrentDestinationY -= Slab.Adjust(h);
         return newSlab;
     }
@@ -174,9 +178,9 @@ public class ItemsController : MonoBehaviour
         API.GetSingleton().ReorderFavorite(PlayerPrefs.GetString("UserId"), pos1, pos2);
     }
 
-    Slab SpawnSlab(Vector2 destination, Vector2 initialPosition)
+    Slab SpawnSlab(GameObject prefab, Vector2 destination, Vector2 initialPosition)
     {
-        GameObject newGO = (GameObject)Instantiate(SlabPrefab);
+        GameObject newGO = (GameObject)Instantiate(prefab);
         newGO.transform.SetParent(SlabsParent);
         newGO.transform.localScale = Vector3.one;
         newGO.transform.localPosition = initialPosition;

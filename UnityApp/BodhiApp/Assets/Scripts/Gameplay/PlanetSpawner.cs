@@ -26,6 +26,7 @@ public class Person
 public class PlanetSpawner : MonoBehaviour
 {
     public GameObject NormalPlanetPrefab;
+    public GameObject PersonPlanetPrefab;
     public GameObject IdeasPrefab;
     public GameObject CameraPrefab;
     public GameObject FavsPrefab;
@@ -40,8 +41,7 @@ public class PlanetSpawner : MonoBehaviour
     public AvatarTaker avatarTaker;
     public Material[] planetMats;
     public PlanetHandleController planetHandleController;
-    public QuestionController questionController;
-    public PersonsAvatarController personsAvatarController;
+    public OtherUsersPlanetsController otherUsersPlanetsController;
 
     public string DefaultCase = "";
 
@@ -282,7 +282,11 @@ public class PlanetSpawner : MonoBehaviour
         List<Person> persons = new List<Person>();
         int page = PlayerPrefs.GetInt("PersonsPage");
 
+        otherUsersPlanetsController.PlanetMaterials = planetMats;
+
         List<User> myListOfUsers = null;
+
+        List<ScaleFader> listOfScaleFaders = new List<ScaleFader>();
 
         int skip = PlayerPrefs.GetInt("SkipUsers");
 
@@ -297,15 +301,17 @@ public class PlanetSpawner : MonoBehaviour
                 int userIndex = 0;
                 foreach (User u in userlist.result)
                 {
-                    GameObject newGO = (GameObject)Instantiate(NormalPlanetPrefab);
+                    GameObject newGO = (GameObject)Instantiate(PersonPlanetPrefab);
                     newGO.transform.SetParent(PlanetsParent);
                     newGO.transform.localScale = Vector3.one;
-                    Planet newPlanet = newGO.GetComponent<Planet>();
+                    PersonPlanet newPlanet = newGO.GetComponent<PersonPlanet>();
                     newPlanet.SetMaterial(planetMats[matIndex]);
                     matIndex = (matIndex + 1) % 4;
                     newPlanet.InnerRing = false;
                     newPlanet.OuterRing = false;
                     newPlanet.MiddleRing = false;
+                    newPlanet.handle = u.handle;
+                    newPlanet.id = u._id;
                     newPlanet.Start();
                     newGO.transform.position = Vector3.zero;
                     newGO.transform.rotation = Quaternion.Euler(0.0f + Random.Range(-12.0f, 12.0f), (360.0f / (float)MaxUsers) * (userIndex++), 1.0f);
@@ -313,6 +319,8 @@ public class PlanetSpawner : MonoBehaviour
                     newPlanet.SetScale(0.8f);
                     newPlanet.SetRadius(3.8f + Random.Range(-0.8f, 0.4f));
                     newPlanet.MinesweeperType = "Lighthouse";
+                    ScaleFader sf = newPlanet.GetComponentInChildren<ScaleFader>();
+                    listOfScaleFaders.Add(sf);
                 }
                 int newskip = skip + MaxUsers;
                 PlayerPrefs.SetInt("SkipUsers", newskip);
@@ -333,8 +341,8 @@ public class PlanetSpawner : MonoBehaviour
             });
         }
 
-        questionController.SetListOfUsers(myListOfUsers);
-        personsAvatarController.SetListOfUsers(myListOfUsers);
+        otherUsersPlanetsController.SetPlanetsScaleFaders(listOfScaleFaders);
+        otherUsersPlanetsController.SetListOfUsers(myListOfUsers);
     }
 
     // Update is called once per frame

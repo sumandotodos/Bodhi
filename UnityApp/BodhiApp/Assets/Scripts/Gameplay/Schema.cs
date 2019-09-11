@@ -33,6 +33,12 @@ public class UserListResult
 }
 
 [System.Serializable]
+public class FavoritesListResult
+{
+    public List<string> favorites;
+}
+
+[System.Serializable]
 public class Message
 {
     public string _id;

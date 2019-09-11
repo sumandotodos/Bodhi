@@ -14,7 +14,8 @@ public class MessagesPopulator : ItemPopulator
             {
                 Color col = ColorFromType(result.result[i].type);
                 listItems.Add(new ListItem(result.result[i]._id, col,
-                    ContentFromType(result.result[i].type, result.result[i].content, result.result[i].extra)));
+                    ContentFromType(result.result[i].type, result.result[i].content, result.result[i].extra),
+                    SlabPrefab));
             }
             callback(listItems);
         }
