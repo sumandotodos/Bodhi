@@ -15,4 +15,9 @@ public class ItemPopulator : MonoBehaviour
     {
 
     }
+
+    virtual public void PostInstancing()
+    {
+
+    }
 }

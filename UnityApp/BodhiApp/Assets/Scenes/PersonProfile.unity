@@ -155,6 +155,10 @@ MonoBehaviour:
     type: 3}
   PersonsFavoritePrefab: {fileID: 442697534996354796, guid: 769305e73e49d4d97b1dd95c9c18676e,
     type: 3}
+  FollowSlab: {fileID: 30380346259304463, guid: 768bae2c14cf745e99176c40c16ca13a,
+    type: 3}
+  EmptySlab: {fileID: 2266185598932961520, guid: 66ce851b36fc741f0a91ab589cbb37aa,
+    type: 3}
   contentsManager: {fileID: 4529523704695547512}
 --- !u!4 &610480729
 Transform:
@@ -540,6 +544,11 @@ PrefabInstance:
       propertyPath: itemPopulator
       value: 
       objectReference: {fileID: 610480728}
+    - target: {fileID: 4529523705912678316, guid: 8ed3914c443834f379afa578b0d8ce78,
+        type: 3}
+      propertyPath: CurrentDestinationY
+      value: 934
+      objectReference: {fileID: 0}
     - target: {fileID: 4529523705655250348, guid: 8ed3914c443834f379afa578b0d8ce78,
         type: 3}
       propertyPath: ForceId

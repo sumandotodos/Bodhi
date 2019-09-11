@@ -172,6 +172,10 @@ public class ContentsManager : MonoBehaviour
     static public bool IsLocalContent(string id)
     {
         int cat;
+        if(id.IndexOf(":") == -1)
+        {
+            return false;
+        }
         string[] fields = id.Split(':');
         int.TryParse(fields[0], out cat);
         return cat >= 0;
