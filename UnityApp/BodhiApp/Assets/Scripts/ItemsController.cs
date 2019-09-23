@@ -23,15 +23,17 @@ public class ListItem
     public string id;
     public Color color;
     public string content;
+    public string extra;
     public GameObject Prefab;
     //public float fixedSize = -1.0f;
 
-    public ListItem(string _id, Color _color, string _content, GameObject _Prefab)//, float FixedSize = -1.0f)
+    public ListItem(string _id, Color _color, string _content, string _extra, GameObject _Prefab)//, float FixedSize = -1.0f)
     {
         id = _id;
         color = _color;
         content = _content;
         Prefab = _Prefab;
+        extra = _extra;
        // fixedSize = FixedSize;
     }
 }
@@ -85,7 +87,7 @@ public class ItemsController : MonoBehaviour
 
         yield return itemPopulator.GetItems((_listItems) => { listItems = _listItems; });
 
-        //@TODO the next block of code is a nightmare, refactor
+        //@TODO the next block of code is a nightmare, refactor!!
         foreach(ListItem item in listItems)
         {
             if (contentFilter == TypeOfContent.Any || ContentsManager.GetSingleton().TypeFromId(item.id) == contentFilter)

@@ -10,29 +10,10 @@ public class ProgressBar : MonoBehaviour
     public float MaxProgressWifth;
     public Text ProgressText;
 
-    int BytesToTransfer;
-    int TransferredBytes;
+    uint BytesToTransfer;
+    uint TransferredBytes;
 
-    /*IEnumerator Start()
-    {
-        SetUpTransfer(1168000);
-        yield return new WaitForSeconds(80.0f);
-        SetTransferredBytes(6000);
-        yield return new WaitForSeconds(3.0f);
-        SetTransferredBytes(16000);
-        yield return new WaitForSeconds(3.0f);
-        SetTransferredBytes(80000);
-        yield return new WaitForSeconds(3.0f);
-        SetTransferredBytes(150000);
-        yield return new WaitForSeconds(3.0f);
-        SetTransferredBytes(450000);
-        yield return new WaitForSeconds(3.0f);
-        SetTransferredBytes(850000);
-        SetTransferredBytes(1168000);
-        yield return new WaitForSeconds(3.0f);
-    }*/
-
-    private static int BytesToKBytes(int bytes)
+    private static uint BytesToKBytes(uint bytes)
     {
         return bytes / 1024;
     }
@@ -43,18 +24,34 @@ public class ProgressBar : MonoBehaviour
         {
             return 1.0f;
         }
-        float BYTES = (float)BytesToTransfer;
-        float bytes = (float)TransferredBytes;
-        return bytes / BYTES;
+        if (BytesToTransfer == 0)
+        {
+            return 0.0f;
+        }
+        else
+        {
+            float BYTES = (float)BytesToTransfer;
+            float bytes = (float)TransferredBytes;
+            return bytes / BYTES;
+        }
     }
 
-    public void SetUpTransfer(int NewBytesToTransfer)
+    public void SetUpTransfer(uint NewBytesToTransfer)
     {
         SetBarFraction(0.0f);
 
         BytesToTransfer = NewBytesToTransfer;
         TransferredBytes = 0;
         UpdateProgress();
+    }
+
+    public void UpdateProgress(uint length, float fraction)
+    {
+        if(length > 0)
+        {
+            BytesToTransfer = length;
+        }
+        SetBarFraction(fraction);
     }
 
     private void SetBarFraction(float fraction)
@@ -64,7 +61,7 @@ public class ProgressBar : MonoBehaviour
         ProgressBarTransform.sizeDelta = size;
     }
 
-    public void SetTransferredBytes(int bytes)
+    public void SetTransferredBytes(uint bytes)
     {
         TransferredBytes = bytes;
         UpdateProgress();

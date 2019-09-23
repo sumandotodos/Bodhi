@@ -11,6 +11,7 @@ public class Slab : MonoBehaviour
     public Text TextComponent;
     public UIFader backgrFader;
     public string id;
+    public string extra;
     protected float Height;
 
     float Factor;

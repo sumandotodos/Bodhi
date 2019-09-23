@@ -29,6 +29,29 @@ public class API : MonoBehaviour
         });
     }
 
+    public Coroutine GetUploadUrl(string userid, System.Action<string, UploadURL> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+            "/item/uploadurl";
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        return REST.GetSingleton().GET(url, (err, response) => {
+            UploadURL urlObject = JsonUtility.FromJson<UploadURL>(response);
+            callback(err, urlObject);
+        });
+    }
+
+    public Coroutine GetDownloadUrl(string userid, string remoteFilePath, System.Action<string, string> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+            "/item/downloadurl/" + Utils.SlashSeparatedToColonSeparated(remoteFilePath);
+        Debug.Log("The API url: " + url);
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        return REST.GetSingleton().GET(url, (err, response) => {
+            UploadURL urlObject = JsonUtility.FromJson<UploadURL>(response);
+            callback(urlObject.error, urlObject.url);
+        });
+    }
+
     public Coroutine GetProfile(string userid, System.Action<string, UserProfile> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
@@ -114,7 +137,7 @@ public class API : MonoBehaviour
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
           "/item/avatar/" + userid;
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
-        return REST.GetSingleton().GET_Binary(url, (err, data) =>
+        return REST.GetSingleton().GET_Binary(url, null, (err, data) =>
         {
             Texture2D newTexture = new Texture2D(2, 2);
             bool success = ImageConversion.LoadImage(newTexture, data);
@@ -270,6 +293,23 @@ public class API : MonoBehaviour
             Debug.Log("DELETE error: " + err);
             Debug.Log("DELETE response: " + text);
         });
+    }
+
+    public void CreateMessage(string fromUserId, string toUserId, string type, string content, string extra)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+            "/message/";
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        REST.GetSingleton().AddHeader("content-type", "application/json");
+        Message newMessage = new Message();
+        newMessage.fromuserid = fromUserId;
+        newMessage.touserid = toUserId;
+        newMessage.content = content;
+        newMessage.extra = extra;
+        REST.GetSingleton().POST(url, JsonUtility.ToJson(newMessage), (err, response) =>
+          {
+              Debug.Log("Post response: " + response);
+          });
     }
 
     public void CreateContent(string userid, string payload, ContentType contentType)

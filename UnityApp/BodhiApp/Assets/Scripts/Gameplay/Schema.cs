@@ -12,6 +12,14 @@ public class ProfileAndQuestion
 }
 
 [System.Serializable]
+public class UploadURL
+{
+    public string url;
+    public string error;
+    public string id;
+}
+
+[System.Serializable]
 public class User
 {
     public string _id;
@@ -42,8 +50,8 @@ public class FavoritesListResult
 public class Message
 {
     public string _id;
-    public string _fromuserid;
-    public string _touserid;
+    public string fromuserid;
+    public string touserid;
     public string type;
     public string content;
     public string extra;
