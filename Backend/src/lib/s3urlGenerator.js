@@ -21,17 +21,35 @@ var s3urlgen = {}
 const bucket = config.bucketName
 const signedUrlExpireSeconds = 5 * 60
 
-s3urlgen.s3putGen = function (name) {
+function linkGen(configObj) {
 	const params = {
-                Bucket: bucket,
-                Key: name,
-                Expires: signedUrlExpireSeconds,
-		ContentType: 'video/mp4',
+                Bucket: configObj.bucket,
+                Key: configObj.filename,
+                Expires: configObj.expiry,
+                ContentType: configObj.contentType,
                 ACL: 'bucket-owner-full-control'
         }
-	console.dir(params)
-	const url = s3.getSignedUrl('putObject', params)
-	return { url:url, error:null }
+	const url = s3.getSignedUrl(configObj.method.toLowerCase()+'Object', params)
+        return { url:url, error:null }
+}
+
+s3urlgen.s3putGen = function (filename) {
+	return linkGen({bucket:bucket,
+                filename:filename,
+                expiry:signedUrlExpireSeconds,
+                contentType:'video/mp4',
+                method:'put'
+        })
+}
+
+s3urlgen.s3getGen = function(filename) {
+	const params = {
+                Bucket: bucket,
+                Key: filename,
+                Expires: signedUrlExpireSeconds
+        }
+        const url = s3.getSignedUrl('getObject', params)
+        return { url:url, error:null }
 }
 
 //s3urlgen.s3Client = new Minio.Client(

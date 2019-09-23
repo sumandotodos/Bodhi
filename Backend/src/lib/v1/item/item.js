@@ -6,7 +6,15 @@ const Users = require('../../schema/Users/Users').model
 const Favorites = require('../../schema/Favorites/Favorites').model
 const Avatars = require('../../schema/Avatars/Avatars').model
 const helpers = require('../Helpers')
-const s3upload = require('../../s3urlGenerator')
+const s3manager = require('../../s3urlGenerator')
+
+router.get('/downloadurl/:colonseparatedfilepath', function(req, res) {
+	const userId = req.headers["userid"]
+	const filename = req.params["colonseparatedfilepath"]
+	const filepath = filename.replace(/:/g, "/")
+	url = s3manager.s3getGen(filepath)
+	res.json(url)
+})
 
 router.get('/uploadurl', function(req, res) {
 	const userId = req.headers["userid"]
@@ -17,7 +25,7 @@ router.get('/uploadurl', function(req, res) {
                 userId + "/" +
                 randomId
 		".mp4";
-        url = s3upload.s3putGen(randomname)
+        url = s3manager.s3putGen(randomname)
         url.id = randomId
 	res.json(url)
 })

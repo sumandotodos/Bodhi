@@ -165,6 +165,26 @@ router.get('/getuploadurl', function(req, res) {
         res.json(url)
 })
 
+router.post('/', function(req, res) {
+	var obj = req.body
+	Messages.create({
+                        _id: mongoose.Types.ObjectId(),
+                        _fromuserid:obj.fromuserid,
+                        _touserid:obj.touserid,
+                        type: obj.type,
+                        content: obj.content,
+                        extra: obj.extra,
+                        viewed: false
+                  }, function(err, msg) {
+                        if(err != null) {
+                                res.status(500).json({error:err})
+                        }
+                        else {
+                                res.json({result:'success'})
+                        }
+                  })
+})
+
 router.post('/answertoquestion/:qid/:toid/:downloadurl', function(req, res) {
 	const currentUser = req.headers["userid"]
 	const toUser = req.params["toid"]
