@@ -1,7 +1,7 @@
 helpers = {}
 
 helpers.generateRandomString = function(n) {
-	return Math.random().toString(n)
+	return Math.random().toString(n+2).substring(2)
 }
 
 helpers.randomIntRange = function(minInc, maxInc) {

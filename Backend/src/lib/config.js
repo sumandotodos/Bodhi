@@ -9,7 +9,8 @@ const DevelopmentConfig = {
 	region: 'eu-west-1',
 	psk: 'vQb9BpkcLGQWlmAild4B',
 	dbhost: 'localhost',
-	dbport: '27017'
+	dbport: '27017',
+	tempdir: '/tmp/video'
 }
 
 const ProductionConfig = {
@@ -19,7 +20,8 @@ const ProductionConfig = {
 	region: 'eu-west-2',
 	psk: 'KcbUv1heC80IGJyWlqlx',
 	dbhost: 'localhost',
-	dbport: '27017'
+	dbport: '27017',
+	tempdir: '/tmp/video'
 }
 
 function patchInEnv()
