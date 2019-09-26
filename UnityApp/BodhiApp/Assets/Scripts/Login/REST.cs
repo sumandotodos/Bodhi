@@ -28,6 +28,8 @@ public class REST : MonoBehaviour
 
     const float RetryTimeout = 5.0f;
 
+    const float ProgressUpdateInterval = 0.5f;
+
     public static REST instance;
 
     private void Awake()
@@ -55,31 +57,37 @@ public class REST : MonoBehaviour
     public Coroutine GET(string url, System.Action<string, string> callback)
     {
         UnityWebRequest res = UnityWebRequest.Get(url);
-        return StartCoroutine(REST_Coroutine(res, url, callback));
+        return StartCoroutine(REST_Coroutine(res, url, null, callback));
     }
 
-    public Coroutine GET_Binary(string url, System.Action<string, byte[]> callback)
+    public Coroutine GET_Binary(string url, System.Action<uint, float> progressCallback, System.Action<string, byte[]> callback)
     {
         UnityWebRequest res = UnityWebRequest.Get(url);
-        return StartCoroutine(REST_Binary_Coroutine(res, url, callback));
+        return StartCoroutine(REST_Binary_Coroutine(res, url, progressCallback, callback));
     }
 
     public Coroutine DELETE(string url, System.Action<string, string> callback)
     {
         UnityWebRequest res = UnityWebRequest.Delete(url);
-        return StartCoroutine(REST_Coroutine(res, url, callback));
+        return StartCoroutine(REST_Coroutine(res, url, null, callback));
     }
 
     public Coroutine PUT(string url, string body, System.Action<string, string> callback)
     {
         UnityWebRequest res = UnityWebRequest.Put(url, body);
-        return StartCoroutine(REST_Coroutine(res, url, callback));
+        return StartCoroutine(REST_Coroutine(res, url, null, callback));
     }
 
     public Coroutine PUT(string url, byte[] bodyData, System.Action<string, string> callback)
     {
         UnityWebRequest res = UnityWebRequest.Put(url, bodyData);
-        return StartCoroutine(REST_Coroutine(res, url, callback));
+        return StartCoroutine(REST_Coroutine(res, url, null, callback));
+    }
+
+    public Coroutine PUT(string url, byte[] bodyData, System.Action<uint, float> progressCallback, System.Action<string, string> callback)
+    {
+        UnityWebRequest res = UnityWebRequest.Put(url, bodyData);
+        return StartCoroutine(REST_Coroutine(res, url, progressCallback, callback));
     }
 
     public Coroutine POST(string url, string body, System.Action<string, string> callback)
@@ -87,10 +95,13 @@ public class REST : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("comment", body);
         UnityWebRequest res = UnityWebRequest.Post(url, form);
-        return StartCoroutine(REST_Coroutine(res, url, callback));
+        return StartCoroutine(REST_Coroutine(res, url, null, callback));
     }
 
-    IEnumerator REST_Binary_Coroutine(UnityWebRequest res, string url, System.Action<string, byte[]> callback)
+
+
+
+    IEnumerator REST_Binary_Coroutine(UnityWebRequest res, string url, System.Action<uint, float> progressCallback, System.Action<string, byte[]> callback)
     {
         if (loadWaitController_N != null)
         {
@@ -107,6 +118,7 @@ public class REST : MonoBehaviour
         bool Succeded = false;
         do
         {
+            SetupProgressCallback(res, progressCallback);
             yield return res.SendWebRequest();
             if (res.error != null)
             {
@@ -147,7 +159,25 @@ public class REST : MonoBehaviour
         }
     }
 
-    IEnumerator REST_Coroutine(UnityWebRequest res, string url, System.Action<string, string> callback)
+    private void SetupProgressCallback(UnityWebRequest wr, System.Action<uint, float> progressCallback)
+    {
+        if (progressCallback != null)
+        {
+            if (wr.method == "PUT" || wr.method == "POST")
+            {
+                StartCoroutine(UploadProgressCoroutine(wr.uploadHandler, progressCallback));
+            }
+            else
+            {
+                StartCoroutine(DownloadProgressCoroutine(wr, progressCallback));
+            }
+        }
+    }
+
+
+
+
+    IEnumerator REST_Coroutine(UnityWebRequest res, string url, System.Action<uint, float> progressCallback, System.Action<string, string> callback)
     {
         if(loadWaitController_N!=null)
         {
@@ -164,6 +194,7 @@ public class REST : MonoBehaviour
         bool Succeded = false;
         do
         {
+            SetupProgressCallback(res, progressCallback);
             yield return res.SendWebRequest();
           if(res.error != null)
          {
@@ -205,8 +236,26 @@ public class REST : MonoBehaviour
 
     }
 
+    IEnumerator UploadProgressCoroutine(UploadHandler h, System.Action<uint, float> progressCallback)
+    {
+        while(h.progress < 1.0f)
+        {
+            yield return new WaitForSeconds(ProgressUpdateInterval);
+            progressCallback(0, h.progress);
+        }
+    }
 
-
+    IEnumerator DownloadProgressCoroutine(UnityWebRequest wr, System.Action<uint, float> progressCallback)
+    {
+        while (wr.downloadProgress < 1.0f)
+        {
+            string ContentLengthStr = wr.GetResponseHeader("Content-Length");
+            uint ContentLength;
+            uint.TryParse(ContentLengthStr, out ContentLength);
+            yield return new WaitForSeconds(ProgressUpdateInterval);
+            progressCallback(ContentLength, wr.downloadProgress);
+        }
+    }
 
 
 }

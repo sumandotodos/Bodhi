@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Amazon.S3;
 
 public class OtherUsersPlanetsController : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class OtherUsersPlanetsController : MonoBehaviour
     public List<User> listOfUsers = null;
     public float PlanetaryOrbitalSpeed = 2.0f;
     public Material[] PlanetMaterials;
-    public UploadWait uploadWait;
+   
 
     float sectorWidth;
     int nSectors;
@@ -51,10 +52,10 @@ public class OtherUsersPlanetsController : MonoBehaviour
         {
             DownloadTextureForUser(listOfUsers[i]._id, i, (index, tex, origTex) =>
             {
-                if(tex != MaskedDefaultUserTexture)
-                {
-                    PlanetMaterials[index].mainTexture = avatarTaker.Sphericalize(origTex);
-                }
+                //if(tex != MaskedDefaultUserTexture)
+                //{
+                  //  PlanetMaterials[index].mainTexture = avatarTaker.Sphericalize(origTex);
+                //}
                 textures[index] = tex;
             });
         }
@@ -135,27 +136,22 @@ public class OtherUsersPlanetsController : MonoBehaviour
         }
     }
 
+    public string GetUserId()
+    {
+        return listOfUsers[prevSection]._id;
+    }
+
+    public string GetQuestion()
+    {
+        return listOfUsers[prevSection].favquestion;
+    }
+
     public void TouchOnAnswerQuestion()
     {
 
-        if (listOfUsers[prevSection].favquestion!="")
-        {
-#if UNITY_EDITOR
-            //callback(MockImage);
-            string path = Application.dataPath + "/Resources/Video/DefaultVideo.MP4";
-            byte[] allBytes = System.IO.File.ReadAllBytes(path);
-            uploadWait.Show();
-            uploadWait.GetProgressBar().SetUpTransfer(allBytes.Length);
-            // get a AWS S3 PUT Link .....
 
-#else
-            NativeCamera.RecordVideo((path) => {
-                uploadWait.Show();
-                uploadWait.GetProgressBar().SetUpTransfer(100000);
-            });
-#endif
-
-        }
     }
+
+
 
 }

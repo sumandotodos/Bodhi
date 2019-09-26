@@ -13,8 +13,8 @@ public class MessagesPopulator : ItemPopulator
             for (int i = 0; i < result.result.Count; ++i)
             {
                 Color col = ColorFromType(result.result[i].type);
-                listItems.Add(new ListItem(result.result[i]._id, col,
-                    ContentFromType(result.result[i].type, result.result[i].content, result.result[i].extra),
+                listItems.Add(new ListItem(result.result[i]._id, col, result.result[i].extra,
+                    MakeContent(result.result[i]),
                     SlabPrefab));
             }
             callback(listItems);
@@ -39,20 +39,20 @@ public class MessagesPopulator : ItemPopulator
         return Color.gray;
     }
 
-    private string ContentFromType(string type, string content, string extra)
+    private string MakeContent(Message msg)
     {
-        switch(type)
+        switch(msg.type)
         {
             case "Connect Request":
-                return "El usuario <color=white>" + extra + " </color>quiere conectar contigo";
+                return "El usuario <color=white>" + msg.extra + " </color>quiere conectar contigo";
 
             case "Question Answered":
-                return "El usuario <color=white>indigochild</color> ha contestado a tu pregunta <color=yellow>"+
-                    "¿Si hubieras nacido en otro país con otra religión o creencias, tu visión del mundo sería la misma que tienes ahora?"
+                return "El usuario <color=white>"+msg.fromuserid+"</color> ha contestado a tu pregunta <color=yellow>"+
+                    msg.content
                     + "</color>";
 
             case "Performance Report":
-                PerformanceResult result = JsonUtility.FromJson<PerformanceResult>(extra);
+                PerformanceResult result = JsonUtility.FromJson<PerformanceResult>(msg.extra);
                 if(result.favorites > 0 && result.upvotes > 0)
                 {
                     return

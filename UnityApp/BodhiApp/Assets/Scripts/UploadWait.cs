@@ -14,6 +14,11 @@ public class UploadWait : MonoBehaviour
         return GetComponentInChildren<ProgressBar>();
     }
 
+    public void Hide()
+    {
+        this.gameObject.SetActive(false);
+    }
+
     public void AutoHide(float time)
     {
         System.Timers.Timer aTimer = new System.Timers.Timer(Mathf.RoundToInt(time * 1000.0f));
