@@ -11,7 +11,9 @@ var upload = multer({ dest: EncodeDir })
 
 var app = express()
 
-app.use(bodyParser.raw({type: 'application/octet-stream', limit : '50mb'}))
+var encoding = {}
+
+app.use(bodyParser.raw({type: 'application/octet-stream', limit : '100mb'}))
 
 function makeEncodeCommand(tempdir, infile) {
 	var outfile = helpers.generateRandomString(20) + ".mp4"
@@ -47,9 +49,4 @@ app.post('/', function (req, res) {
   
 })
 
-//var command = MakeEncodeCommand('shitz.mov')
-
-//var result = exec(command.command)
-
-//console.log(result.toString("utf8"))
-app.listen(41666)
+module.exports = encoding

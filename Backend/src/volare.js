@@ -41,7 +41,7 @@ function checkUserNotNull(req, res, next) {
 app = express()
 app.use(bodyParser.text());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.raw({type: 'application/octet-stream', limit : '2mb'}))
+app.use(bodyParser.raw({type: 'application/octet-stream', limit : '200mb'}))
 app.use(express.json());
 app.use(checkPSK)
 //app.use(checkUserNotNull)

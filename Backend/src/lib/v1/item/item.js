@@ -8,6 +8,12 @@ const Avatars = require('../../schema/Avatars/Avatars').model
 const helpers = require('../Helpers')
 const s3manager = require('../../s3urlGenerator')
 
+router.post('/video', function(req, res) {
+	const userId = req.headers["userid"]
+	const data = body
+	
+})
+
 router.get('/downloadurl/:colonseparatedfilepath', function(req, res) {
 	const userId = req.headers["userid"]
 	const filename = req.params["colonseparatedfilepath"]

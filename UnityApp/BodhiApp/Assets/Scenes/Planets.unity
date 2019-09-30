@@ -536,6 +536,16 @@ PrefabInstance:
       value: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI, Version=1.0.0.0,
         Culture=neutral, PublicKeyToken=null
       objectReference: {fileID: 0}
+    - target: {fileID: 5665795308206619510, guid: eb569b3a3be1449b991b6f0ee7d8e9d1,
+        type: 3}
+      propertyPath: TargetScript
+      value: 
+      objectReference: {fileID: 278528895}
+    - target: {fileID: 5665795308206619510, guid: eb569b3a3be1449b991b6f0ee7d8e9d1,
+        type: 3}
+      propertyPath: MethodToInvoke
+      value: TouchOnSendVideoResponse
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb569b3a3be1449b991b6f0ee7d8e9d1, type: 3}
 --- !u!224 &551414168 stripped
@@ -2749,6 +2759,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: VideoUploadMenuAndController
       objectReference: {fileID: 0}
+    - target: {fileID: 1246009452825351956, guid: 7157a5795f5a0474fac2c0c54df89b94,
+        type: 3}
+      propertyPath: otherUsersPlanetController
+      value: 
+      objectReference: {fileID: 360211287}
+    - target: {fileID: 1246009452825351956, guid: 7157a5795f5a0474fac2c0c54df89b94,
+        type: 3}
+      propertyPath: TestVideoRecordPath
+      value: /Resources/Video/DefaultVideoMP4.MP4
+      objectReference: {fileID: 0}
     - target: {fileID: 4470494192693723135, guid: 7157a5795f5a0474fac2c0c54df89b94,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2804,11 +2824,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1246009452825351956, guid: 7157a5795f5a0474fac2c0c54df89b94,
-        type: 3}
-      propertyPath: otherUsersPlanetController
-      value: 
-      objectReference: {fileID: 360211287}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7157a5795f5a0474fac2c0c54df89b94, type: 3}
 --- !u!4 &4470494192693723135 stripped

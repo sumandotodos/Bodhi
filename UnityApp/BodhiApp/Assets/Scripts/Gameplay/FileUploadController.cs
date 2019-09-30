@@ -14,6 +14,11 @@ public class FileUploadController : MonoBehaviour
         instance = this;
     }
 
+    private void Start()
+    {
+        uploadWait.Hide();
+    }
+
     public static FileUploadController GetSingleton()
     {
         return instance;

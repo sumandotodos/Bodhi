@@ -61,7 +61,7 @@ public class UIAnimatedImage : MonoBehaviour {
 
         if (randomStartFrame)
         {
-            currentFrame = Random.RandomRange(PlayheadStart, PlayheadEnd);
+            currentFrame = Random.Range(PlayheadStart, PlayheadEnd);
         }
         else
         {
