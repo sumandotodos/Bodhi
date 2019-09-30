@@ -1,6 +1,5 @@
 const config = require('./config')
 const AWS = require('aws-sdk')
-//var Minio = require('minio')
 
 AWS.config.update(
 	{
@@ -50,6 +49,16 @@ s3urlgen.s3getGen = function(filename) {
         }
         const url = s3.getSignedUrl('getObject', params)
         return { url:url, error:null }
+}
+
+s3urlgen.uploadStreamWrapper = function(filename) {
+	var pass = new stream.PassThrough();
+	console.log("upload strem: uploading to s3 = " + filename)
+  	var params = {Bucket: bucket, Key: filename, Body: pass};
+  	s3.upload(params, function(err, data) {
+    		console.log(err, data);
+  	});
+  	return pass;
 }
 
 //s3urlgen.s3Client = new Minio.Client(

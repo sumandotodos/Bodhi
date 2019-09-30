@@ -1,19 +1,13 @@
 var express = require('express')
 var multer  = require('multer')
-const exec = require("child_process").execSync
+const exec = require("child_process").exec
 const config = require('../config')
 const helpers = require('../helpers')
 const bodyParser = require('body-parser')
 const EncodeDir = config.tempdir
 const fs = require('fs')
 
-var upload = multer({ dest: EncodeDir })
-
-var app = express()
-
 var encoding = {}
-
-app.use(bodyParser.raw({type: 'application/octet-stream', limit : '100mb'}))
 
 function makeEncodeCommand(tempdir, infile) {
 	var outfile = helpers.generateRandomString(20) + ".mp4"
@@ -22,31 +16,46 @@ function makeEncodeCommand(tempdir, infile) {
 		tempdir + "/" + infile 
 		+ " " + EncodeDir + "/" + 
 		tempdir + "/" + outfile,
-		outfile: outfile
+		outfile: outfile, 
+		directory: EncodeDir + "/" + tempdir
 	} 
 }
 
-function ConvertVideo() {
-	const tempdir = helpers.generateRandomString(20)
-	exec("mkdir " + EncodeDir + "/" + tempdir)
+encoding.getRidOfTempFile = function(dir, file, callback) {
+
 }
 
-app.get("/", function(req, res) {
-	res.json({res:'cool'})
-})
-
-app.post('/', function (req, res) {
-  console.log("called: " + req.body.length)
+encoding.encode = function (data, callback) {
+  console.log(" >> encoding.encode   called   with length: " + data.length)
   const infilename = helpers.generateRandomString(20)
   const tempdir = helpers.generateRandomString(20)
-  exec("mkdir " + EncodeDir + "/" + tempdir)
-  fs.writeFileSync(EncodeDir + "/" + tempdir + "/" + infilename, req.body)
-  const encodeCommand = makeEncodeCommand(tempdir, infilename)
-  var result = exec(encodeCommand.command)  
- res.json({res:encodeCommand.outfile})
-	// req.file is the `avatar` file
-  //   // req.body will hold the text fields, if there were any
-  
-})
+  exec("mkdir " + EncodeDir + "/" + tempdir, null, function(err) {
+	if(err) {
+		callback(err, null)
+	}
+	else {
+		console.log("  created temp dir successfully")
+		fs.writeFile(ncodeDir + "/" + tempdir + "/" + infilename, data, function(err) {
+			if(err) {
+				callback(err, null)
+			}
+			else {
+				console.log("   wrote temp input file successfully")
+				const encodeCommand = makeEncodeCommand(tempdir, infilename)
+				console.log("   encode command: " + JSON.stringify(encodeCommand))
+				var result = exec(encodeCommand.command, null, function(err) {
+					if(err) {
+						callback(err, null)
+					}
+					else {
+						console.log("   encoding finished, calling callback with success")
+						callback(null, {outfile:encodeCommand.outfile, directory:encodeCommand.directory})
+					}
+				})
+			}
+		})
+	}
+  })
+}
 
 module.exports = encoding

@@ -7,11 +7,27 @@ const Favorites = require('../../schema/Favorites/Favorites').model
 const Avatars = require('../../schema/Avatars/Avatars').model
 const helpers = require('../Helpers')
 const s3manager = require('../../s3urlGenerator')
+const videoencoder = require('../../videoencoding/videoencoding')
+const fs = require('fs')
 
 router.post('/video', function(req, res) {
+	console.log(" >>>> post video called ")
 	const userId = req.headers["userid"]
-	const data = body
-	
+	const data = req.body
+	videoencoder.encode(data, function(err, tempFileObj) {
+		if(err!=null) {
+			res.status(500).json(err)
+		}	
+		else {
+			console.log("    >>> encoding seems ok")
+			var fullpath = tempFileObj.directory + "/" + tempFileObj.outfile
+			console.log("    >>> Finished encoding: " + fullpath)
+			fileObj = generateRandomName(userId)
+			var readStream = fs.createReadStream(fullpath)
+			readStream.pipe(s3manager.uploadStreamWrapper(fileObj.filename))	
+			res.json({result:'success'})
+		}
+	})
 })
 
 router.get('/downloadurl/:colonseparatedfilepath', function(req, res) {
@@ -22,17 +38,31 @@ router.get('/downloadurl/:colonseparatedfilepath', function(req, res) {
 	res.json(url)
 })
 
-router.get('/uploadurl', function(req, res) {
-	const userId = req.headers["userid"]
+function generateRandomName(userId) {
 	const randomId = Math.random().toString(36).substring(2, 15) +
-                Math.random().toString(36).substring(2, 15)	
-	randomname =
+                Math.random().toString(36).substring(2, 15)
+        randomname =
                 "video/" +
                 userId + "/" +
                 randomId
-		".mp4";
-        url = s3manager.s3putGen(randomname)
-        url.id = randomId
+                ".mp4";
+        var file = {}
+	file.filename = randomname
+        file.id = randomId
+        return file
+}
+
+function generateUploadUrl(userId) {
+        var randomFileName = generateRandomName(userId)
+	url = s3manager.s3putGen(randomFileName.filename)
+        url.filename = randomFileName.filename
+	url.id = randomFileName.id
+        return url
+}
+
+router.get('/uploadurl', function(req, res) {
+	const userId = req.headers["userid"]
+	url = getUploadUrl(userId)
 	res.json(url)
 })
 
