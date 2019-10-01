@@ -1,5 +1,7 @@
 const config = require('./config')
 const AWS = require('aws-sdk')
+const stream = require('stream')
+const encoding = require('./videoencoding/videoencoding')
 
 AWS.config.update(
 	{
@@ -51,8 +53,16 @@ s3urlgen.s3getGen = function(filename) {
         return { url:url, error:null }
 }
 
-s3urlgen.uploadStreamWrapper = function(filename) {
+s3urlgen.uploadStreamWrapper = function(filename, tempdir) {
 	var pass = new stream.PassThrough();
+	pass.on('end', () => {
+		console.log("S3 upload finished")
+		encoding.getRidOfTempFile(tempdir, function(err) {
+			if(err == null) {
+				console.log("Got rid of temp files")
+			}
+		})
+	})
 	console.log("upload strem: uploading to s3 = " + filename)
   	var params = {Bucket: bucket, Key: filename, Body: pass};
   	s3.upload(params, function(err, data) {

@@ -21,8 +21,18 @@ function makeEncodeCommand(tempdir, infile) {
 	} 
 }
 
-encoding.getRidOfTempFile = function(dir, file, callback) {
-
+encoding.getRidOfTempFile = function(dir, callback) {
+	console.log("executing `rm -rf " + dir +"`")
+	exec("rm -rf " + dir, function(err) {
+		if(err != null) {
+			console.log("Error deleting temp directory: " + err)
+			callback(err)
+		}
+		else {
+			console.log("     >>>>  Temp directory deleted OK")
+			callback(null)
+		}
+	})
 }
 
 encoding.encode = function (data, callback) {
@@ -35,7 +45,7 @@ encoding.encode = function (data, callback) {
 	}
 	else {
 		console.log("  created temp dir successfully")
-		fs.writeFile(ncodeDir + "/" + tempdir + "/" + infilename, data, function(err) {
+		fs.writeFile(EncodeDir + "/" + tempdir + "/" + infilename, data, function(err) {
 			if(err) {
 				callback(err, null)
 			}

@@ -14,9 +14,11 @@ router.post('/video', function(req, res) {
 	console.log(" >>>> post video called ")
 	const userId = req.headers["userid"]
 	const data = req.body
+	res.json({result:'upload success'})
 	videoencoder.encode(data, function(err, tempFileObj) {
 		if(err!=null) {
-			res.status(500).json(err)
+			//res.status(500).json(err)
+			console.log("Encode error: " + err)
 		}	
 		else {
 			console.log("    >>> encoding seems ok")
@@ -24,8 +26,7 @@ router.post('/video', function(req, res) {
 			console.log("    >>> Finished encoding: " + fullpath)
 			fileObj = generateRandomName(userId)
 			var readStream = fs.createReadStream(fullpath)
-			readStream.pipe(s3manager.uploadStreamWrapper(fileObj.filename))	
-			res.json({result:'success'})
+			readStream.pipe(s3manager.uploadStreamWrapper(fileObj.filename, tempFileObj.directory))	
 		}
 	})
 })
