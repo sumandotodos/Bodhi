@@ -26,6 +26,8 @@ public class UIScaleFader : FGProgram, UITwoPointEffect {
 
 	public EaseType easeType;
 
+    System.Action effectEndCallback = null;
+
 	public bool startScaledOut = true;
 
 	int state = 0; 	// 0: idle;
@@ -97,7 +99,19 @@ public class UIScaleFader : FGProgram, UITwoPointEffect {
 		scale.setValue (minScale);
 	}
 
-	public void scaleOutImmediately() {
+    public void scaleOut(System.Action endCallback)
+    {
+        scaleOut();
+        effectEndCallback = endCallback;
+    }
+
+    public void scaleIn(System.Action endCallback)
+    {
+        scaleIn();
+        effectEndCallback = endCallback;
+    }
+
+    public void scaleOutImmediately() {
 		state = 1;
 		scale.setValueImmediate (minScale);
 	}
@@ -160,6 +174,11 @@ public class UIScaleFader : FGProgram, UITwoPointEffect {
                 if(scaleValue <= 0.01f)
                 {
                     disableRender();
+                    if(effectEndCallback!=null)
+                    {
+                        effectEndCallback();
+                        effectEndCallback = null;
+                    }
                 }
                 notifyFinish ();
 				state = 0;

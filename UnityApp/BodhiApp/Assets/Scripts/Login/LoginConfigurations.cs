@@ -64,7 +64,7 @@ public class LoginConfigurations : MonoBehaviour
 
     public static string MakeServerBaseURL()
     {
-        return "https://apps.flygames.org/bodhi";
+        return "https://apps.flygames.org/volare";
     }
 
     public static string MakeFBTokenFromCodeURL(string code)
