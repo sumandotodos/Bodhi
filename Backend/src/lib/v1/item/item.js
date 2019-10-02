@@ -10,7 +10,53 @@ const s3manager = require('../../s3urlGenerator')
 const videoencoder = require('../../videoencoding/videoencoding')
 const fs = require('fs')
 
-router.post('/video', function(req, res) {
+router.put('/video/:touserid/:questionid', function(req, res) {
+	console.log(" >>>> post video called ")
+	const userId = req.headers["userid"]
+	const toUserId = req.params["touserid"]
+	const questionId = req.params["questionId"]
+	const data = req.body
+	res.json({result:'upload success'})
+	videoencoder.encode(data, function(err, tempFileObj) {
+		if(err!=null) {
+			//res.status(500).json(err)
+			console.log("Encode error: " + err)
+		}	
+		else {
+			console.log("    >>> encoding seems ok")
+			var fullpath = tempFileObj.directory + "/" + tempFileObj.outfile
+			console.log("    >>> Finished encoding: " + fullpath)
+			fileObj = generateRandomName(userId)
+			var readStream = fs.createReadStream(fullpath)
+			readStream.pipe(s3manager.uploadStreamWrapper(
+					fileObj.filename, 
+					tempFileObj.directory,
+					(err) => {
+						if(err == null) {
+							console.log("Adding message to user " + toUserId)
+							Messages.create({
+								_id: mongoose.Types.ObjectId(),
+								_fromuserid:userId,
+								_touserid:toUserId,
+								type: 'Question Answered',
+								content:questionId,
+								extra:fileObj.filename,
+								viewed: false
+						  }, function(err, msg) {
+								if(err != null) {
+										res.status(500).json({error:err})
+								}
+								else {
+										res.json({result:'success'})
+								}
+						  })	
+						}
+					}))	
+		}
+	})
+})
+
+router.put('/video', function(req, res) {
 	console.log(" >>>> post video called ")
 	const userId = req.headers["userid"]
 	const data = req.body
@@ -42,15 +88,15 @@ router.get('/downloadurl/:colonseparatedfilepath', function(req, res) {
 function generateRandomName(userId) {
 	const randomId = Math.random().toString(36).substring(2, 15) +
                 Math.random().toString(36).substring(2, 15)
-        randomname =
-                "video/" +
-                userId + "/" +
-                randomId
-                ".mp4";
-        var file = {}
+    randomname =
+        "video/" +
+        userId + "/" +
+        randomId +
+        ".mp4";
+    var file = {}
 	file.filename = randomname
-        file.id = randomId
-        return file
+    file.id = randomId
+    return file
 }
 
 function generateUploadUrl(userId) {
@@ -61,11 +107,11 @@ function generateUploadUrl(userId) {
         return url
 }
 
-router.get('/uploadurl', function(req, res) {
+/*router.get('/uploadurl', function(req, res) {
 	const userId = req.headers["userid"]
 	url = getUploadUrl(userId)
 	res.json(url)
-})
+})*/
 
 router.put('/avatar', function(req, res) {
         const currentUser = req.headers["userid"]

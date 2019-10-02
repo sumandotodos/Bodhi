@@ -14,58 +14,44 @@ function makeEncodeCommand(tempdir, infile) {
 	return {
 		command: "ffmpeg -i " + EncodeDir + "/" + 
 		tempdir + "/" + infile 
-		+ " " + EncodeDir + "/" + 
+		+ " -vf scale=-1:512 " + EncodeDir + "/" + 
 		tempdir + "/" + outfile,
 		outfile: outfile, 
 		directory: EncodeDir + "/" + tempdir
 	} 
 }
 
-encoding.getRidOfTempFile = function(dir, callback) {
-	console.log("executing `rm -rf " + dir +"`")
-	exec("rm -rf " + dir, function(err) {
-		if(err != null) {
-			console.log("Error deleting temp directory: " + err)
-			callback(err)
+encoding.encode = function (data, callback) {
+  	console.log(" >> encoding.encode   called   with length: " + data.length)
+  	const infilename = helpers.generateRandomString(20)
+  	const tempdir = helpers.generateRandomString(20)
+  	exec("mkdir " + EncodeDir + "/" + tempdir, null, function(err) {
+		if(err) {
+			callback(err, null)
 		}
 		else {
-			console.log("     >>>>  Temp directory deleted OK")
-			callback(null)
+			console.log("  created temp dir successfully")
+			fs.writeFile(EncodeDir + "/" + tempdir + "/" + infilename, data, function(err) {
+				if(err) {
+					callback(err, null)
+				}
+				else {
+					console.log("   wrote temp input file successfully")
+					const encodeCommand = makeEncodeCommand(tempdir, infilename)
+					console.log("   encode command: " + JSON.stringify(encodeCommand))
+					var result = exec(encodeCommand.command, null, function(err) {
+						if(err) {
+							callback(err, null)
+						}
+						else {
+							console.log("   encoding finished, calling callback with success")
+							callback(null, {outfile:encodeCommand.outfile, directory:encodeCommand.directory})
+						}
+					})
+				}
+			})
 		}
-	})
-}
-
-encoding.encode = function (data, callback) {
-  console.log(" >> encoding.encode   called   with length: " + data.length)
-  const infilename = helpers.generateRandomString(20)
-  const tempdir = helpers.generateRandomString(20)
-  exec("mkdir " + EncodeDir + "/" + tempdir, null, function(err) {
-	if(err) {
-		callback(err, null)
-	}
-	else {
-		console.log("  created temp dir successfully")
-		fs.writeFile(EncodeDir + "/" + tempdir + "/" + infilename, data, function(err) {
-			if(err) {
-				callback(err, null)
-			}
-			else {
-				console.log("   wrote temp input file successfully")
-				const encodeCommand = makeEncodeCommand(tempdir, infilename)
-				console.log("   encode command: " + JSON.stringify(encodeCommand))
-				var result = exec(encodeCommand.command, null, function(err) {
-					if(err) {
-						callback(err, null)
-					}
-					else {
-						console.log("   encoding finished, calling callback with success")
-						callback(null, {outfile:encodeCommand.outfile, directory:encodeCommand.directory})
-					}
-				})
-			}
-		})
-	}
-  })
+  	})
 }
 
 module.exports = encoding

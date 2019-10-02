@@ -151,7 +151,7 @@ function getFavoritesAndUpvotesAdvantage(userId, successCallback, errorCallback,
 	)
 }
 
-router.get('/getuploadurl', function(req, res) {
+/*router.get('/getuploadurl', function(req, res) {
 	const currentUser = req.headers["userid"]
 	randomname =
                 "video/" +
@@ -163,7 +163,7 @@ router.get('/getuploadurl', function(req, res) {
 	console.log(randomname)
         console.dir(url)
         res.json(url)
-})
+})*/
 
 router.post('/', function(req, res) {
 	var obj = req.body

@@ -1,7 +1,7 @@
 const config = require('./config')
 const AWS = require('aws-sdk')
 const stream = require('stream')
-const encoding = require('./videoencoding/videoencoding')
+const localfiles = require('./localfiles/localfiles')
 
 AWS.config.update(
 	{
@@ -57,7 +57,7 @@ s3urlgen.uploadStreamWrapper = function(filename, tempdir) {
 	var pass = new stream.PassThrough();
 	pass.on('end', () => {
 		console.log("S3 upload finished")
-		encoding.getRidOfTempFile(tempdir, function(err) {
+		localfiles.getRidOfTempDir(tempdir, function(err) {
 			if(err == null) {
 				console.log("Got rid of temp files")
 			}
@@ -70,18 +70,5 @@ s3urlgen.uploadStreamWrapper = function(filename, tempdir) {
   	});
   	return pass;
 }
-
-//s3urlgen.s3Client = new Minio.Client(
-//	{
-//                endPoint: 's3.amazonaws.com',
-//		useSSL: true,
-//                accessKey: config.accessKeyId,
-//                secretKey: config.secretAccessKey
-//        }
-//)
-
-//s3urlgen.s3putGen = function(fname) {
-//	s3urlgen.s3Client.presignedPutObject(bucket, fname, 5*60).then((url) => { return url })	
-//}
 
 module.exports = s3urlgen
