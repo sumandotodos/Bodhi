@@ -32,6 +32,7 @@ public class User
     public int favoritized;
 
     public string favquestion;
+    public string favquestionid;
 }
 
 [System.Serializable]

@@ -47,9 +47,12 @@ public class ProgressBar : MonoBehaviour
 
     public void UpdateProgress(uint length, float fraction)
     {
+        Debug.Log("Progress updated: " + length + ", " + fraction);
         if(length > 0)
         {
             BytesToTransfer = length;
+            uint transferred = (uint)(((float)length) * fraction);
+            SetTransferredBytes(transferred);
         }
         SetBarFraction(fraction);
     }
@@ -71,8 +74,10 @@ public class ProgressBar : MonoBehaviour
     {
         float fraction = GetTransferFraction();
 
-        ProgressText.text = BytesToKBytes(TransferredBytes) + "/" + BytesToKBytes(BytesToTransfer) + " kBytes / (" +
+        uint kbytes = BytesToKBytes(BytesToTransfer);
+        ProgressText.text = BytesToKBytes(TransferredBytes) + "/" + kbytes + " kBytes / (" +
             Mathf.RoundToInt(fraction * 100.0f) + "%)";
+        ProgressText.enabled = (kbytes > 0);
 
         SetBarFraction(fraction);
     }

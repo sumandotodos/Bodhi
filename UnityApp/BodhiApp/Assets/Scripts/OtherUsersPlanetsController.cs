@@ -146,6 +146,11 @@ public class OtherUsersPlanetsController : MonoBehaviour
         return listOfUsers[prevSection].favquestion;
     }
 
+    public string GetQuestionId()
+    {
+        return listOfUsers[prevSection].favquestionid;
+    }
+
     public void TouchOnAnswerQuestion()
     {
 

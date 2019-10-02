@@ -8,7 +8,6 @@ using System.IO;
 public class ReceiveVideoResponseController : MonoBehaviour
 {
     public string TestVideoToDownloadRemotePath = "video/12/n4tn7s0h98mf7llfdupww4njax";
-    public Text DebugTecst;
     public VideoPlayer videoPlayer;
     public RawImage cinema;
     public VolareVideoPlayer volareVideoPlayer;
@@ -16,32 +15,52 @@ public class ReceiveVideoResponseController : MonoBehaviour
     private void Start()
     {
         LoginConfigurations.init();
-        FileDownloadController.GetSingleton().StartFileDownload(TestVideoToDownloadRemotePath,
+        DownloadAndPlayVideoResponse(TestVideoToDownloadRemotePath);
+    }
+
+    public string idFromFullPath(string fullPath)
+    {
+        string[] fields = fullPath.Split('/');
+        return fields[fields.Length - 1];
+    }
+
+    public void DownloadAndPlayVideoResponse(string remoteFilepath)
+    {
+        string id = idFromFullPath(remoteFilepath);
+        FileDownloadController.GetSingleton().StartFileDownload(remoteFilepath,
         (err, res) =>
         {
-          Debug.Log("Download done, it seems");
-          DebugTecst.text = "Download done, it seems";
-          File.WriteAllBytes(Application.temporaryCachePath + "/" + "sss.MP4", res);
-            DebugTecst.text = "" + res.Length;
-            videoPlayer.url = Application.temporaryCachePath + "/" + "sss.MP4";
-            volareVideoPlayer.StartPlaying();
-            StartCoroutine(VideoFinishPoll());
-          //NativeGallery.Permission permission = NativeGallery.SaveVideoToGallery(res, "Volare", "asdasd.mp4");
-          //NativeGallery.GetVideoFromGallery((path) =>
-          //{
-          //    DebugTecst.text += "\n"+path;
-          //    Handheld.PlayFullScreenMovie(path);
-          //});
-          //Handheld.PlayFullScreenMovie("asdasd.mp4");
+            if (err == null)
+            {
+                File.WriteAllBytes(Application.temporaryCachePath + "/" + id + ".MP4", res);
+                videoPlayer.url = Application.temporaryCachePath + "/" + id + ".MP4";
+                volareVideoPlayer.StartPlaying();
+                StartCoroutine(VideoFinishPoll());
+            }
+            else 
+            {
+                
+            }
         });
-        /*FileDownloadController.GetSingleton().GetVideoURL(TestVideoToDownloadRemotePath,
-        (err, url) =>
-        {
-            Debug.Log("<color=blue>Url=" + url + "</video>");
-            videoPlayer.url = url;
-            videoPlayer.Play();
-        });*/
     }
+
+    public static void DeleteCache()
+    {
+        string path = Application.temporaryCachePath;
+
+        System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(path);
+
+        foreach (System.IO.FileInfo file in di.GetFiles())
+        {
+            file.Delete();
+        }
+
+        foreach (System.IO.DirectoryInfo dir in di.GetDirectories())
+        {
+            dir.Delete(true);
+        }
+    }
+
 
     IEnumerator VideoFinishPoll()
     {

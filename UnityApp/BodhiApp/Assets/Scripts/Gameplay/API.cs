@@ -120,7 +120,25 @@ public class API : MonoBehaviour
         return REST.GetSingleton().PUT(url, data, callback);
     }
 
-    public Coroutine GetUserProfileAndQuestion(string userid, User u, System.Action<string, User, ProfileAndQuestion> callback)
+    public Coroutine UploadVideoResponse(
+        string userid, 
+        string touserid, 
+        string questionid,
+        byte[] allBytes,
+        System.Action<uint, float> updateCallback, 
+        System.Action<string, string> responseCallback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+            "/item/video/" + touserid + "/" + questionid;
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        return REST.GetSingleton().PUT(url, allBytes, updateCallback, responseCallback);
+    }
+
+
+    public Coroutine GetUserProfileAndQuestion(
+        string userid, 
+        User u, 
+        System.Action<string, User, ProfileAndQuestion> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
           "/user/profileandquestion/" + userid;

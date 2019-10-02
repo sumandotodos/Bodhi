@@ -5,12 +5,18 @@ using UnityEngine;
 public class FileDownloadController : MonoBehaviour
 {
     public UploadWait uploadWait;
+    public UIScaleFader downloadErrorScaler;
 
     public static FileDownloadController instance;
 
     private void Awake()
     {
         instance = this;
+    }
+
+    private void Start()
+    {
+        uploadWait.Hide();
     }
 
     public static FileDownloadController GetSingleton()
@@ -44,10 +50,12 @@ public class FileDownloadController : MonoBehaviour
 
     IEnumerator DownloadVideoCoroutine(string filepath, System.Action<string, byte[]> callback = null)
     {
+        yield return new WaitForSeconds(0.5f);
         uploadWait.Show();
         uploadWait.GetProgressBar().SetUpTransfer(0);
         byte[] downloadedBytes = null;
         string downloadUrl = "";
+        string downloadErr = "";
         yield return API.GetSingleton().GetDownloadUrl(PlayerPrefs.GetString("UserId"), filepath, (err, url) =>
         {
             Debug.Log("Download url: " + url);
@@ -56,20 +64,32 @@ public class FileDownloadController : MonoBehaviour
 
         yield return REST.GetSingleton().GET_Binary(downloadUrl, uploadWait.GetProgressBar().UpdateProgress,
             (err, allTheBytes) => {
-                downloadedBytes = allTheBytes;
-            Debug.Log("Bytes downloaded: " + allTheBytes.Length);
+                if(err!=null)
+                {
+                    downloadErr = err;
+                    downloadErrorScaler.scaleIn();
+                }
+                else
+                {
+                    downloadedBytes = allTheBytes;
+                    Debug.Log("Bytes downloaded: " + allTheBytes.Length);
+                }
+
         });
 
        
         yield return new WaitForSeconds(1.0f);
         uploadWait.Hide();
 
-        callback(null, downloadedBytes);
-      
-        /*if (callback != null)
+        if (downloadedBytes != null)
         {
-            callback("success", storedFileId);
-        }*/
+            callback(null, downloadedBytes);
+        }
+        else 
+        {
+            callback(downloadErr, null);
+        }
+
     }
 
 }
