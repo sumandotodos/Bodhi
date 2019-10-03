@@ -99,8 +99,6 @@ public class REST : MonoBehaviour
     }
 
 
-
-
     IEnumerator REST_Binary_Coroutine(UnityWebRequest res, string url, System.Action<uint, float> progressCallback, System.Action<string, byte[]> callback)
     {
         if (loadWaitController_N != null)

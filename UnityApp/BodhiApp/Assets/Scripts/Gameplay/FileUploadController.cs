@@ -24,26 +24,35 @@ public class FileUploadController : MonoBehaviour
         return instance;
     }
 
-    public void StartFileUpload(string path, System.Action<string, string> callback = null)
+    public void StartFileUpload(
+        string path, 
+        string toUserId, 
+        string questionId, 
+        System.Action<string, string> callback = null)
     {
-        StartCoroutine(UploadVideoCoroutine(path, callback));
+        StartCoroutine(UploadVideoCoroutine(path, toUserId, questionId, callback));
     }
 
-    IEnumerator UploadVideoCoroutine(string filepath, System.Action<string, string> callback = null)
+    IEnumerator UploadVideoCoroutine(
+        string filepath, 
+        string toUserId, 
+        string questionId, 
+        System.Action<string, string> callback = null)
     {
         byte[] allBytes = System.IO.File.ReadAllBytes(filepath);
         uploadWait.Show();
         uploadWait.GetProgressBar().SetUpTransfer((uint)allBytes.Length);
         string uploadUrl = "";
         string storedFileId = "";
-        yield return API.GetSingleton().GetUploadUrl(PlayerPrefs.GetString("UserId"), (err, urlObj) =>
+        /*yield return API.GetSingleton().GetUploadUrl(PlayerPrefs.GetString("UserId"), (err, urlObj) =>
         {
             Debug.Log("<color=orange>Upload URL = " + urlObj.url + "</color>");
             Debug.Log("<color=purple>Upload id = " + urlObj.id + "</color>");
             uploadUrl = urlObj.url;
             storedFileId = urlObj.id;
-        });
-        yield return REST.GetSingleton().PUT(uploadUrl, allBytes, uploadWait.GetProgressBar().UpdateProgress,
+        });*/
+
+        /*yield return REST.GetSingleton().PUT(uploadUrl, allBytes, uploadWait.GetProgressBar().UpdateProgress,
             (err, response) =>
             {
                 Debug.Log("This was the err: " + err + ", and this was the response: " + response);
@@ -51,7 +60,18 @@ public class FileUploadController : MonoBehaviour
                 {
                     callback("error", "");
                 }
-            });
+            });*/
+        yield return API.GetSingleton().UploadVideoResponse(
+            PlayerPrefs.GetString("UserId"),
+            toUserId,
+            questionId,
+            allBytes,
+            uploadWait.GetProgressBar().UpdateProgress,
+            (err, response) =>
+                {
+                    Debug.Log("This was the err: " + err + ", and this was the response: " + response);
+                }
+            );
         yield return new WaitForSeconds(1.0f);
         uploadWait.Hide();
         MessagesController.GetSingleton().ShowMessage("Tu vídeo-respuesta se ha subido correctamente", Color.white);

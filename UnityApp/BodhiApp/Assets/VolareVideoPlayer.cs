@@ -15,7 +15,7 @@ public class VolareVideoPlayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //playerRI.enabled = false;
+        playerRI.enabled = false;
     }
 
     public void StartPlaying()
@@ -57,7 +57,7 @@ public class VolareVideoPlayer : MonoBehaviour
         Scaler.setEaseType(EaseType.cubicIn);
         Scaler.scaleOut( () =>
         {
-            //playerRI.enabled = false;
+            playerRI.enabled = false;
         });
     }
 }

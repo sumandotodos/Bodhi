@@ -12,6 +12,9 @@ public class SendVideoResponseController : MonoBehaviour
     public string TestVideoRecordPath = "/Resources/Video/DefaultVideo.MP4";
     public string TestGalleryRecordPath = "/Resources/Video/DefaultGalleryVideo.MP4";
 
+    string QuestionId;
+    string OtherUserId;
+
     public OtherUsersPlanetsController otherUsersPlanetController;
 
     string videoPath = "";
@@ -24,12 +27,16 @@ public class SendVideoResponseController : MonoBehaviour
         string userId = otherUsersPlanetController.GetUserId();
         MessageRecipient = userId;
         string question = otherUsersPlanetController.GetQuestion();
+        string questionId = otherUsersPlanetController.GetQuestionId();
         if (question != "")
         {
             AnsweredQuestion = question;
             SelectSourceMenuScaler.scaleIn();
 
         }
+        Debug.Log("Answering question: " + questionId + ", of user: " + userId);
+        OtherUserId = userId;
+        QuestionId = questionId;
     }
 
     public void TouchOnRecordVideo() {
@@ -37,16 +44,17 @@ public class SendVideoResponseController : MonoBehaviour
         SelectSourceMenuScaler.scaleOut();
 
 #if UNITY_EDITOR
-        //FileUploadController.GetSingleton().StartFileUpload(Application.dataPath + TestVideoRecordPath);
+        //FileUploadController.GetSingleton().StartFileUpload(
+        //    Application.dataPath + TestVideoRecordPath,
+        //    OtherUserId,
+        //    QuestionId);
         videoPath = Application.dataPath + TestVideoRecordPath;
-        ShowVideoPreview(videoPath);
         ConfirmMenuScaler.scaleIn();
 #else
             NativeCamera.RecordVideo((path) =>
             {
-                //FileUploadController.GetSingleton().StartFileUpload(path);
+                FileUploadController.GetSingleton().StartFileUpload(path);
                 videoPath = path;
-                ShowVideoPreview(videoPath);
                 ConfirmMenuScaler.scaleIn();
             }, NativeCamera.Quality.Low);
 #endif
@@ -56,6 +64,22 @@ public class SendVideoResponseController : MonoBehaviour
     public void TouchOnSelectFromGallery()
     {
         SelectSourceMenuScaler.scaleOut();
+
+#if UNITY_EDITOR
+        //FileUploadController.GetSingleton().StartFileUpload(
+        //    Application.dataPath + TestGalleryRecordPath,
+        //    OtherUserId,
+        //    QuestionId);
+        videoPath = Application.dataPath + TestVideoRecordPath;
+        ConfirmMenuScaler.scaleIn();
+#else
+            NativeGallery.GetVideoFromGallery((path) =>
+            {
+                FileUploadController.GetSingleton().StartFileUpload(path);
+                videoPath = path;
+                ConfirmMenuScaler.scaleIn();
+            }, NativeCamera.Quality.Low);
+#endif
     }
 
     public void TouchOnCancel()
@@ -72,20 +96,23 @@ public class SendVideoResponseController : MonoBehaviour
     public void TouchOnYes()
     {
         videoPlayer.Stop();
-        FileUploadController.GetSingleton().StartFileUpload(videoPath, 
-        (result, fileid) =>
-        {
-            if(result=="success")
-            {
-                API.GetSingleton().CreateMessage(
-                        PlayerPrefs.GetString("UserId"),
-                        MessageRecipient,
-                        "Answered Question",
-                        AnsweredQuestion,
-                        fileid);
+        FileUploadController.GetSingleton().StartFileUpload(
+            videoPath,
+            OtherUserId,
+            QuestionId, 
+             (result, fileid) =>
+             {
+                if(result=="success")
+                    {
+                        /*API.GetSingleton().CreateMessage(
+                            PlayerPrefs.GetString("UserId"),
+                            MessageRecipient,
+                            "Answered Question",
+                            AnsweredQuestion,
+                            fileid);*/
 
-            }
-        });
+                    }
+            });
         ConfirmMenuScaler.scaleOut();
     }
 

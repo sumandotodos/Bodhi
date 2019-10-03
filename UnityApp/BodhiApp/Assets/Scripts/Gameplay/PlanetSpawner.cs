@@ -330,6 +330,7 @@ public class PlanetSpawner : MonoBehaviour
         {
             yield return API.GetSingleton().GetUserProfileAndQuestion(u._id, u, (res, user, profquest) =>
             {
+                user.favquestionid = profquest.favquestionid;
                 if (ContentsManager.IsLocalContent(profquest.favquestionid))
                 {
                     user.favquestion = ContentsManager.GetSingleton().GetLocalContentFromId(profquest.favquestionid);
