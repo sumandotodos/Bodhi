@@ -5,6 +5,7 @@ const MessageSchema = new mongoose.Schema({
 	_fromuserid: String,
 	_touserid: String,
 	type: String,
+	contentid: String,
 	content: String,
 	extra: String,
 	viewed: Boolean

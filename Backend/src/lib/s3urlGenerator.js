@@ -53,7 +53,7 @@ s3urlgen.s3getGen = function(filename) {
         return { url:url, error:null }
 }
 
-s3urlgen.uploadStreamWrapper = function(filename, tempdir) {
+s3urlgen.uploadStreamWrapper = function(filename, tempdir, callback) {
 	var pass = new stream.PassThrough();
 	pass.on('end', () => {
 		console.log("S3 upload finished")
@@ -61,6 +61,7 @@ s3urlgen.uploadStreamWrapper = function(filename, tempdir) {
 			if(err == null) {
 				console.log("Got rid of temp files")
 			}
+			callback(err)
 		})
 	})
 	console.log("upload strem: uploading to s3 = " + filename)

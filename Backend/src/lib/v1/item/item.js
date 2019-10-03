@@ -2,19 +2,21 @@ var express = require('express')
 var router = express.Router()
 const mongoose = require('mongoose')
 const Items = require('../../schema/Items/Items').model
+const Messages = require('../../schema/Messages/Messages').model
 const Users = require('../../schema/Users/Users').model
 const Favorites = require('../../schema/Favorites/Favorites').model
 const Avatars = require('../../schema/Avatars/Avatars').model
 const helpers = require('../Helpers')
+const contents = require('../../contents/contents')
 const s3manager = require('../../s3urlGenerator')
 const videoencoder = require('../../videoencoding/videoencoding')
 const fs = require('fs')
 
 router.put('/video/:touserid/:questionid', function(req, res) {
-	console.log(" >>>> post video called ")
+	console.log(" >>>> post video called params version")
 	const userId = req.headers["userid"]
 	const toUserId = req.params["touserid"]
-	const questionId = req.params["questionId"]
+	const questionId = req.params["questionid"]
 	const data = req.body
 	res.json({result:'upload success'})
 	videoencoder.encode(data, function(err, tempFileObj) {
@@ -34,22 +36,32 @@ router.put('/video/:touserid/:questionid', function(req, res) {
 					(err) => {
 						if(err == null) {
 							console.log("Adding message to user " + toUserId)
-							Messages.create({
-								_id: mongoose.Types.ObjectId(),
-								_fromuserid:userId,
-								_touserid:toUserId,
-								type: 'Question Answered',
-								content:questionId,
-								extra:fileObj.filename,
-								viewed: false
-						  }, function(err, msg) {
-								if(err != null) {
-										res.status(500).json({error:err})
+							contents.resolveContent(questionId, function(err, content) {
+
+								if(err) {
+									console.log("Error retrieving content: " + err)
+									return
 								}
-								else {
-										res.json({result:'success'})
-								}
-						  })	
+								console.log("contents resolved successfully")
+								Messages.create({
+									_id: mongoose.Types.ObjectId(),
+									_fromuserid:userId,
+									_touserid:toUserId,
+									type: 'Question Answered',
+									content:content,
+									contentid:questionId,
+									extra:fileObj.filename,
+									viewed: false
+								  }, function(err, msg) {
+									if(err != null) {
+											console.log("Error: " + err)
+									}
+									else {
+											console.log("Message added OK")
+									}
+								  })	
+
+							})					
 						}
 					}))	
 		}
