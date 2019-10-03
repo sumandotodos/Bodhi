@@ -23,16 +23,18 @@ public class ListItem
     public string id;
     public Color color;
     public string content;
+    public string question;
     public string extra;
     public GameObject Prefab;
     //public float fixedSize = -1.0f;
 
-    public ListItem(string _id, Color _color, string _content, string _extra, GameObject _Prefab)//, float FixedSize = -1.0f)
+    public ListItem(string _id, Color _color, string _content, string _question, string _extra, GameObject _Prefab)//, float FixedSize = -1.0f)
     {
         id = _id;
         color = _color;
         content = _content;
         Prefab = _Prefab;
+        question = _question;
         extra = _extra;
        // fixedSize = FixedSize;
     }
@@ -112,7 +114,6 @@ public class ItemsController : MonoBehaviour
                     }
                 }
 
-
                 listController.AddSlab(SpawnSlab(item));
                 yield return new WaitForSeconds(0.15f);
             }
@@ -125,19 +126,16 @@ public class ItemsController : MonoBehaviour
 
     Slab SpawnSlab(ListItem item)
     {
-        Slab newSlab = SpawnSlab(item.Prefab, new Vector2(11.0f, CurrentDestinationY), new Vector2(11.0f, CurrentDestinationY - 1850.0f));
+        Slab newSlab = SpawnSlab(item.Prefab, 
+            new Vector2(11.0f, CurrentDestinationY), 
+            new Vector2(11.0f, CurrentDestinationY - 1850.0f));
         newSlab.SetColor(item.color);
         newSlab.Index = listController.GetNumberOfSlabs();
         newSlab.id = item.id;
+        newSlab.question = item.question;
+        newSlab.extra = item.extra;
         float h = 0.0f;
-        /*if (item.fixedSize > -1.0f)
-        {
-            h = item.fixedSize;
-            newSlab.GetComponentInChildren<Text>().text = item.content;
-            newSlab.ForceHeight(h);
-        }
-        else
-        {*/
+       
         if (item.content == "")
         {
            h = newSlab.SetText(GetText(item));
@@ -148,8 +146,7 @@ public class ItemsController : MonoBehaviour
         }
         h = Mathf.Max(h, MinSlabHeight);
         newSlab.SetHeight(h);
-        //}
-
+       
         CurrentDestinationY -= newSlab.Adjust(h);
         return newSlab;
     }
@@ -219,9 +216,7 @@ public class ItemsController : MonoBehaviour
     // should renamed from Dislike to Dismiss, maybe....
     public void Dislike(string id, int index)
     {
-        // do something with id and save to file
         listController.DismissItem(index);
-        //API.GetSingleton().DestroyFavorite(PlayerPrefs.GetString("UserId"), id);
         itemPopulator.DeleteItemCallback(id);
     }
 

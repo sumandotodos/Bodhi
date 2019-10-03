@@ -13,8 +13,11 @@ public class MessagesPopulator : ItemPopulator
             for (int i = 0; i < result.result.Count; ++i)
             {
                 Color col = ColorFromType(result.result[i].type);
-                listItems.Add(new ListItem(result.result[i]._id, col, result.result[i].extra,
+                string question = result.result[i].content;
+                listItems.Add(new ListItem(result.result[i]._id, col, 
                     MakeContent(result.result[i]),
+                    question,
+                    result.result[i].extra,
                     SlabPrefab));
             }
             callback(listItems);
@@ -47,6 +50,10 @@ public class MessagesPopulator : ItemPopulator
                 return "El usuario <color=white>" + msg.extra + " </color>quiere conectar contigo";
 
             case "Question Answered":
+                if(ContentsManager.IsLocalContent(msg.contentid))
+                {
+                    msg.content = ContentsManager.GetSingleton().GetLocalContentFromId(msg.contentid);
+                }
                 return "El usuario <color=white>"+msg.fromuserid+"</color> ha contestado a tu pregunta <color=yellow>"+
                     msg.content
                     + "</color>";

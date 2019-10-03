@@ -131,6 +131,7 @@ public class API : MonoBehaviour
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
             "/item/video/" + touserid + "/" + questionid;
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        REST.GetSingleton().AddHeader("content-type", "application/octet-stream");
         return REST.GetSingleton().PUT(url, allBytes, updateCallback, responseCallback);
     }
 

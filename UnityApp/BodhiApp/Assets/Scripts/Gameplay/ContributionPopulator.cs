@@ -16,7 +16,7 @@ public class ContributionPopulator : ItemPopulator
                     {
                         col = Color.gray;
                     }
-                    listItems.Add(new ListItem(result.result[i]._id, col, result.result[i].content, "", SlabPrefab));
+                    listItems.Add(new ListItem(result.result[i]._id, col, result.result[i].content, "", "", SlabPrefab));
                 }
                 callback(listItems);
             }

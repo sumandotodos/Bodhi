@@ -288,7 +288,7 @@ MonoBehaviour:
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1246009452825351956, guid: 7157a5795f5a0474fac2c0c54df89b94,
     type: 3}
-  m_PrefabInstance: {fileID: 1246009453102568555}
+  m_PrefabInstance: {fileID: 148962480967235123}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -2302,7 +2302,7 @@ RectTransform:
   - {fileID: 765273249}
   - {fileID: 1663095447}
   - {fileID: 551414168}
-  - {fileID: 4470494192693723135}
+  - {fileID: 3404954649420213140}
   - {fileID: 1092724356}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -2747,7 +2747,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rosetta: {fileID: 2084444207}
---- !u!1001 &1246009453102568555
+--- !u!1001 &148962480967235123
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -2766,8 +2766,8 @@ PrefabInstance:
       objectReference: {fileID: 360211287}
     - target: {fileID: 1246009452825351956, guid: 7157a5795f5a0474fac2c0c54df89b94,
         type: 3}
-      propertyPath: TestVideoRecordPath
-      value: /Resources/Video/DefaultVideoMP4.MP4
+      propertyPath: TestGalleryRecordPath
+      value: /Resources/Video/DefaultVideoAndroid.mp4
       objectReference: {fileID: 0}
     - target: {fileID: 4470494192693723135, guid: 7157a5795f5a0474fac2c0c54df89b94,
         type: 3}
@@ -2826,11 +2826,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7157a5795f5a0474fac2c0c54df89b94, type: 3}
---- !u!4 &4470494192693723135 stripped
+--- !u!4 &3404954649420213140 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4470494192693723135, guid: 7157a5795f5a0474fac2c0c54df89b94,
     type: 3}
-  m_PrefabInstance: {fileID: 1246009453102568555}
+  m_PrefabInstance: {fileID: 148962480967235123}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &4917402486619744248
 GameObject:
