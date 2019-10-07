@@ -12,7 +12,7 @@ public class FavoritesPopulator : ItemPopulator
             for (int i = 0; i < favs.favorites.Count; ++i)
             {
                 Color col = ColorByCategory.GetSingleton().ResolveColor(favs.favorites[i]);
-                listItems.Add(new ListItem(favs.favorites[i], col, "", "", SlabPrefab));
+                listItems.Add(new ListItem(favs.favorites[i], col, "", "", "", SlabPrefab));
             }
             callback(listItems);
         });

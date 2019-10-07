@@ -26,33 +26,33 @@ public class PersonProfilePopulator : ItemPopulator
         string OtherUserId = PlayerPrefs.GetString("OtherUserId");
 
         // Follow / Unfollow
-        listItems.Add(new ListItem(OtherUserId, Color.grey, "", "", FollowSlab));
+        listItems.Add(new ListItem(OtherUserId, Color.grey, "", "", "", FollowSlab));
 
 
         // Profile header ...
-        listItems.Add(new ListItem("", Color.grey, "Perfil de " + OtherUserHandle, "", HeaderPrefab));//, 120.0f));
+        listItems.Add(new ListItem("", Color.grey, "Perfil de " + OtherUserHandle, "", "", HeaderPrefab));//, 120.0f));
         // ... and profile
         yield return API.GetSingleton().GetProfile(OtherUserId, (err, profile) =>
         {
             if (profile.about == "")
             {
-                listItems.Add(new ListItem("", Color.gray, "Sin perfil", "", EmptySlab));
+                listItems.Add(new ListItem("", Color.gray, "Sin perfil", "", "", EmptySlab));
             }
             else
             {
-                listItems.Add(new ListItem(OtherUserId, Color.cyan, profile.about, "", SlabPrefab));
+                listItems.Add(new ListItem(OtherUserId, Color.cyan, profile.about, "", "", SlabPrefab));
             }
         });
 
 
         // Contributions header ...
-        listItems.Add(new ListItem("", Color.grey, "Contribuciones de " + OtherUserHandle, "", HeaderPrefab));
+        listItems.Add(new ListItem("", Color.grey, "Contribuciones de " + OtherUserHandle, "", "", HeaderPrefab));
         // ... and contributions
         yield return API.GetSingleton().GetContributionsList(OtherUserId, (err, result) =>
         {
             if (result.result.Count == 0)
             {
-                listItems.Add(new ListItem("", Color.gray, "No hay contribuciones", "", EmptySlab));
+                listItems.Add(new ListItem("", Color.gray, "No hay contribuciones", "", "", EmptySlab));
             }
             else
             {
@@ -63,13 +63,13 @@ public class PersonProfilePopulator : ItemPopulator
                     {
                         col = Color.gray;
                     }
-                    listItems.Add(new ListItem(result.result[i]._id, col, result.result[i].content, "", ContributionPrefab));
+                    listItems.Add(new ListItem(result.result[i]._id, col, result.result[i].content, "", "", ContributionPrefab));
                 }
             }
         });
 
         // Favorites headers ...
-        listItems.Add(new ListItem("", Color.grey, "Favoritos de " + OtherUserHandle, "", HeaderPrefab));
+        listItems.Add(new ListItem("", Color.grey, "Favoritos de " + OtherUserHandle, "", "", HeaderPrefab));
         // ... and favorites
         List<string> idsToLoad = null;
         yield return API.GetSingleton().GetFavoritesList(OtherUserId, (err, result) =>
@@ -79,7 +79,7 @@ public class PersonProfilePopulator : ItemPopulator
         if (idsToLoad.Count == 0)
         {
 
-            listItems.Add(new ListItem("", Color.gray, "Ningún favorito", "", EmptySlab));
+            listItems.Add(new ListItem("", Color.gray, "Ningún favorito", "", "", EmptySlab));
         }
         else
         {
@@ -98,7 +98,7 @@ public class PersonProfilePopulator : ItemPopulator
                          content = cont;
                      });
                 }
-                listItems.Add(new ListItem(id, col, content, "", PersonsFavoritePrefab));
+                listItems.Add(new ListItem(id, col, content, "", "", PersonsFavoritePrefab));
             }
         }
 

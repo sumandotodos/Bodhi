@@ -55,6 +55,7 @@ public class Message
     public string touserid;
     public string type;
     public string content;
+    public string contentid;
     public string extra;
     public bool viewed;
 }
