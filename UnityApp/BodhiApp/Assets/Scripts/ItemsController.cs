@@ -24,6 +24,7 @@ public class ListItem
     public Color color;
     public string content;
     public string question;
+    public string fromuserid;
     public string extra;
     public GameObject Prefab;
     //public float fixedSize = -1.0f;
@@ -37,6 +38,17 @@ public class ListItem
         question = _question;
         extra = _extra;
        // fixedSize = FixedSize;
+    }
+    public ListItem(string _id, string _fromuserid, Color _color, string _content, string _question, string _extra, GameObject _Prefab)//, float FixedSize = -1.0f)
+    {
+        id = _id;
+        fromuserid = _fromuserid;
+        color = _color;
+        content = _content;
+        Prefab = _Prefab;
+        question = _question;
+        extra = _extra;
+        // fixedSize = FixedSize;
     }
 }
 
@@ -132,6 +144,7 @@ public class ItemsController : MonoBehaviour
         newSlab.SetColor(item.color);
         newSlab.Index = listController.GetNumberOfSlabs();
         newSlab.id = item.id;
+        newSlab.fromuserid = item.fromuserid;
         newSlab.question = item.question;
         newSlab.extra = item.extra;
         float h = 0.0f;
