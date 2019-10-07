@@ -27,7 +27,7 @@ function addMessage(userId, toUserId, type, content, contentid, extra, cb) {
         }, function(err, newmsg) {
 		cb(err, newmsg)
 	}) 
-})
+}
 
 function addPendingMessage(fromuser, touser, content, contentid, extra, cb) {
 	PendingMessages.create({
@@ -84,6 +84,30 @@ function addVideoMessage(fromuser, touser, cB) {
 	})
 }
 
+function PendingVideosToMessages(fromuser, touser) {
+	PendingMessages.find({
+                fromuser:fromuser,
+                touser:touser}, function(err, msgs) {
+			msgs.forEach(function(msg) {
+			   addMessage(msg.fromuser,
+                                   msg.touser,
+                                   'You can now Watch',
+                                   msg.content,
+                                   msg.contentid,
+				   msg.extra,
+                                   function(err, msg) {
+                                      if(err != null) {
+                                         console.log("Error: " + err)
+                                      }
+                                      else {
+                                         console.log("Message added OK")
+                                      }
+                            })
+			    msg.remove()
+			})
+	})
+} 
+
 function getNumberOfVideoMessages(fromuser, touser, cB) {
 	console.log("getNumberOfVideoMessages called: " + fromuser + ", " + touser)
 	VideoMessages.findOne({fromuser:fromuser,touser:touser}, function(err, vdmsg) {
@@ -131,18 +155,57 @@ router.put('/video/:touserid/:questionid', function(req, res) {
 								}
 								console.log("contents resolved successfully")
 								
-								addVideoMessage(userId, toUserId, () => {} )
+								addVideoMessage(userId, toUserId, (count) => {
+									PendingVideosToMessages(toUserId, userId)
+								} )
 								getNumberOfVideoMessages(toUserId, userId, (count) => {
-									const msgtype = count > 0 ? 'Question Answered' : 'Answer to Watch'
-									addMessage(userId,toUserId,msgtype,content,questionId,fileObj.filename, function(err, msg) {
-                                                                        	if(err != null) {
+									if(count == 0) {
+										addMessage(userId,
+											toUserId,
+											'Answer to Watch',
+											content,
+											questionId,
+											fileObj.filename, 
+											function(err, msg) {
+                                                                        		   if(err != null) {
                                                                                 	        console.log("Error: " + err)
-                                                                        	}
-                                                                        	else {
+                                                                        		   }
+                                                                        		   else {
                                                                                 	        console.log("Message added OK")
-                                                                        	}
-                                                                	})
-									// if msgtype == "Answer to Watch' add pending video
+                                                                        		   }
+                                                                		})
+										addPendingMessage(userId, 
+											toUserId, 
+											content, 
+											questionId, 
+											fileObj.filename, 
+											function(err,nv) {
+												if(err != null) {
+													console.log("Error: " + err)
+												}		
+												else {
+													console.log("Pending video added ok")
+												}
+											}
+										)
+									}
+									else {
+										console.log("Question Answered branch")
+										addMessage(userId,
+											toUserId,
+											'Question Answered',
+											content,
+											questionId,
+											fileObj.filename, 
+											function(err, msg) {
+                                                                                	   if(err != null) {
+                                                                                              console.log("Error: " + err)
+                                                                                	   }
+                                                                                	   else {
+                                                                                              console.log("Message added OK")
+                                                                                	   } 
+                                                                                })
+									}
 								})							
 	
 							})					
