@@ -13,6 +13,7 @@ public class Slab : MonoBehaviour
     public string id;
     public string extra;
     public string question;
+    public string fromuserid;
     protected float Height;
 
     float Factor;

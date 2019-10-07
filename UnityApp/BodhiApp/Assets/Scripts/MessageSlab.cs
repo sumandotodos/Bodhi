@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
+/*TODO: subclass MessageSlab into it's different types or this is going to get very dirty*/
 public class MessageSlab : Slab
 {
     public RectTransform PlayButton;
@@ -34,5 +36,21 @@ public class MessageSlab : Slab
         Debug.Log("Downloading: " + extra);
         ReceiveVideoResponseController.GetSingleton().SetOriginalQuestion(question);
         ReceiveVideoResponseController.GetSingleton().DownloadAndPlayVideoResponse(extra);
+    }
+
+    public void TouchOnGoToUserProfile()
+    {
+        PlayerPrefs.SetString("FavoriteType", Heart.FavTypeToString(TypeOfContent.Any));
+        StartCoroutine(_PlanetsToFavoritesSequence("PersonProfile"));
+    }
+
+    IEnumerator _PlanetsToFavoritesSequence(string scene)
+    {
+        UIFader fader = GameObject.Find("Fader").GetComponent<UIFader>();
+        PlayerPrefs.SetString("OtherUserId", fromuserid);
+        yield return new WaitForSeconds(0.3f);
+        fader.fadeToOpaque();
+        yield return new WaitForSeconds(1.0f);
+        yield return SceneManager.LoadSceneAsync(scene);
     }
 }

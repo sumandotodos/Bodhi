@@ -441,6 +441,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SlabPrefab: {fileID: 7613379986560869352, guid: e4158a792b8e34d72b8270306750e175,
     type: 3}
+  AnswerToWatchPrefab: {fileID: 4564158466888106300, guid: 1253bf5f311c94b20a488c9db326c7de,
+    type: 3}
+  QuestionAnsweredPrefab: {fileID: 7613379986560869352, guid: e4158a792b8e34d72b8270306750e175,
+    type: 3}
 --- !u!1 &1697570688
 GameObject:
   m_ObjectHideFlags: 0
