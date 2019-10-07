@@ -5,12 +5,99 @@ const Items = require('../../schema/Items/Items').model
 const Messages = require('../../schema/Messages/Messages').model
 const Users = require('../../schema/Users/Users').model
 const Favorites = require('../../schema/Favorites/Favorites').model
+const VideoMessages = require('../../schema/VideoMessages/VideoMessages').model
+const PendingMessages = require('../../schema/VideoMessages/PendingMessages').model
 const Avatars = require('../../schema/Avatars/Avatars').model
 const helpers = require('../Helpers')
 const contents = require('../../contents/contents')
 const s3manager = require('../../s3urlGenerator')
 const videoencoder = require('../../videoencoding/videoencoding')
 const fs = require('fs')
+
+function addMessage(userId, toUserId, type, content, contentid, extra, cb) {
+	Messages.create({
+        	_id: mongoose.Types.ObjectId(),
+                _fromuserid:userId,
+                _touserid:toUserId,
+                type: type,
+                content:content,
+                contentid:contentid,
+                extra:extra,
+                viewed: false
+        }, function(err, newmsg) {
+		cb(err, newmsg)
+	}) 
+})
+
+function addPendingMessage(fromuser, touser, content, contentid, extra, cb) {
+	PendingMessages.create({
+		_id: mongoose.Types.ObjectId(),
+		fromuser:fromuser,
+		touser:touser,
+		content:content,
+		contentid:contentid,
+		extra:extra
+	}, function(err, newpm) {
+		cb(err, newpm)
+	})
+}
+
+function addVideoMessage(fromuser, touser, cB) {
+	console.log("Add video message called")
+	VideoMessages.findOne({fromuser:fromuser,touser:touser}, function(err, vdmsg) {
+		console.log(" >> find one callback.... ")
+		if(err!=null) {
+			console.log("  >> there was error")
+			cB(0)
+		}
+		else {
+			if(vdmsg == null) {
+				console.log("  >> no previous record found, creating one ")
+				VideoMessages.create({
+					_id: mongoose.Types.ObjectId(),
+					fromuser:fromuser,
+					touser:touser,
+					count:1	
+				}, function(err, newVdMsg) {
+					if(err!=null) {
+						cB(0)
+					}
+					else {
+						cB(1)
+					}
+				})
+			}
+			else {
+				console.log("  >> previous record found, increasing count")
+				vdmsg.count++
+				vdmsg.markModified('count')
+				vdmsg.save(function(err, modifiedvsmsg) {
+					if(err!=null) {
+						cB(0)
+					}
+					else {
+						cB(modifiedvsmsg.count)
+					}
+				})
+			}
+		}
+	})
+}
+
+function getNumberOfVideoMessages(fromuser, touser, cB) {
+	console.log("getNumberOfVideoMessages called: " + fromuser + ", " + touser)
+	VideoMessages.findOne({fromuser:fromuser,touser:touser}, function(err, vdmsg) {
+		if(err != null) {
+			cB(0)
+		}
+		else if(vdmsg==null) {
+			cB(0)
+		}
+		else {
+			cB(vdmsg.count)
+		}
+	})
+}
 
 router.put('/video/:touserid/:questionid', function(req, res) {
 	console.log(" >>>> post video called params version")
@@ -43,24 +130,21 @@ router.put('/video/:touserid/:questionid', function(req, res) {
 									return
 								}
 								console.log("contents resolved successfully")
-								Messages.create({
-									_id: mongoose.Types.ObjectId(),
-									_fromuserid:userId,
-									_touserid:toUserId,
-									type: 'Question Answered',
-									content:content,
-									contentid:questionId,
-									extra:fileObj.filename,
-									viewed: false
-								  }, function(err, msg) {
-									if(err != null) {
-											console.log("Error: " + err)
-									}
-									else {
-											console.log("Message added OK")
-									}
-								  })	
-
+								
+								addVideoMessage(userId, toUserId, () => {} )
+								getNumberOfVideoMessages(toUserId, userId, (count) => {
+									const msgtype = count > 0 ? 'Question Answered' : 'Answer to Watch'
+									addMessage(userId,toUserId,msgtype,content,questionId,fileObj.filename, function(err, msg) {
+                                                                        	if(err != null) {
+                                                                                	        console.log("Error: " + err)
+                                                                        	}
+                                                                        	else {
+                                                                                	        console.log("Message added OK")
+                                                                        	}
+                                                                	})
+									// if msgtype == "Answer to Watch' add pending video
+								})							
+	
 							})					
 						}
 					}))	
