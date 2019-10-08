@@ -6,12 +6,56 @@ public class MessagesPopulator : ItemPopulator
 {
     public GameObject AnswerToWatchPrefab;
     public GameObject QuestionAnsweredPrefab;
+
+    IEnumerator GetItemsWithHandleSystemCoRo(System.Action<List<ListItem>> callback)
+    {
+        List<ListItem> listItems = new List<ListItem>();
+        MessageListResult result = null;
+        yield return API.GetSingleton().GetMessagesList(PlayerPrefs.GetString("UserId"), (err, text) =>
+        {
+            result = JsonUtility.FromJson<MessageListResult>(text);
+        });
+        for(int i = 0; i < result.result.Count; ++i)
+        {
+            yield return API.GetSingleton().GetHandle(result.result[i]._fromuserid, (err, handle) =>
+            {
+                result.result[i].fromuserhandle = handle;
+            });
+            GameObject Prefab = QuestionAnsweredPrefab;
+            if (result.result[i].type == "Answer to Watch")
+            {
+                Prefab = AnswerToWatchPrefab;
+            }
+            Color col = ColorFromType(result.result[i].type);
+            string question = result.result[i].content;
+            listItems.Add(new ListItem(
+                result.result[i]._id,
+                result.result[i]._fromuserid,
+                col,
+                MakeContent(result.result[i]),
+                question,
+                result.result[i].extra,
+                Prefab));
+        }
+        callback(listItems);
+
+    }
+
+    private Coroutine GetItemsWithHandleSystem(System.Action<List<ListItem>> callback)
+    {
+        return StartCoroutine(GetItemsWithHandleSystemCoRo(callback));
+    }
+
     override public Coroutine GetItems(System.Action<List<ListItem>> callback)
     {
-        return API.GetSingleton().GetMessagesList(PlayerPrefs.GetString("UserId"), (err, text) =>
+        return GetItemsWithHandleSystem((listitems) =>
+        {
+            callback(listitems);
+        });/*API.GetSingleton().GetMessagesList(PlayerPrefs.GetString("UserId"), (err, text) =>
         {
             List<ListItem> listItems = new List<ListItem>();
             MessageListResult result = JsonUtility.FromJson<MessageListResult>(text);
+
             for (int i = 0; i < result.result.Count; ++i)
             {
                 GameObject Prefab = QuestionAnsweredPrefab;
@@ -23,7 +67,7 @@ public class MessagesPopulator : ItemPopulator
                 string question = result.result[i].content;
                 listItems.Add(new ListItem(
                     result.result[i]._id, 
-                    result.result[i].fromuserid,
+                    result.result[i]._fromuserid,
                     col, 
                     MakeContent(result.result[i]),
                     question,
@@ -32,7 +76,7 @@ public class MessagesPopulator : ItemPopulator
             }
             callback(listItems);
         }
-        );
+        );*/
     }
 
     private Color ColorFromType(string type)
@@ -48,6 +92,9 @@ public class MessagesPopulator : ItemPopulator
             case "Answer to Watch":
                 return new Color(0.65f, 0.32f, 0.85f, 1.0f);
 
+            case "You can now Watch":
+                return new Color(0.25f, 0.82f, 0.95f, 1.0f);
+
             case "Question Answered":
                 return new Color(0.25f, 0.92f, 0.65f, 1.0f);
 
@@ -62,12 +109,23 @@ public class MessagesPopulator : ItemPopulator
             case "Connect Request":
                 return "El usuario <color=white>" + msg.extra + " </color>quiere conectar contigo";
 
+            case "You can now Watch":
+                if (ContentsManager.IsLocalContent(msg.contentid))
+                {
+                    msg.content = ContentsManager.GetSingleton().GetLocalContentFromId(msg.contentid);
+                }
+                return "Ahora puedes ver lo que el usuario <color=white>"
+                    + msg._fromuserid +
+                    "</color> ha contestado a tu pregunta <color=yellow>" +
+                    msg.content +
+                    "</color>";
+
             case "Answer to Watch":
                 if (ContentsManager.IsLocalContent(msg.contentid))
                 {
                     msg.content = ContentsManager.GetSingleton().GetLocalContentFromId(msg.contentid);
                 }
-                return "El usuario <color=white>"+msg.fromuserid+"</color> ha contestado a tu pregunta <color=yellow>"+
+                return "El usuario <color=white>"+msg._fromuserid+"</color> ha contestado a tu pregunta <color=yellow>"+
                 msg.content + "</color>. Responte a una de sus preguntas para ver el vídeo";
 
             case "Question Answered":
@@ -75,7 +133,7 @@ public class MessagesPopulator : ItemPopulator
                 {
                     msg.content = ContentsManager.GetSingleton().GetLocalContentFromId(msg.contentid);
                 }
-                return "El usuario <color=white>"+msg.fromuserid+"</color> ha contestado a tu pregunta <color=yellow>"+
+                return "El usuario <color=white>"+msg._fromuserid+"</color> ha contestado a tu pregunta <color=yellow>"+
                     msg.content
                     + "</color>";
 

@@ -51,8 +51,9 @@ public class FavoritesListResult
 public class Message
 {
     public string _id;
-    public string fromuserid;
-    public string touserid;
+    public string _fromuserid;
+    public string _touserid;
+    public string fromuserhandle;
     public string type;
     public string content;
     public string contentid;
