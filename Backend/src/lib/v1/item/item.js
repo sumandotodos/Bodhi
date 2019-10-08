@@ -14,7 +14,9 @@ const s3manager = require('../../s3urlGenerator')
 const videoencoder = require('../../videoencoding/videoencoding')
 const fs = require('fs')
 
-function addMessage(userId, toUserId, type, content, contentid, extra, cb) {
+//@ TODO move all non-REST functions to itemOperations.js
+
+function createMessage(userId, toUserId, type, content, contentid, extra, cb) {
 	Messages.create({
         	_id: mongoose.Types.ObjectId(),
                 _fromuserid:userId,
@@ -29,7 +31,7 @@ function addMessage(userId, toUserId, type, content, contentid, extra, cb) {
 	}) 
 }
 
-function addPendingMessage(fromuser, touser, content, contentid, extra, cb) {
+function createPendingMessage(fromuser, touser, content, contentid, extra, cb) {
 	PendingMessages.create({
 		_id: mongoose.Types.ObjectId(),
 		fromuser:fromuser,
@@ -41,68 +43,71 @@ function addPendingMessage(fromuser, touser, content, contentid, extra, cb) {
 		cb(err, newpm)
 	})
 }
-
-function addVideoMessage(fromuser, touser, cB) {
-	console.log("Add video message called")
+function addVideoMessage(fromuser, touser, cb) {
 	VideoMessages.findOne({fromuser:fromuser,touser:touser}, function(err, vdmsg) {
-		console.log(" >> find one callback.... ")
 		if(err!=null) {
-			console.log("  >> there was error")
-			cB(0)
+			cb(0)
 		}
 		else {
 			if(vdmsg == null) {
-				console.log("  >> no previous record found, creating one ")
-				VideoMessages.create({
-					_id: mongoose.Types.ObjectId(),
-					fromuser:fromuser,
-					touser:touser,
-					count:1	
-				}, function(err, newVdMsg) {
-					if(err!=null) {
-						cB(0)
-					}
-					else {
-						cB(1)
-					}
-				})
+				createNewVideoMessage(fromuser, touser, cb)
 			}
 			else {
-				console.log("  >> previous record found, increasing count")
-				vdmsg.count++
-				vdmsg.markModified('count')
-				vdmsg.save(function(err, modifiedvsmsg) {
-					if(err!=null) {
-						cB(0)
-					}
-					else {
-						cB(modifiedvsmsg.count)
-					}
-				})
+				increaseVideoMessageCount(vdmsg, cb)
 			}
 		}
 	})
 }
 
-function PendingVideosToMessages(fromuser, touser) {
+function createNewVideoMessage(fromuser, touser, cb) {
+	VideoMessages.create({
+		_id: mongoose.Types.ObjectId(),
+		fromuser:fromuser,
+		touser:touser,
+		count:1	
+	}, function(err, newVdMsg) {
+		if(err!=null) {
+			cb(0)
+		}
+		else {
+			cb(1)
+		}
+	})
+}
+
+function increaseVideoMessageCount(vdmsg, cb) {
+	vdmsg.count++
+	vdmsg.markModified('count')
+	vdmsg.save(function(err, modifiedvsmsg) {
+		if(err!=null) {
+			cb(0)
+		}
+		else {
+			cb(modifiedvsmsg.count)
+		}
+	})
+}
+
+function dumpPendingVideosToMessages(fromuser, touser) {
 	PendingMessages.find({
-                fromuser:fromuser,
-                touser:touser}, function(err, msgs) {
-			msgs.forEach(function(msg) {
-			   addMessage(msg.fromuser,
-                                   msg.touser,
-                                   'You can now Watch',
-                                   msg.content,
-                                   msg.contentid,
-				   msg.extra,
-                                   function(err, msg) {
-                                      if(err != null) {
-                                         console.log("Error: " + err)
-                                      }
-                                      else {
-                                         console.log("Message added OK")
-                                      }
-                            })
+            fromuser:fromuser,
+            touser:touser}, function(err, msgs) {
+				msgs.forEach(function(msg) {
+			   	createMessage(
+					msg.fromuser,
+                    msg.touser,
+                    'You can now Watch',
+                    msg.content,
+                    msg.contentid,
+				   	msg.extra,
+                    function(err, msg) {
+                        if(err != null) {
+                            console.log("Error: " + err)
+                        }
+                        else {
+                            console.log("Message added OK")
+                        }
+                    })
 			    msg.remove()
 			})
 	})
@@ -123,96 +128,98 @@ function getNumberOfVideoMessages(fromuser, touser, cB) {
 	})
 }
 
+function addMessagesNoPreviousContact(userId, toUserId, content, questionId, fileObj) {
+	createMessage(userId,
+		toUserId,
+		'Answer to Watch',
+		content,
+		questionId,
+		fileObj.filename, 
+		function(err, msg) {
+			if(err != null) {
+				console.log("Error: " + err)
+			}
+	})
+	createPendingMessage(userId, 
+		toUserId, 
+		content, 
+		questionId, 
+		fileObj.filename, 
+		function(err,nv) {
+			if(err != null) {
+				console.log("Error: " + err)
+			}		
+		}
+	)
+}
+
+function addMessagesPreviousContact(userId, toUserId, content, questionId, fileObj) {
+	createMessage(userId,
+		toUserId,
+		'Question Answered',
+		content,
+		questionId,
+		fileObj.filename, 
+		function(err, msg) {
+			if(err != null) {
+				console.log("Error: " + err)
+			}
+	})
+}
+
+function addMessagesAfterVideoUpload(err, userId, toUserId, questionId, fileObj) {
+	contents.resolveContent(questionId, function(err, content) {
+		if(err) {
+			console.log("Error retrieving content: " + err)
+			return
+		}			
+		addVideoMessage(userId, toUserId, (count) => {
+			dumpPendingVideosToMessages(toUserId, userId)
+		} )
+		getNumberOfVideoMessages(toUserId, userId, (count) => {
+			if(count == 0) {
+				addMessagesNoPreviousContact(userId, toUserId, content, questionId, fileObj)
+			}
+			else {
+				addMessagesPreviousContact(userId, toUserId, content, questionId, fileObj)
+			}
+		})							
+
+	})
+}
+
+function uploadToS3(userId, toUserId, questionId, tempFileObj) {
+	var fullpath = tempFileObj.directory + "/" + tempFileObj.outfile
+	fileObj = generateRandomName(userId)
+	var readStream = fs.createReadStream(fullpath)
+	readStream.pipe(s3manager.uploadStreamWrapper(
+			fileObj.filename, 
+			tempFileObj.directory,
+			(err) => {
+				if(err == null) {
+					addMessagesAfterVideoUpload(err, userId, toUserId, questionId, fileObj)	
+				}			
+			}))	
+}
+
+function encodeUploadedVideo(userId, toUserId, questionId, data) {
+	videoencoder.encode(data, function(err, tempFileObj) {
+		if(err!=null) {
+			console.log("Encode error: " + err)
+		}	
+		else {
+			uploadToS3(userId, toUserId, questionId, tempFileObj)
+		}
+	})
+}
+
 router.put('/video/:touserid/:questionid', function(req, res) {
-	console.log(" >>>> post video called params version")
 	const userId = req.headers["userid"]
 	const toUserId = req.params["touserid"]
 	const questionId = req.params["questionid"]
 	const data = req.body
 	res.json({result:'upload success'})
-	videoencoder.encode(data, function(err, tempFileObj) {
-		if(err!=null) {
-			//res.status(500).json(err)
-			console.log("Encode error: " + err)
-		}	
-		else {
-			console.log("    >>> encoding seems ok")
-			var fullpath = tempFileObj.directory + "/" + tempFileObj.outfile
-			console.log("    >>> Finished encoding: " + fullpath)
-			fileObj = generateRandomName(userId)
-			var readStream = fs.createReadStream(fullpath)
-			readStream.pipe(s3manager.uploadStreamWrapper(
-					fileObj.filename, 
-					tempFileObj.directory,
-					(err) => {
-						if(err == null) {
-							console.log("Adding message to user " + toUserId)
-							contents.resolveContent(questionId, function(err, content) {
-
-								if(err) {
-									console.log("Error retrieving content: " + err)
-									return
-								}
-								console.log("contents resolved successfully")
-								
-								addVideoMessage(userId, toUserId, (count) => {
-									PendingVideosToMessages(toUserId, userId)
-								} )
-								getNumberOfVideoMessages(toUserId, userId, (count) => {
-									if(count == 0) {
-										addMessage(userId,
-											toUserId,
-											'Answer to Watch',
-											content,
-											questionId,
-											fileObj.filename, 
-											function(err, msg) {
-                                                                        		   if(err != null) {
-                                                                                	        console.log("Error: " + err)
-                                                                        		   }
-                                                                        		   else {
-                                                                                	        console.log("Message added OK")
-                                                                        		   }
-                                                                		})
-										addPendingMessage(userId, 
-											toUserId, 
-											content, 
-											questionId, 
-											fileObj.filename, 
-											function(err,nv) {
-												if(err != null) {
-													console.log("Error: " + err)
-												}		
-												else {
-													console.log("Pending video added ok")
-												}
-											}
-										)
-									}
-									else {
-										console.log("Question Answered branch")
-										addMessage(userId,
-											toUserId,
-											'Question Answered',
-											content,
-											questionId,
-											fileObj.filename, 
-											function(err, msg) {
-                                                                                	   if(err != null) {
-                                                                                              console.log("Error: " + err)
-                                                                                	   }
-                                                                                	   else {
-                                                                                              console.log("Message added OK")
-                                                                                	   } 
-                                                                                })
-									}
-								})							
-	
-							})					
-						}
-					}))	
-		}
-	})
+	encodeUploadedVideo(userId, toUserId, questionId, data)
 })
 
 router.put('/video', function(req, res) {
@@ -265,12 +272,6 @@ function generateUploadUrl(userId) {
 	url.id = randomFileName.id
         return url
 }
-
-/*router.get('/uploadurl', function(req, res) {
-	const userId = req.headers["userid"]
-	url = getUploadUrl(userId)
-	res.json(url)
-})*/
 
 router.put('/avatar', function(req, res) {
         const currentUser = req.headers["userid"]
@@ -580,15 +581,21 @@ router.post('/favorite/:id', function(req, res) {
 			if(helpers.isQuestion(id)) {
 				newFavQuestion = id
 			}
-			Favorites.create({_userid:currentUser, favoritequestion:newFavQuestion, favorites:[id]}, function(err, newFav) {
-				if(err != null) {
-					res.status(500).json({result:'error', error:err})
-				} 
-				else {
-					success = true	
-					res.json({result:'success'})
+			Favorites.create(
+				{
+					_userid:currentUser, 
+					favoritequestion:newFavQuestion, 
+					favorites:[id]
+				}, function(err, newFav) {
+					if(err != null) {
+						res.status(500).json({result:'error', error:err})
+					} 
+					else {
+						success = true	
+						res.json({result:'success'})
+					}
 				}
-			})
+			)
 		}
 		else {
 			if(fav.favorites.length == 0 && helpers.isQuestion(id)) {
@@ -602,18 +609,11 @@ router.post('/favorite/:id', function(req, res) {
 		}
 		if(success) {
 			Items.findOne({_id:id}, function(err, item) {
-                                        if(err == null && item != null) {
-                                                item.favoritized++
+                    if(err == null && item != null) {
+                        item.favoritized++
 						item.save()
-						//var owner = item._userid
-                                                //Users.findOne({_id:owner}, function(err, user) {
-                                                //        if(err == null && user != null) {
-                                                //                user.favoritized++
-                                                //                user.save()
-                                                //        }
-                                                //})
-                                        }
-                         })
+					}
+			})
 		}
 	})	
 })
@@ -636,14 +636,9 @@ router.post('/exchangefavorite/:from/:to', function(req, res) {
 			res.status(400).json({result:'inexistent items'})
 		}
 		else {
-			//console.log("   >> Favs before: " + JSON.stringify(favs.favorites))
 			[favs.favorites[from], favs.favorites[to]] = [favs.favorites[to], favs.favorites[from]]
-			//t = favs.favorites[to]
-			//favs.favorites[to] = favs.favorites[from]
-			//favs.favorites[from] = t 
 			favs.save()
 			favs.markModified('favorites');
-			//console.log("   >> Favs after: " + JSON.stringify(favs.favorites))
 			res.json({result:'success'})
 		}
 	})
@@ -683,17 +678,6 @@ router.delete('/favorite/:id', function(req, res) {
 				fav.favorites.splice(indexOfFav,1)
 				fav.markModified('favorites')
 				fav.save()
-				//Items.findOne({_id:id}, function(err, item) {
-				//	if(err == null && item != null) {
-						//var owner = item._userid
-						//Users.findOne({_id:owner}, function(err, user) {
-                                        	//	if(err == null && user != null) {
-                                                //		user.favoritized = user.favoritized > 0 ? user.favoritized - 1 : 0
-                                                //		user.save()
-                                        	//	}
-                                		//})
-				//	}
-				//})
 				res.json({result:'success'})
 			}
 			else {
@@ -716,13 +700,6 @@ router.post('/upvote/:id', function(req, res) {
 			// do not check state change: not critical
 			item.upvotes++
 			item.save()
-			//var owner = item._userid
-			//Users.findOne({_id:owner}, function(err, user) {
-			//	if(err == null && user != null) {
-			//		user.upvotes++
-			//		user.save()
-			//	}
-			//})	
 			res.json({result:item.upvotes})
 		}
 	})	
@@ -738,17 +715,10 @@ router.post('/downvote/:id', function(req, res) {
                         res.json({result:'error', error:'no data'})
                 }
                 else {
-			// do not check state change: not critical
-                        item.downvotes++
-                        item.save()
-			//var owner = item._userid
-			//Users.findOne({_id:owner}, function(err, user) {
-                        //        if(err == null && user != null) {
-                        //                user.downvotes++
-                        //                user.save()
-                        //        }
-                        //})
-			res.json({result:item.downvotes})
+					// do not check state change: not critical
+                    item.downvotes++
+                    item.save()
+					res.json({result:item.downvotes})
                 }
         })
 })
@@ -768,9 +738,9 @@ router.post('/comment/:prefix', function(req, res) {
 })
 
 router.put('/comment', function(req, res) {
-        const owner = req.headers["userid"]
+    const owner = req.headers["userid"]
 	// should remove this one?
-        console.log(" put comment called, user: " + owner + ", comment body: " + JSON.stringify(req.body))
+    console.log(" put comment called, user: " + owner + ", comment body: " + JSON.stringify(req.body))
 
 	res.json({result:'success'})
 })

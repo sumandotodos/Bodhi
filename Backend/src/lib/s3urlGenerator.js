@@ -10,7 +10,8 @@ AWS.config.update(
 		signatureVersion: 'v4',
 		region: config.region
 	})
-console.log("  >> s3 using accessKey: " + config.accessKeyId + ", " 
+
+	console.log("  >> s3 using accessKey: " + config.accessKeyId + ", " 
 	+ ", secretKey: " + config.secretAccessKey + ", bucket name: " +
 	config.bucketName)
 //AWS.config.update({region: 'eu-west-2'})
@@ -56,15 +57,10 @@ s3urlgen.s3getGen = function(filename) {
 s3urlgen.uploadStreamWrapper = function(filename, tempdir, callback) {
 	var pass = new stream.PassThrough();
 	pass.on('end', () => {
-		console.log("S3 upload finished")
 		localfiles.getRidOfTempDir(tempdir, function(err) {
-			if(err == null) {
-				console.log("Got rid of temp files")
-			}
 			callback(err)
 		})
 	})
-	console.log("upload strem: uploading to s3 = " + filename)
   	var params = {Bucket: bucket, Key: filename, Body: pass};
   	s3.upload(params, function(err, data) {
     		console.log(err, data);
