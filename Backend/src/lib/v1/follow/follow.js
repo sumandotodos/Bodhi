@@ -13,7 +13,7 @@ router.post('/:otheruserid', function(req, res) {
 	const otheruser = req.params["otheruserid"]
 	Follows.findOne({_userid:userid}, function(err, fol) {
 		if(err != null) {
-                        res.status(500).json(res);
+                        res.status(500).json(err);
                 }
 		if(fol == null) {
 			Follows.create({
@@ -44,10 +44,10 @@ router.delete('/:otheruserid', function(req, res) {
 	const otheruser = req.params["otheruserid"]
 	Follows.findOne({_userid:userid}, function(err, fol) {
                 if(err != null) {
-                        res.status(500).json(res);
+                        res.status(500).json(err);
                 }
                 if(fol == null) {
-                        res.status(404).json({result:'user '+ otheruser  +' not found'});
+		        res.json({result:'user '+ otheruser  +' not found'});
                 }
                 else {
 			var indexOfOtherUser = fol.follows.indexOf(otheruser)
@@ -58,41 +58,58 @@ router.delete('/:otheruserid', function(req, res) {
                         	res.json({result:'success'})
 			}
 			else {
-				res.status(404).json({result:'user '+ otheruser  +' not found'});
+				res.json({result:'user '+ otheruser  +' not found'});
 			}
                 }
         })
 })
 
 router.get('/', function(req, res) {
+        const userid = req.header["userid"]
+        Follows.findOne({_userid:userid}, function(err, fol) {
+                if(err != null) {
+                        res.status(500).json(err);
+                }
+                else if(fol == null) {
+                        res.json({result:[]})
+                }
+                else {
+                        Users.find({}, function(err, users) {
+                                if(err != null) {
+                                        res.status(500).json(res);
+                                }
+                                else if(users == null) {
+                                        res.json({result:[]})
+                                }
+                                else {
+                                        result = []
+                                        for(var i = 0; i < users.length; ++i) {
+                                                if(fol.follows.indexOf(users[i]._id) != -1) {
+                                                        result.push(users[i])
+                                                }
+                                        }
+                                        res.json({result:result})
+                                }
+                        })
+                }
+        })
+})
+
+router.get('/:otheruserid', function(req, res) {
 	const userid = req.header["userid"]
+	const otheruserid = req.params["otheruserid"]
 	Follows.findOne({_userid:userid}, function(err, fol) {
 		if(err != null) {
-			res.status(500).json(res);
+			res.status(500).json(err)
 		}
-		else if(fol == null) {
-			res.json({result:[]})
+		else if (fol == null) {
+			res.status(200).json({result:false})
 		}
 		else {
-			Users.find({}, function(err, users) {
-				if(err != null) {
-                        		res.status(500).json(res);
-                		}
-				else if(users == null) {
-					res.json({result:[]})
-				}
-				else {
-					result = []
-					for(var i = 0; i < users.length; ++i) {
-						if(fol.follows.indexOf(users[i]._id) != -1) {
-							result.push(users[i])
-						}
-					}
-					res.json({result:result})
-				}
-			})
+			var boolres = fol.follows.indexOf(otheruserid) != -1
+			res.status(200).json({result:boolres})
 		}
-	})
+	}) 
 })
 
 const MaxUsers = 6

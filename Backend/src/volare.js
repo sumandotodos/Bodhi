@@ -50,6 +50,11 @@ app.get("/healthcheck", function(req, res) {
 	res.json({result:'success'})
 })
 
+app.get("/crash", function(req, res) {
+	res.json({result:"bye"})
+	process.exit(-1)
+})
+
 app.get("/uploadUrl/:user", function(req, res) {
 	randomname = 
 		"video/" + 
