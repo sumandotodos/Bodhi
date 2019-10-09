@@ -25,13 +25,25 @@ public class PersonProfilePopulator : ItemPopulator
         string OtherUserHandle = PlayerPrefs.GetString("OtherUserHandle");
         string OtherUserId = PlayerPrefs.GetString("OtherUserId");
 
-        // Follow / Unfollow
+        if(OtherUserHandle == "")
+        {
+            yield return API.GetSingleton().GetHandle(OtherUserId, (err, handle) =>
+            {
+                OtherUserHandle = handle;
+            });
+        }
+
+        Debug.Log("OtherUserId = " + OtherUserId);
+        Debug.Log("OtherUserHandle = " + OtherUserHandle);
+        Debug.Log("UserId = " + PlayerPrefs.GetString("UserId"));
+
+        // Follow / Unfollow section
         listItems.Add(new ListItem(OtherUserId, Color.grey, "", "", "", FollowSlab));
 
-
-        // Profile header ...
+        // Profile header section ...
         listItems.Add(new ListItem("", Color.grey, "Perfil de " + OtherUserHandle, "", "", HeaderPrefab));//, 120.0f));
-        // ... and profile
+
+        // ... and profile section
         yield return API.GetSingleton().GetProfile(OtherUserId, (err, profile) =>
         {
             if (profile.about == "")

@@ -321,8 +321,8 @@ public class API : MonoBehaviour
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
         REST.GetSingleton().AddHeader("content-type", "application/json");
         Message newMessage = new Message();
-        newMessage.fromuserid = fromUserId;
-        newMessage.touserid = toUserId;
+        newMessage._fromuserid = fromUserId;
+        newMessage._touserid = toUserId;
         newMessage.content = content;
         newMessage.extra = extra;
         REST.GetSingleton().POST(url, JsonUtility.ToJson(newMessage), (err, response) =>
