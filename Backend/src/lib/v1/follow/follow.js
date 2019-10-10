@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const Items = require('../../schema/Items/Items').model
 const Users = require('../../schema/Users/Users').model
 const Favorites = require('../../schema/Favorites/Favorites').model
+const CommsPreferences = require('../../schema/CommsPreferences/CommsPreferences').model
 const Avatars = require('../../schema/Avatars/Avatars').model
 const Follows = require('../../schema/Follows/Follows').model
 const helpers = require('../Helpers')
@@ -171,6 +172,59 @@ router.get('/randomusers/:max', function(req, res) {
 			res.status(500).json(error)
 		}
 	)
+})
+
+router.get('/commprefs/:user/:otheruser', function(req, res) {
+	const user = req.params["user"]
+	const otheruser = req.params["otheruser"]
+	CommsPreferences.findOne({fromuserid:user,touserid:otheruser}, function(err, pref) {
+		if(err!=null) {
+			res.status(500).json(err)
+		}
+		else if (pref == null) {
+			res.json({result:-1})
+		}
+		else {
+			res.json({result:pref.index})
+		}
+	})
+})
+
+router.put('/commprefs/:otheruser/:index', function(req, res) {
+	const user = req.headers["userid"]
+	const otheruser = req.params["otheruser"]
+	const index = parseInt(req.params["index"])
+	CommsPreferences.findOne({fromuserid:user,touserid:otheruser}, function(err, pref) {
+		if(err!=null) {
+			res.status(500).json(err)
+		}
+		else if (pref == null) {
+			CommsPreferences.create({
+				_id:  mongoose.Types.ObjectId(),
+				fromuserid: user,
+				touserid: otheruser,
+				index: index
+			}, function(err, newpref) {
+				if(err!=null) {
+					res.status(500).json(err)
+				}
+				else {
+					res.json({result:'success'})
+				}
+			})
+		}
+		else {
+			pref.index = index
+			pref.save(function(err) {
+				if(err!=null) {
+					res.status(500).json(err)
+				}
+				else {
+					res.json({result:'success'})
+				}
+			})
+		}
+	})
 })
 
 module.exports = router
