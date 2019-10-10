@@ -7,6 +7,7 @@ using UnityEngine.Video;
 public class VolareVideoPlayer : MonoBehaviour
 {
     public UIScaleFader Scaler;
+    public UIScaleFader CommsMenuScaler;
     public RawImage playerRI;
     public VideoPlayer videoPlayer;
     public RawImage StopButtonRI;
@@ -63,6 +64,8 @@ public class VolareVideoPlayer : MonoBehaviour
         Scaler.scaleOut( () =>
         {
             playerRI.enabled = true;
+            // if no communications agreement, show comms menu
+            CommsMenuScaler.scaleIn();
         });
     }
 }

@@ -12,6 +12,9 @@ public class PersonProfilePopulator : ItemPopulator
 
     public ContentsManager contentsManager;
 
+    public string ProfileUserId;
+    public bool FollowingThisUser = false;
+
     override public Coroutine GetItems(System.Action<List<ListItem>> callback)
     {
 
@@ -37,11 +40,25 @@ public class PersonProfilePopulator : ItemPopulator
         Debug.Log("OtherUserHandle = " + OtherUserHandle);
         Debug.Log("UserId = " + PlayerPrefs.GetString("UserId"));
 
+        ProfileUserId = OtherUserId;
+
+        bool following = false;
+
+       yield return API.GetSingleton().IsFollowing(PlayerPrefs.GetString("UserId"), OtherUserId, (err, result) =>
+        {
+            if(err==null)
+            {
+                following = result;
+            }
+        });
+
+        FollowingThisUser = following;
+
         // Follow / Unfollow section
         listItems.Add(new ListItem(OtherUserId, Color.grey, "", "", "", FollowSlab));
 
         // Profile header section ...
-        listItems.Add(new ListItem("", Color.grey, "Perfil de " + OtherUserHandle, "", "", HeaderPrefab));//, 120.0f));
+        listItems.Add(new ListItem("", Color.grey, "Perfil de " + OtherUserHandle, "", "", HeaderPrefab));
 
         // ... and profile section
         yield return API.GetSingleton().GetProfile(OtherUserId, (err, profile) =>
@@ -55,7 +72,6 @@ public class PersonProfilePopulator : ItemPopulator
                 listItems.Add(new ListItem(OtherUserId, Color.cyan, profile.about, "", "", SlabPrefab));
             }
         });
-
 
         // Contributions header ...
         listItems.Add(new ListItem("", Color.grey, "Contribuciones de " + OtherUserHandle, "", "", HeaderPrefab));
@@ -123,7 +139,7 @@ public class PersonProfilePopulator : ItemPopulator
         FollowSlab fSlab = FindObjectOfType<FollowSlab>();
         if (fSlab != null)
         {
-            fSlab.SetFollowState(FollowState.Following);
+            fSlab.SetFollowState(FollowingThisUser ? FollowState.Following : FollowState.NotFollowing);
         }
     }
 

@@ -15,6 +15,7 @@ public class Slab : MonoBehaviour
     public string question;
     public string fromuserid;
     protected float Height;
+    public float ExtraHeight = 0.0f;
 
     float Factor;
 
@@ -69,7 +70,7 @@ public class Slab : MonoBehaviour
 
     virtual public float Adjust(float H)
     {
-        return H - 35.0f + H / 3.0f;
+        return H - 35.0f + H / 3.0f + ExtraHeight;
     }
 
     // Update is called once per frame
