@@ -42,6 +42,7 @@ public class PlanetSpawner : MonoBehaviour
     public Material[] planetMats;
     public PlanetHandleController planetHandleController;
     public OtherUsersPlanetsController otherUsersPlanetsController;
+    int UsersPerPage = 3;
 
     public string DefaultCase = "";
 
@@ -278,7 +279,6 @@ public class PlanetSpawner : MonoBehaviour
 
     IEnumerator SetUpPersonsCoroutine()
     {
-        int MaxUsers = 3;
         List<Person> persons = new List<Person>();
         int page = PlayerPrefs.GetInt("PersonsPage");
 
@@ -293,7 +293,7 @@ public class PlanetSpawner : MonoBehaviour
         yield return API.GetSingleton().GetRandomUsers(PlayerPrefs.GetString("UserId"),
             "session",
             skip,
-            MaxUsers,
+            UsersPerPage,
             (text, userlist) =>
             {
                 myListOfUsers = userlist.result;
@@ -314,7 +314,7 @@ public class PlanetSpawner : MonoBehaviour
                     newPlanet.id = u._id;
                     newPlanet.Start();
                     newGO.transform.position = Vector3.zero;
-                    newGO.transform.rotation = Quaternion.Euler(0.0f + Random.Range(-12.0f, 12.0f), (360.0f / (float)MaxUsers) * (userIndex++), 1.0f);
+                    newGO.transform.rotation = Quaternion.Euler(0.0f + Random.Range(-12.0f, 12.0f), (360.0f / (float)UsersPerPage) * (userIndex++), 1.0f);
                     newPlanet.SetLabel(u.handle);
                     newPlanet.SetScale(0.8f);
                     newPlanet.SetRadius(3.8f + Random.Range(-0.8f, 0.4f));
@@ -322,8 +322,7 @@ public class PlanetSpawner : MonoBehaviour
                     ScaleFader sf = newPlanet.GetComponentInChildren<ScaleFader>();
                     listOfScaleFaders.Add(sf);
                 }
-                int newskip = skip + MaxUsers;
-                PlayerPrefs.SetInt("SkipUsers", newskip);
+
             });
 
         foreach(User u in myListOfUsers)
@@ -346,10 +345,10 @@ public class PlanetSpawner : MonoBehaviour
         otherUsersPlanetsController.SetListOfUsers(myListOfUsers);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void NextUsersPage()
     {
-        
+        int newskip = PlayerPrefs.GetInt("SkipUsers") + UsersPerPage;
+        PlayerPrefs.SetInt("SkipUsers", newskip);
     }
 
 }

@@ -173,6 +173,7 @@ MonoBehaviour:
   ProfileUserId: 
   FollowingThisUser: 0
   CommStateForThisUser: -1
+  ThisUserPhone: 
 --- !u!4 &610480729
 Transform:
   m_ObjectHideFlags: 0

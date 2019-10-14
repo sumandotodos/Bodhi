@@ -224,13 +224,13 @@ MonoBehaviour:
   extra: 
   question: 
   fromuserid: 
-  ExtraHeight: 39.83
+  ExtraHeight: 66.5
   FollowingColor: {r: 0.032397628, g: 1, b: 0, a: 1}
   NotFollowingColor: {r: 1, g: 0, b: 0, a: 1}
   ButtonImage: {fileID: 8288856277099473136}
   ButtonText: {fileID: 8288856277122323151}
   ContentFader: {fileID: 8720974682273989060}
-  SlabHeight: 240
+  SlabHeight: 159.2
   SlabMargin: 60
 --- !u!1 &30380347504329680
 GameObject:

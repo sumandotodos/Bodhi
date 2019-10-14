@@ -218,12 +218,12 @@ public class REST : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("   >>> REST: res.downloadHandler is shit");
+                    callback(res.error, null);
                 }
             }
             else
             {
-                Debug.Log("   >>> REST: res is shit");
+                callback("Unknown error", null);
             }
         }
 

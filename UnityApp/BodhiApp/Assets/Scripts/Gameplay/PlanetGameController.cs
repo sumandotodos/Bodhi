@@ -41,6 +41,7 @@ public class PlanetGameController : MonoBehaviour
         Time.timeScale = 30.0f;
         orbitalCamera_A.Start();
         orbitalCamera_A.SetZDistanceImmediate(40.0f);
+        orbitalCamera_A.SetXAngleImmediate(20.0f);
         yield return new WaitForSecondsRealtime(2.5f);
 
         Time.timeScale = 1.0f;
@@ -117,6 +118,7 @@ public class PlanetGameController : MonoBehaviour
 
     IEnumerator ReloadCoroutine()
     {
+        FindObjectOfType<PlanetSpawner>().NextUsersPage();
         fader.fadeToOpaque();
         yield return new WaitForSeconds(1.0f);
         yield return SceneManager.LoadSceneAsync("Planets");

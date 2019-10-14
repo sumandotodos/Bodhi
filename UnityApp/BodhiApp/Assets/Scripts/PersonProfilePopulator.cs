@@ -173,9 +173,9 @@ public class PersonProfilePopulator : ItemPopulator
         {
             cSlab.SetIndex(CommStateForThisUser);
             cSlab.OtherUserId = ProfileUserId;
-            Debug.Log("Common means: " + IndexToMeansName(CommonMeans));
             cSlab.SetAgreement(IndexToMeansName(CommonMeans));
             cSlab.SetPhoneNumber(ThisUserPhone);
+            StartCommsCoincidenceService(cSlab, ProfileUserId, 5.0f);
         }
     }
 
@@ -208,6 +208,48 @@ public class PersonProfilePopulator : ItemPopulator
                 return "Vídeo";
             default:
                 return "";
+        }
+    }
+
+    Coroutine CommsCoincidenceServiceHandle;
+
+    public void StartCommsCoincidenceService(CommsSlab slab, string OtherUserId, float Interval)
+    {
+        CommsCoincidenceServiceHandle = StartCoroutine(CommsCoincidenceService(slab, OtherUserId, Interval));
+    }
+
+    public void StopCommsCoincidenceService()
+    {
+        StopCoroutine(CommsCoincidenceServiceHandle);
+    }
+
+    IEnumerator CommsCoincidenceService(CommsSlab slab, string OtherUserId, float Interval)
+    {
+        int MeToThisUser = -1;
+        int ThisUserToMe = -1;
+        int _CommonMeans = -1;
+        while(1<2)
+        {
+            yield return API.GetSingleton().GetCommsPreference(PlayerPrefs.GetString("UserId"), OtherUserId,
+            (err, value) =>
+            {
+                MeToThisUser = value;
+                CommStateForThisUser = value;
+            });
+
+            yield return API.GetSingleton().GetCommsPreference(OtherUserId, PlayerPrefs.GetString("UserId"),
+            (err, value) =>
+            {
+                ThisUserToMe = value;
+            });
+
+            _CommonMeans = GetCommonMeans(MeToThisUser, ThisUserToMe);
+
+            slab.SetAgreement(IndexToMeansName(_CommonMeans));
+
+            Debug.Log("<color=gree>Comms refresh!</color>");
+
+            yield return new WaitForSeconds(Interval);
         }
     }
 }

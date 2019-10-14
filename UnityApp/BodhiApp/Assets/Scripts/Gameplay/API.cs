@@ -377,10 +377,15 @@ public class API : MonoBehaviour
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
             "/follow/" + followuserid;
-        Debug.Log("DELETE url: " + url);
+        Debug.Log("Unfollow DELETE url: " + url);
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
         REST.GetSingleton().DELETE(url, (err, response) =>
         {
+            Debug.Log("Unfollow DELETE response: " + response);
+            if (err != null)
+            {
+                Debug.Log("Unfollow DELETE err: " + err);
+            }
             callback(err, response);
         });
     }
