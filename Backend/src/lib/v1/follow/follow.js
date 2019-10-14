@@ -43,11 +43,14 @@ router.post('/:otheruserid', function(req, res) {
 router.delete('/:otheruserid', function(req, res) {
 	const userid = req.header["userid"]
 	const otheruser = req.params["otheruserid"]
+	console.log("follow delete " + otheruser + " called")
 	Follows.findOne({_userid:userid}, function(err, fol) {
                 if(err != null) {
+			console.log(" .... server err: " + err)
                         res.status(500).json(err);
                 }
                 if(fol == null) {
+			console.log(" .... user not found 1")
 		        res.json({result:'user '+ otheruser  +' not found'});
                 }
                 else {
@@ -56,9 +59,11 @@ router.delete('/:otheruserid', function(req, res) {
                         	fol.follows.splice(indexOfOtherUser, 1)
                         	fol.markModified('follows')
                         	fol.save()
+				console.log(" .... success ")
                         	res.json({result:'success'})
 			}
 			else {
+				console.log(".... user not found 2")
 				res.json({result:'user '+ otheruser  +' not found'});
 			}
                 }
@@ -194,6 +199,7 @@ router.put('/commprefs/:otheruser/:index', function(req, res) {
 	const user = req.headers["userid"]
 	const otheruser = req.params["otheruser"]
 	const index = parseInt(req.params["index"])
+	console.log("Putting comms " + user + "->" + otheruser + " to " + index)
 	CommsPreferences.findOne({fromuserid:user,touserid:otheruser}, function(err, pref) {
 		if(err!=null) {
 			res.status(500).json(err)
