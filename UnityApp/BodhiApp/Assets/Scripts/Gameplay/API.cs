@@ -331,8 +331,81 @@ public class API : MonoBehaviour
           });
     }
 
-    public void CreateContent(string userid, string payload, ContentType contentType)
+    public void GetFollowedUsers(string userid, System.Action<string, string> callback)
     {
-
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+            "/message/";
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        REST.GetSingleton().GET(url, (err, response) =>
+        {
+            callback(err, response);
+        });
     }
+
+    public Coroutine IsFollowing(string userid, string followuserid, System.Action<string, bool> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+            "/follow/" + followuserid;
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        return REST.GetSingleton().GET(url, (err, response) =>
+        {
+            if (err != null)
+            {
+                callback(err, false);
+            }
+            else
+            {
+                RESTResult_Bool result = JsonUtility.FromJson<RESTResult_Bool>(response);
+                callback(err, result.result);
+            }
+        });
+    }
+
+    public void FollowUser(string userid, string followuserid, System.Action<string, string> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+            "/follow/" + followuserid;
+        Debug.Log("POST url: " + url);
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        REST.GetSingleton().POST(url, "", (err, response) =>
+        {
+            callback(err, response);
+        });
+    }
+
+    public void UnfollowUser(string userid, string followuserid, System.Action<string, string> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+            "/follow/" + followuserid;
+        Debug.Log("DELETE url: " + url);
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        REST.GetSingleton().DELETE(url, (err, response) =>
+        {
+            callback(err, response);
+        });
+    }
+
+    public Coroutine GetCommsPreference(string fromuser, string touser, System.Action<string, int> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+            "/follow/commprefs/" + fromuser + "/" + touser;
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        return REST.GetSingleton().GET(url, (err, response) =>
+        {
+            RESTResult_Int value = JsonUtility.FromJson<RESTResult_Int>(response);
+            callback(err, value.result);        
+        });
+    }
+
+    public Coroutine SetCommsPreference(string fromuser, string touser, int index, System.Action<string, string> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+            "/follow/commprefs/" + touser + "/" + index;
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        return REST.GetSingleton().PUT(url, "body", (err, response) =>
+        {
+            callback(err, response);
+        });
+    }
+
 }

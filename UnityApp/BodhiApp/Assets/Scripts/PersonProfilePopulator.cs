@@ -9,8 +9,16 @@ public class PersonProfilePopulator : ItemPopulator
     public GameObject PersonsFavoritePrefab;
     public GameObject FollowSlab;
     public GameObject EmptySlab;
+    public GameObject CommunicationsSlab;
 
     public ContentsManager contentsManager;
+
+    public string ProfileUserId;
+    public bool FollowingThisUser = false;
+    public int CommStateForThisUser = -1;
+    public string ThisUserPhone = "";
+
+    int CommonMeans;
 
     override public Coroutine GetItems(System.Action<List<ListItem>> callback)
     {
@@ -37,11 +45,46 @@ public class PersonProfilePopulator : ItemPopulator
         Debug.Log("OtherUserHandle = " + OtherUserHandle);
         Debug.Log("UserId = " + PlayerPrefs.GetString("UserId"));
 
+        ProfileUserId = OtherUserId;
+
+        bool following = false;
+
+       yield return API.GetSingleton().IsFollowing(PlayerPrefs.GetString("UserId"), OtherUserId, (err, result) =>
+        {
+            if(err==null)
+            {
+                following = result;
+            }
+        });
+
+        FollowingThisUser = following;
+
         // Follow / Unfollow section
         listItems.Add(new ListItem(OtherUserId, Color.grey, "", "", "", FollowSlab));
 
+        int MeToThisUser = -1;
+        int ThisUserToMe = -1;
+
+        yield return API.GetSingleton().GetCommsPreference(PlayerPrefs.GetString("UserId"), OtherUserId,
+        (err, value) =>
+        {
+            MeToThisUser = value;
+            CommStateForThisUser = value;
+        });
+
+        yield return API.GetSingleton().GetCommsPreference(OtherUserId, PlayerPrefs.GetString("UserId"),
+        (err, value) =>
+        {
+            ThisUserToMe = value;
+        });
+
+        CommonMeans = GetCommonMeans(MeToThisUser, ThisUserToMe);
+
+        // Communication preference panel
+        listItems.Add(new ListItem(OtherUserId, Color.white, "", "", "", CommunicationsSlab));
+
         // Profile header section ...
-        listItems.Add(new ListItem("", Color.grey, "Perfil de " + OtherUserHandle, "", "", HeaderPrefab));//, 120.0f));
+        listItems.Add(new ListItem("", Color.grey, "Perfil de " + OtherUserHandle, "", "", HeaderPrefab));
 
         // ... and profile section
         yield return API.GetSingleton().GetProfile(OtherUserId, (err, profile) =>
@@ -53,9 +96,9 @@ public class PersonProfilePopulator : ItemPopulator
             else
             {
                 listItems.Add(new ListItem(OtherUserId, Color.cyan, profile.about, "", "", SlabPrefab));
+                ThisUserPhone = profile.phone;
             }
         });
-
 
         // Contributions header ...
         listItems.Add(new ListItem("", Color.grey, "Contribuciones de " + OtherUserHandle, "", "", HeaderPrefab));
@@ -123,7 +166,16 @@ public class PersonProfilePopulator : ItemPopulator
         FollowSlab fSlab = FindObjectOfType<FollowSlab>();
         if (fSlab != null)
         {
-            fSlab.SetFollowState(FollowState.Following);
+            fSlab.SetFollowState(FollowingThisUser ? FollowState.Following : FollowState.NotFollowing);
+        }
+        CommsSlab cSlab = FindObjectOfType<CommsSlab>();
+        if(cSlab != null)
+        {
+            cSlab.SetIndex(CommStateForThisUser);
+            cSlab.OtherUserId = ProfileUserId;
+            Debug.Log("Common means: " + IndexToMeansName(CommonMeans));
+            cSlab.SetAgreement(IndexToMeansName(CommonMeans));
+            cSlab.SetPhoneNumber(ThisUserPhone);
         }
     }
 
@@ -135,5 +187,27 @@ public class PersonProfilePopulator : ItemPopulator
     public void TouchOnAnswer(int index)
     {
 
+    }
+
+    private int GetCommonMeans(int means1, int means2)
+    {
+        return Mathf.Min(means1, means2);
+    }
+
+    private string IndexToMeansName(int index)
+    {
+        switch(index)
+        {
+            case -1:
+                return "";
+            case 0:
+                return "Chat";
+            case 1:
+                return "Audio";
+            case 2:
+                return "Vídeo";
+            default:
+                return "";
+        }
     }
 }
