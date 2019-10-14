@@ -25,6 +25,12 @@ public class CommsChooser : MonoBehaviour
     private void ActivateToIndex(int n)
     {
         ((OptionIndexReceiver)indexReceiver).ReceiveIndex(n);
+        SetIndex(n);
+
+    }
+
+    public void SetIndex(int n)
+    {
         ChatImage.color = AudioImage.color = VideoImage.color = Color.white;
         if (n >= 0)
         {

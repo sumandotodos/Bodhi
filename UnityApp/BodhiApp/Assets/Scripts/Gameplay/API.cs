@@ -385,4 +385,27 @@ public class API : MonoBehaviour
         });
     }
 
+    public Coroutine GetCommsPreference(string fromuser, string touser, System.Action<string, int> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+            "/follow/commprefs/" + fromuser + "/" + touser;
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        return REST.GetSingleton().GET(url, (err, response) =>
+        {
+            RESTResult_Int value = JsonUtility.FromJson<RESTResult_Int>(response);
+            callback(err, value.result);        
+        });
+    }
+
+    public Coroutine SetCommsPreference(string fromuser, string touser, int index, System.Action<string, string> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+            "/follow/commprefs/" + touser + "/" + index;
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        return REST.GetSingleton().PUT(url, "body", (err, response) =>
+        {
+            callback(err, response);
+        });
+    }
+
 }

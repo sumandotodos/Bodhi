@@ -167,9 +167,12 @@ MonoBehaviour:
     type: 3}
   EmptySlab: {fileID: 2266185598932961520, guid: 66ce851b36fc741f0a91ab589cbb37aa,
     type: 3}
+  CommunicationsSlab: {fileID: 5740214776805286454, guid: 575dd467c6ea72a4aa3f51b0b408c8f7,
+    type: 3}
   contentsManager: {fileID: 4529523704695547512}
   ProfileUserId: 
   FollowingThisUser: 0
+  CommStateForThisUser: -1
 --- !u!4 &610480729
 Transform:
   m_ObjectHideFlags: 0

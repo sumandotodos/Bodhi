@@ -592,8 +592,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ChatColor: {r: 0, g: 0.48317003, b: 1, a: 1}
-  AudioColor: {r: 0.91324806, g: 0, b: 1, a: 1}
-  VideoColor: {r: 1, g: 0, b: 0, a: 1}
+  AudioColor: {r: 0.5744529, g: 0, b: 1, a: 1}
+  VideoColor: {r: 1, g: 0, b: 0.84111834, a: 1}
   ChatImage: {fileID: 4309578844893882050}
   AudioImage: {fileID: 4309578844726697300}
   VideoImage: {fileID: 4309578844769080678}
