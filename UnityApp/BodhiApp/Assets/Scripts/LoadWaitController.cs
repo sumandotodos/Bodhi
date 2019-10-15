@@ -20,6 +20,7 @@ public class LoadWaitController : MonoBehaviour
 
     public void CompleteNetworkTransfer()
     {
+        remain = -1.0f;
         SpinningThing.SetActive(false);
     }
 

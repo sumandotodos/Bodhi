@@ -40,6 +40,7 @@ public class FileUploadController : MonoBehaviour
         System.Action<string, string> callback = null)
     {
         byte[] allBytes = System.IO.File.ReadAllBytes(filepath);
+        Debug.Log(allBytes.Length + " bytes read from disk!!!");
         uploadWait.Show();
         uploadWait.GetProgressBar().SetUpTransfer((uint)allBytes.Length);
         string uploadUrl = "";

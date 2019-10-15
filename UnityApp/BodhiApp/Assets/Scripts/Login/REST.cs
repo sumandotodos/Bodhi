@@ -112,7 +112,7 @@ public class REST : MonoBehaviour
 
     private UnityWebRequest PUTRequestBodyData(string url, string body, byte[] bodyData)
     {
-        return UnityWebRequest.Put(url, body);
+        return UnityWebRequest.Put(url, bodyData);
     }
     public Coroutine PUT(string url, byte[] bodyData, System.Action<string, string> callback)
     {

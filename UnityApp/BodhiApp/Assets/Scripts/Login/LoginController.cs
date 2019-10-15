@@ -44,6 +44,7 @@ public class LoginController : MonoBehaviour
     private void Start()
     {
         Initialize();
+        ButtonLock.Release();
     }
 
     public void Initialize()
