@@ -12,7 +12,7 @@ public class TouchController : MonoBehaviour
     Vector3 lastFrameCoordinates;
     public float PixelsToAngleFactor = 0.1f;
     float Yaw = 0.0f;
-    float Pitch = 0.0f;
+    public float Pitch = 18.5f;
 
     public float YawSpeed = 0;
     float PitchSpeed = 0;

@@ -64,9 +64,6 @@ public class FacebookAuthManager : MonoBehaviour
         {
             Debug.Log("<color=red>Error: Singleton pattern violation</color>");
             DestroyImmediate(this.gameObject);
-
-
-
         }
     }
 

@@ -21,6 +21,22 @@ public class RESTResult_Bool
     public bool result;
 }
 
+[System.Serializable]
+public class RequestData
+{
+    public System.Func<string, string, byte[], UnityWebRequest> Starter;
+    public string url;
+    public string body;
+    public byte[] bodyData;
+    public RequestData(string _url, string _body, byte[] _bodyData, System.Func<string, string, byte[], UnityWebRequest> _Starter)
+    {
+        url = _url;
+        body = _body;
+        bodyData = _bodyData;
+        Starter = _Starter;
+    }
+}
+
 public class REST : MonoBehaviour
 {
 
@@ -54,73 +70,99 @@ public class REST : MonoBehaviour
         Headers[key] = value;
     }
 
+    private UnityWebRequest GETRequest(string url, string body, byte[] bodyData)
+    {
+        return UnityWebRequest.Get(url);
+    }
     public Coroutine GET(string url, System.Action<string, string> callback)
     {
-        UnityWebRequest res = UnityWebRequest.Get(url);
-        return StartCoroutine(REST_Coroutine(res, url, null, callback));
+        RequestData rd = new RequestData(url, "", null, GETRequest);
+        return StartCoroutine(REST_Coroutine(rd, url, null, callback));
     }
 
+    private UnityWebRequest GET_BinaryRequest(string url, string body, byte[] bodyData)
+    {
+        return UnityWebRequest.Get(url);
+    }
     public Coroutine GET_Binary(string url, System.Action<uint, float> progressCallback, System.Action<string, byte[]> callback)
     {
-        UnityWebRequest res = UnityWebRequest.Get(url);
-        return StartCoroutine(REST_Binary_Coroutine(res, url, progressCallback, callback));
+        RequestData rd = new RequestData(url, "", null, GET_BinaryRequest);
+        return StartCoroutine(REST_Binary_Coroutine(rd, url, progressCallback, callback));
     }
 
+    private UnityWebRequest DELETERequest(string url, string body, byte[] bodyData)
+    {
+        return UnityWebRequest.Delete(url);
+    }
     public Coroutine DELETE(string url, System.Action<string, string> callback)
     {
-        UnityWebRequest res = UnityWebRequest.Delete(url);
-        return StartCoroutine(REST_Coroutine(res, url, null, callback));
+        RequestData rd = new RequestData(url, "", null, DELETERequest);
+        return StartCoroutine(REST_Coroutine(rd, url, null, callback));
     }
 
+    private UnityWebRequest PUTRequestBody(string url, string body, byte[] bodyData)
+    {
+        return UnityWebRequest.Put(url, body);
+    }
     public Coroutine PUT(string url, string body, System.Action<string, string> callback)
     {
-        UnityWebRequest res = UnityWebRequest.Put(url, body);
-        return StartCoroutine(REST_Coroutine(res, url, null, callback));
+        RequestData rd = new RequestData(url, body, null, PUTRequestBody);
+        return StartCoroutine(REST_Coroutine(rd, url, null, callback));
     }
 
+    private UnityWebRequest PUTRequestBodyData(string url, string body, byte[] bodyData)
+    {
+        return UnityWebRequest.Put(url, body);
+    }
     public Coroutine PUT(string url, byte[] bodyData, System.Action<string, string> callback)
     {
-        UnityWebRequest res = UnityWebRequest.Put(url, bodyData);
-        return StartCoroutine(REST_Coroutine(res, url, null, callback));
+        RequestData rd = new RequestData(url, "", bodyData, PUTRequestBodyData);
+        return StartCoroutine(REST_Coroutine(rd, url, null, callback));
     }
-
     public Coroutine PUT(string url, byte[] bodyData, System.Action<uint, float> progressCallback, System.Action<string, string> callback)
     {
-        UnityWebRequest res = UnityWebRequest.Put(url, bodyData);
-        return StartCoroutine(REST_Coroutine(res, url, progressCallback, callback));
+        RequestData rd = new RequestData(url, "", bodyData, PUTRequestBodyData);
+        return StartCoroutine(REST_Coroutine(rd, url, progressCallback, callback));
     }
 
-    public Coroutine POST(string url, string body, System.Action<string, string> callback)
+    private UnityWebRequest POSTRequest(string url, string body, byte[] bodyData)
     {
         WWWForm form = new WWWForm();
         form.AddField("comment", body);
-        UnityWebRequest res = UnityWebRequest.Post(url, form);
-        return StartCoroutine(REST_Coroutine(res, url, null, callback));
+        return UnityWebRequest.Post(url, form);
+    }
+    public Coroutine POST(string url, string body, System.Action<string, string> callback)
+    {
+        RequestData rd = new RequestData(url, body, null, POSTRequest);
+        return StartCoroutine(REST_Coroutine(rd, url, null, callback));
     }
 
 
-    IEnumerator REST_Binary_Coroutine(UnityWebRequest res, string url, System.Action<uint, float> progressCallback, System.Action<string, byte[]> callback)
+    IEnumerator REST_Binary_Coroutine(RequestData rd, string url, System.Action<uint, float> progressCallback, System.Action<string, byte[]> callback)
     {
+        UnityWebRequest res = null;
+
         if (loadWaitController_N != null)
         {
             loadWaitController_N.StartNetworkTransfer();
         }
 
-        if (Headers != null)
-        {
-            foreach (KeyValuePair<string, string> entry in Headers)
-            {
-                res.SetRequestHeader(entry.Key, entry.Value);
-            }
-        }
         bool Succeded = false;
         do
         {
+            res = rd.Starter(rd.url, rd.body, rd.bodyData);
+            if (Headers != null)
+            {
+                foreach (KeyValuePair<string, string> entry in Headers)
+                {
+                    res.SetRequestHeader(entry.Key, entry.Value);
+                }
+            }
             SetupProgressCallback(res, progressCallback);
             yield return res.SendWebRequest();
             if (res.error != null)
             {
-                Debug.Log("There was this error: " + res.error);
+                Debug.Log("There was this error: " + res.error + " for this request: " + res.url);
                 res.Abort();
                 yield return new WaitForSeconds(RetryTimeout);
 
@@ -175,37 +217,41 @@ public class REST : MonoBehaviour
 
 
 
-    IEnumerator REST_Coroutine(UnityWebRequest res, string url, System.Action<uint, float> progressCallback, System.Action<string, string> callback)
+    IEnumerator REST_Coroutine(RequestData rd, string url, System.Action<uint, float> progressCallback, System.Action<string, string> callback)
     {
-        if(loadWaitController_N!=null)
+
+        UnityWebRequest res = null;
+
+        if (loadWaitController_N!=null)
         {
             loadWaitController_N.StartNetworkTransfer();
         }
 
-        if (Headers != null)
-        {
-            foreach (KeyValuePair<string, string> entry in Headers)
-            {
-                res.SetRequestHeader(entry.Key, entry.Value);
-            }
-        }
         bool Succeded = false;
         do
         {
+            res = rd.Starter(rd.url, rd.body, rd.bodyData);
+            if (Headers != null)
+            {
+                foreach (KeyValuePair<string, string> entry in Headers)
+                {
+                    res.SetRequestHeader(entry.Key, entry.Value);
+                }
+            }
             SetupProgressCallback(res, progressCallback);
             yield return res.SendWebRequest();
-          if(res.error != null)
-         {
+            if(res.error != null)
+            {
                 Debug.Log("There was this error: " + res.error);
                 res.Abort();
                 yield return new WaitForSeconds(RetryTimeout);
 
-         }
-         else
-         {
+            }
+            else
+            {
                 Debug.Log("No error");
                 Succeded = true;
-         }
+            }
         } while (!Succeded);
         Debug.Log("Break out of do while");
         if (callback != null)

@@ -158,9 +158,16 @@ public class API : MonoBehaviour
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
         return REST.GetSingleton().GET_Binary(url, null, (err, data) =>
         {
-            Texture2D newTexture = new Texture2D(2, 2);
-            bool success = ImageConversion.LoadImage(newTexture, data);
-            callback(err, success, newTexture);
+            if (data.Length > 10)
+            {
+                Texture2D newTexture = new Texture2D(2, 2);
+                bool success = ImageConversion.LoadImage(newTexture, data);
+                callback(err, success, newTexture);
+            }
+            else
+            {
+                callback(err, false, null);
+            }
         });
     }
 

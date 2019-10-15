@@ -16,6 +16,7 @@ public class PlanetGameController : MonoBehaviour
     public GameObject IdeaPrefab;
 
     public float ZDistance = 25.0f;
+    public float PitchAngle = 20.0f;
 
     private void Awake()
     {
@@ -41,7 +42,7 @@ public class PlanetGameController : MonoBehaviour
         Time.timeScale = 30.0f;
         orbitalCamera_A.Start();
         orbitalCamera_A.SetZDistanceImmediate(40.0f);
-        orbitalCamera_A.SetXAngleImmediate(20.0f);
+        orbitalCamera_A.SetXAngleImmediate(PitchAngle);
         yield return new WaitForSecondsRealtime(2.5f);
 
         Time.timeScale = 1.0f;
