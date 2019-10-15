@@ -116,7 +116,6 @@ router.get('/index', function(req, res) {
 router.get('/profileandquestion/:user', function(req, res) {
 	const user = req.params["user"]
 	var result = {}
-	console.log("1")
 	Favorites.findOne({_userid:user}, function(err, fav) {
 		if(err != null) {
                 	res.status(500).json(err)
@@ -146,20 +145,16 @@ router.get('/profileandquestion/:user', function(req, res) {
 				})
 			}
 		}
-		console.log("en este punto " + result + " user: " + user)
 		Profiles.findOne({_userid:user}, function(err, profile) {
 			if(err != null) {
-				console.log(" 2")
 				res.status(500).json(err)
 			}
 			else if (profile == null) {
-				console.log(" 3")
 				result.profile = ""
 				result.contactoptions = []
 				res.json(result)
 			}
 			else {
-				console.log(" 4")
 				result.profile = profile.about
 				result.contactoptions = profile.contactoptions
 				res.json(result)

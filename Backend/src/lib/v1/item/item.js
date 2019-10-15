@@ -313,7 +313,8 @@ function RetrieveAvatarForUser(user, res) {
                 	res.status(500).json({error:err})
                 }
 		if(av == null) {
-			res.status(404).json({result:'not found'})
+			res.set('Content-Type', 'image/jpeg')
+			res.end(0)
 		}
 		else {
 			res.set('Content-Type', 'image/jpeg');

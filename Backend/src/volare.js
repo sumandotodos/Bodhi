@@ -47,6 +47,7 @@ app.use(checkPSK)
 //app.use(checkUserNotNull)
 
 app.get("/healthcheck", function(req, res) {
+	console.log("Requesting healthcheck...")
 	res.json({result:'success'})
 })
 
