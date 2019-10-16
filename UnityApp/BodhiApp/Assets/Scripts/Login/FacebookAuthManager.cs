@@ -74,6 +74,7 @@ public class FacebookAuthManager : MonoBehaviour
 
     public string MessageCallback(string msg)
     {
+        Debug.Log("<color=red>Callback msg: " + msg + "</color>");
         string prefix = LoginConfigurations.FlygamesRedirectURL;
         string codeQuery = "?code=";
         string errorQuery = "?error=";
@@ -99,14 +100,27 @@ public class FacebookAuthManager : MonoBehaviour
 
     public void LoginWithFacebookButton()
     {
-        string URL = LoginConfigurations.MakeFBAuthURL();
-        webView.OpenWebView(URL, MessageCallback);
+        StartCoroutine(LoginWithFacebookIfNetworkAvailable());
     }
 
     public void LogoutWithFacebookButton()
     {
         webView.OpenWebView(LoginConfigurations.InstagramLogoutURL, null);
         StartCoroutine(WaitABitAndClose());
+    }
+
+    IEnumerator LoginWithFacebookIfNetworkAvailable()
+    {
+        bool NetworkAlive = false;
+        yield return API.GetSingleton().Healthcheck((alive) =>
+        {
+            NetworkAlive = alive;
+        });
+        if(NetworkAlive)
+        {
+            string URL = LoginConfigurations.MakeFBAuthURL();
+            webView.OpenWebView(URL, MessageCallback);
+        }
     }
 
     IEnumerator ExchangeCodeForToken()

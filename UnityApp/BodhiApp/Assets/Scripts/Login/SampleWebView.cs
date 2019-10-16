@@ -28,12 +28,16 @@ public class SampleWebView : MonoBehaviour
     public Text status;
     WebViewObject webViewObject;
     public float ScaleSpeed = 60.16f;
+    public LoadWaitController loadWaitController;
 
     System.Func<string, string> MessageFromWebviewHandler;
+
+    Coroutine TimeoutHandler;
 
     float targetScale = 0.0f;
     float scale = 0.0f;
     bool dismissOnClose = false;
+
 
     private void Update()
     {
@@ -209,14 +213,18 @@ public class SampleWebView : MonoBehaviour
                 var dst = System.IO.Path.Combine(Application.persistentDataPath, url);
                 byte[] result = null;
                 if (src.Contains("://")) {  // for Android
+                    Debug.Log("<color=red>before</color>");
                     var www = new WWW(src);
                     yield return www;
+                    Debug.Log("<color=red>after (bytes="+www.bytes+")</color>");
                     result = www.bytes;
                 } else {
                     result = System.IO.File.ReadAllBytes(src);
+                    Debug.Log("<color=red>after (result=" + result + ")</color>");
                 }
                 System.IO.File.WriteAllBytes(dst, result);
                 if (ext == ".html") {
+                    Debug.Log("<color=red>attempting to load " + dst + "</color>");
                     webViewObject.LoadURL("file://" + dst.Replace(" ", "%20"));
                     break;
                 }
@@ -224,9 +232,9 @@ public class SampleWebView : MonoBehaviour
         }
 #else
         if (Url.StartsWith("http")) {
-            webViewObject.LoadURL(Url.Replace(" ", "%20"));
+            webViewObject.LoadURL(Url.Replace(" ", "%20"), CompleteTransferCallback);
         } else {
-            webViewObject.LoadURL("StreamingAssets/" + Url.Replace(" ", "%20"));
+            webViewObject.LoadURL("StreamingAssets/" + Url.Replace(" ", "%20"), CompleteTransferCallback);
         }
         webViewObject.EvaluateJS(
             "parent.$(function() {" +

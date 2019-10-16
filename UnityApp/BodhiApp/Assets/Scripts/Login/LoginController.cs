@@ -79,7 +79,10 @@ public class LoginController : MonoBehaviour
         {
             loadLoginData();
             LoginConfigurations.init();
-            loginStatus.Initialize(loginStatusData, this);
+            if(loginStatusData.loggedIn)
+            {
+                loginStatus.Initialize(loginStatusData, this);
+            }
         }
     }
 

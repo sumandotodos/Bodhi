@@ -18,6 +18,16 @@ public class API : MonoBehaviour
         return instance;
     }
 
+    public Coroutine Healthcheck(System.Action<bool> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/healthcheck";
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        return REST.GetSingleton().GET(url, (err, response) =>
+        {
+            callback(err == null);
+        });
+    }
+
     public void DeleteComment(string userid, string contentid)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
