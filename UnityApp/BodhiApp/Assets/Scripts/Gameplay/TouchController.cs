@@ -13,6 +13,7 @@ public class TouchController : MonoBehaviour
     public float PixelsToAngleFactor = 0.1f;
     float Yaw = 0.0f;
     public float Pitch = 18.5f;
+    public float MovementThreshold = 20.0f;
 
     public float YawSpeed = 0;
     float PitchSpeed = 0;
@@ -81,10 +82,26 @@ public class TouchController : MonoBehaviour
             Pitch += deltaAnglePitch;
             Pitch = Mathf.Clamp(Pitch, -85.0f, 85.0f);
             updateDelegate = notTouchingUpdate;
-            PitchSpeed = DeltaPixelsToSpeed * -(Input.mousePosition.y - lastFrameCoordinates.y);
-            YawSpeed = DeltaPixelsToSpeed * (Input.mousePosition.x - lastFrameCoordinates.x);
+            float yDiff = Input.mousePosition.y - lastFrameCoordinates.y;
+            if (Mathf.Abs(yDiff) > MovementThreshold)
+            {
+                PitchSpeed = DeltaPixelsToSpeed * -(Input.mousePosition.y - lastFrameCoordinates.y);
+            }
+            else
+            {
+                PitchSpeed = 0.0f;
+            }
+            float xDiff = Input.mousePosition.x - lastFrameCoordinates.x;
+            if (Mathf.Abs(xDiff) > 10)
+            {
+                YawSpeed = DeltaPixelsToSpeed * (Input.mousePosition.x - lastFrameCoordinates.x);
+            }
+            else
+            {
+                YawSpeed = 0.0f;
+            }
 
-            if(PitchSpeed > 0.0f)
+            if (PitchSpeed > 0.0f)
             {
                 PitchAccel = -Accel;
             }

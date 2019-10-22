@@ -37,6 +37,7 @@ public class AvatarTaker : MonoBehaviour
 
     public Texture2D ApplyMaskTexture(Texture2D tex)
     {
+
         int targetSize = MaskTexture.width;
         Texture2D crop = CropTextureToSquare(tex);
         TextureScale.Bilinear(crop, targetSize, targetSize);

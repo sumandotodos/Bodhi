@@ -84,7 +84,7 @@ public class SendVideoResponseController : MonoBehaviour
                 //FileUploadController.GetSingleton().StartFileUpload(path);
                 videoPath = path;
                 ConfirmMenuScaler.scaleIn();
-            }, NativeCamera.Quality.Low);
+            }, NativeCamera.Quality.Low, 60, 200000000);
 #endif
 
     }

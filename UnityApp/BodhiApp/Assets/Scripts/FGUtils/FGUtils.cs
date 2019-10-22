@@ -587,15 +587,26 @@ public class FGUtils : MonoBehaviour {
 	public static Vector2 physicalToVirtualCoordinates(Vector2 phys) {
 
 		Vector2 res = new Vector2 ();
-		res.x = phys.x * (virtualWidth / Screen.width) - virtualWidth / 2.0f;
-		res.y = phys.y * (virtualWidth / Screen.width) - (virtualWidth * Screen.height/Screen.width)/2.0f;
+		res.x = phys.x * ((virtualWidth / Screen.width));
+		res.y = phys.y * ((virtualWidth / Screen.width));
 
 		return res;
 
 	}
 
-	// Use this for initialization
-	void Start () {
+    public static Vector2 virtualToPhysicalCoordinates(Vector2 virt)
+    {
+
+        Vector2 res = new Vector2();
+        res.x = virt.x * ((Screen.width / virtualWidth));
+        res.y = virt.y * ((Screen.width / virtualWidth));
+
+        return res;
+
+    }
+
+    // Use this for initialization
+    void Start () {
 
 	}
 

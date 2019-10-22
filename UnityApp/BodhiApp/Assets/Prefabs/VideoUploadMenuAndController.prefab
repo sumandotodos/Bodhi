@@ -59,8 +59,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d6bf188d3f4440cabd1f094daa1fdcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PointA: {x: -60, y: 60}
-  PointB: {x: 60, y: -60}
+  PointA: {x: 0, y: 0}
+  PointB: {x: 30, y: -30}
   Speed: 20
   easeType: 0
   coordinateType: 1
@@ -507,8 +507,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d6bf188d3f4440cabd1f094daa1fdcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PointA: {x: -60, y: 60}
-  PointB: {x: 60, y: -60}
+  PointA: {x: 0, y: 0}
+  PointB: {x: 30, y: -30}
   Speed: 20
   easeType: 0
   coordinateType: 1
@@ -801,8 +801,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d6bf188d3f4440cabd1f094daa1fdcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PointA: {x: -60, y: 60}
-  PointB: {x: 60, y: -60}
+  PointA: {x: 0, y: 0}
+  PointB: {x: 30, y: -30}
   Speed: 20
   easeType: 0
   coordinateType: 1
@@ -1172,8 +1172,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d6bf188d3f4440cabd1f094daa1fdcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PointA: {x: -60, y: 60}
-  PointB: {x: 60, y: -60}
+  PointA: {x: 0, y: 0}
+  PointB: {x: 30, y: -30}
   Speed: 20
   easeType: 0
   coordinateType: 1
@@ -3476,8 +3476,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d6bf188d3f4440cabd1f094daa1fdcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PointA: {x: -60, y: 60}
-  PointB: {x: 60, y: -60}
+  PointA: {x: 0, y: 0}
+  PointB: {x: 30, y: -30}
   Speed: 20
   easeType: 0
   coordinateType: 1
