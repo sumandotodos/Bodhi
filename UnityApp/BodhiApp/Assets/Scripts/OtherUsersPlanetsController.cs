@@ -33,7 +33,7 @@ public class OtherUsersPlanetsController : MonoBehaviour
         nSectors = listOfUsers.Count;
         sectorWidth = (360.0f) / (float)nSectors;
         prevSection = (int)(FGUtils.NormalizeAngle(CameraYPivot.rotation.eulerAngles.y) / (float)nSectors);
-        MaskedDefaultUserTexture = DefaultUserTexture;  //avatarTaker.ApplyMaskTexture(DefaultUserTexture);
+        MaskedDefaultUserTexture = avatarTaker.ApplyMaskTexture(DefaultUserTexture);
     }
 
 

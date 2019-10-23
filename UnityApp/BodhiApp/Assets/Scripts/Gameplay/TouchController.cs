@@ -126,7 +126,7 @@ public class TouchController : MonoBehaviour
     {
         if(Input.GetMouseButton(0))
         {
-            touchCoordinates = Input.mousePosition;
+            lastFrameCoordinates = touchCoordinates = Input.mousePosition;
             updateDelegate = isTouchingUpdate;
             YawSpeed = 0.0f;
             PitchSpeed = 0.0f;

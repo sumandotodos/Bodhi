@@ -128,7 +128,7 @@ public class AvatarTaker : MonoBehaviour
     {
         GetImageFromCamera((tex) =>
         {
-            Texture2D newAvatar = RotateTexture(tex);
+            Texture2D newAvatar = Application.platform != RuntimePlatform.IPhonePlayer ? RotateTexture(tex) : tex;
             //TextureScale.Bilinear(newAvatar, TextureSize, TextureSize);
             callback(newAvatar);
         });
