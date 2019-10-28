@@ -70,6 +70,45 @@ router.delete('/:otheruserid', function(req, res) {
         })
 })
 
+router.get('/:cursor/:max', function(req, res) {
+	const userid = req.headers["userid"]
+	console.log("Asking for partial followeds of user " + userid)
+	var cursor = parseInt(req.params["cursor"])
+	var max = parseInt(req.params["max"])
+	Follows.findOne({_userid:userid}, function(err, fol) {
+		if(err != null) {
+			res.status(500).json(err)
+		}
+		else if(fol == null) {
+			res.json({result:[]})
+		}
+		else {
+			Users.find({}, function(err, users) {
+				if(err!=null) {
+					res.status(500).json(err)
+				}
+				else if(users==null) {
+					res.json({result:[]})
+				}
+				else {
+					var result = []
+					var selected = 0
+					for(var i = 0; (i < users.length) && (result.length < max); ++i) {
+						if(fol.follows.indexOf(users[i]._id) != -1) {
+							selected++
+							if(selected > cursor) {
+								result.push(users[i])
+							}
+						}
+							
+					}
+					res.json({result:result})
+				}
+			})
+		}
+	})
+})
+
 router.get('/', function(req, res) {
         const userid = req.headers["userid"]
         console.log("Asking for followeds of user " + userid)
