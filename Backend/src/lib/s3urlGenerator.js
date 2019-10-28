@@ -54,6 +54,26 @@ s3urlgen.s3getGen = function(filename) {
         return { url:url, error:null }
 }
 
+s3urlgen.deleteObject = function(filename) {
+	const params = {
+                Bucket: bucket,
+                Key: filename,
+        }
+	console.log("s3.deleteObject called...")
+	return new Promise(function(resolve, reject) {
+		s3.deleteObject(params, function(err, data) {
+			if(err) {
+				console.log(" ... ups, err: " + err)
+				reject(JSON.stringify(err))
+			}
+			else {
+				console.log(" ...resoved: " + data)
+				resolve(JSON.stringify(data))
+			}
+		})
+	})
+}
+
 s3urlgen.uploadStreamWrapper = function(filename, tempdir, callback) {
 	var pass = new stream.PassThrough();
 	pass.on('end', () => {

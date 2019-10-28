@@ -9,6 +9,7 @@ const VideoMessages = require('../../schema/VideoMessages/VideoMessages').model
 const PendingMessages = require('../../schema/VideoMessages/PendingMessages').model
 const Avatars = require('../../schema/Avatars/Avatars').model
 const helpers = require('../Helpers')
+const utils = require('../../helpers')
 const contents = require('../../contents/contents')
 const s3manager = require('../../s3urlGenerator')
 const videoencoder = require('../../videoencoding/videoencoding')
@@ -241,6 +242,12 @@ router.put('/video', function(req, res) {
 			readStream.pipe(s3manager.uploadStreamWrapper(fileObj.filename, tempFileObj.directory))	
 		}
 	})
+})
+
+router.delete('/video/:fullpath', function(req, res) {
+	const fullpath = utils.fromParamSafe(req.params["fullpath"])
+	console.log(" >>>> request to delete video with fullpath: " + fullpath)
+	s3manager.deleteObject(fullpath).then( () => res.json({result:'success'}) ).catch((err) => res.status(500).json(err) )
 })
 
 router.get('/downloadurl/:colonseparatedfilepath', function(req, res) {
