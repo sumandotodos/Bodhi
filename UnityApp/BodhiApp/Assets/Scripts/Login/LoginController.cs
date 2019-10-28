@@ -27,6 +27,7 @@ public class LoginStatusData
 public class LoginController : MonoBehaviour
 {
     public string ForceId = "";
+    public string CheckId = "";
 
     public LoginStatus loginStatus;
 
@@ -43,6 +44,7 @@ public class LoginController : MonoBehaviour
     private void Start()
     {
         Initialize();
+        ButtonLock.Release();
     }
 
     public void Initialize()
@@ -61,6 +63,7 @@ public class LoginController : MonoBehaviour
             if (LoginConfigurations.Headers.ContainsKey("userid"))
             {
                 LoginConfigurations.Headers["userid"] = ForceId;
+                CheckId = ForceId;
             }
             else
             {
@@ -75,8 +78,11 @@ public class LoginController : MonoBehaviour
         else
         {
             loadLoginData();
-            loginStatus.Initialize(loginStatusData);
             LoginConfigurations.init();
+            if(loginStatusData.loggedIn)
+            {
+                loginStatus.Initialize(loginStatusData, this);
+            }
         }
     }
 
@@ -177,7 +183,7 @@ public class LoginController : MonoBehaviour
         loginStatusData.id = id;
         loginStatusData.FBid = FBid;
         loginStatusData.AppToken = FBid;
-        loginStatus.Refresh(loginStatusData);
+        loginStatus.Refresh(loginStatusData, this);
         saveLoginData();
     }
 
@@ -189,7 +195,7 @@ public class LoginController : MonoBehaviour
         loginStatusData.id = id;
         loginStatusData.IGid = IGid;
         loginStatusData.AppToken = IGid;
-        loginStatus.Refresh(loginStatusData);
+        loginStatus.Refresh(loginStatusData, this);
         saveLoginData();
     }
 
@@ -198,7 +204,8 @@ public class LoginController : MonoBehaviour
         HideLogoutInterface();
         ShowLoginInterface();
         loginStatusData.loggedIn = false;
-        loginStatus.Refresh(loginStatusData);
+        CheckId = "-1";
+        loginStatus.Refresh(loginStatusData, this);
         saveLoginData();
     }
 

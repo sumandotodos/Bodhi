@@ -37,6 +37,7 @@ public class AvatarTaker : MonoBehaviour
 
     public Texture2D ApplyMaskTexture(Texture2D tex)
     {
+
         int targetSize = MaskTexture.width;
         Texture2D crop = CropTextureToSquare(tex);
         TextureScale.Bilinear(crop, targetSize, targetSize);
@@ -127,7 +128,7 @@ public class AvatarTaker : MonoBehaviour
     {
         GetImageFromCamera((tex) =>
         {
-            Texture2D newAvatar = RotateTexture(tex);
+            Texture2D newAvatar = Application.platform != RuntimePlatform.IPhonePlayer ? RotateTexture(tex) : tex;
             //TextureScale.Bilinear(newAvatar, TextureSize, TextureSize);
             callback(newAvatar);
         });

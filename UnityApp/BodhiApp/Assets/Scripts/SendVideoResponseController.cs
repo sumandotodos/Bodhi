@@ -22,7 +22,19 @@ public class SendVideoResponseController : MonoBehaviour
     string MessageRecipient = "";
     string AnsweredQuestion = "";
 
-    public void TouchOnSendVideoResponse()
+    static SendVideoResponseController instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
+
+    public static void TouchOnSendVideoResponse()
+    {
+        instance.touchOnSendVideoResponse();
+    }
+    public void touchOnSendVideoResponse()
     {
         string userId = otherUsersPlanetController.GetUserId();
         MessageRecipient = userId;
@@ -39,50 +51,75 @@ public class SendVideoResponseController : MonoBehaviour
         QuestionId = questionId;
     }
 
-    public void TouchOnRecordVideo() {
+
+    public static void TouchOnSendVideoResponse(string _OtherUserId, string question, string _QuestionId)
+    {
+        instance.touchOnSendVideoResponse(_OtherUserId, question, _QuestionId);
+    }
+    public void touchOnSendVideoResponse(string _OtherUserId, string question, string _QuestionId)
+    {
+        MessageRecipient = _OtherUserId;
+        OtherUserId = _OtherUserId;
+        QuestionId = _QuestionId;
+        AnsweredQuestion = question;
+        SelectSourceMenuScaler.scaleIn();
+    }
+
+
+    public static void TouchOnRecordVideo()
+    {
+        instance.touchOnRecordVideo();
+    }
+    public void touchOnRecordVideo() {
 
         SelectSourceMenuScaler.scaleOut();
 
 #if UNITY_EDITOR
-        //FileUploadController.GetSingleton().StartFileUpload(
-        //    Application.dataPath + TestVideoRecordPath,
-        //    OtherUserId,
-        //    QuestionId);
+       
         videoPath = Application.dataPath + TestVideoRecordPath;
         ConfirmMenuScaler.scaleIn();
 #else
             NativeCamera.RecordVideo((path) =>
             {
-                FileUploadController.GetSingleton().StartFileUpload(path);
+                //FileUploadController.GetSingleton().StartFileUpload(path);
                 videoPath = path;
                 ConfirmMenuScaler.scaleIn();
-            }, NativeCamera.Quality.Low);
+            }, NativeCamera.Quality.Low, 60, 200000000);
 #endif
 
     }
 
-    public void TouchOnSelectFromGallery()
+
+    public static void TouchOnSelectFromGallery()
+    {
+        instance.touchOnSelectFromGallery();
+    }
+    public void touchOnSelectFromGallery()
     {
         SelectSourceMenuScaler.scaleOut();
 
 #if UNITY_EDITOR
-        //FileUploadController.GetSingleton().StartFileUpload(
-        //    Application.dataPath + TestGalleryRecordPath,
-        //    OtherUserId,
-        //    QuestionId);
+       
         videoPath = Application.dataPath + TestVideoRecordPath;
         ConfirmMenuScaler.scaleIn();
+      
 #else
             NativeGallery.GetVideoFromGallery((path) =>
             {
-                FileUploadController.GetSingleton().StartFileUpload(path);
+                //FileUploadController.GetSingleton().StartFileUpload(path);
                 videoPath = path;
                 ConfirmMenuScaler.scaleIn();
-            }, NativeCamera.Quality.Low);
+            });
 #endif
     }
 
-    public void TouchOnCancel()
+
+
+    public static void TouchOnCancel()
+    {
+        instance.touchOnCancel();
+    }
+    public void touchOnCancel()
     {
         SelectSourceMenuScaler.scaleOut();
     }
@@ -93,7 +130,11 @@ public class SendVideoResponseController : MonoBehaviour
         videoPlayer.Play();
     }*/
 
-    public void TouchOnYes()
+    public static void TouchOnYes()
+    {
+        instance.touchOnYes();
+    }
+    public void touchOnYes()
     {
         //videoPlayer.Stop();
         FileUploadController.GetSingleton().StartFileUpload(
@@ -116,7 +157,12 @@ public class SendVideoResponseController : MonoBehaviour
         ConfirmMenuScaler.scaleOut();
     }
 
-    public void TouchOnNo()
+
+    public static void TouchOnNo()
+    {
+        instance.touchOnNo();
+    }
+    public void touchOnNo()
     {
         videoPlayer.Stop();
         ConfirmMenuScaler.scaleOut();

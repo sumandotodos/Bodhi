@@ -5,6 +5,7 @@ using UnityEngine;
 public class UnreadMessagesUpdater : MonoBehaviour
 {
     public TMPro.TextMeshPro textMesh;
+    public SpriteRenderer sprite;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +29,11 @@ public class UnreadMessagesUpdater : MonoBehaviour
         });
         textMesh.text = "" + UnreadMessages;
         PlayerPrefs.SetInt("UnreadMessages", UnreadMessages);
-        textMesh.enabled = true;
+        SetIconEnabled(UnreadMessages > 0);
+    }
+
+    private void SetIconEnabled(bool en)
+    {
+        textMesh.enabled = sprite.enabled = en;
     }
 }

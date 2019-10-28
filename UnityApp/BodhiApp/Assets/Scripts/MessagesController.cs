@@ -9,6 +9,7 @@ public class MessagesController : MonoBehaviour
 
     public UIScaleFader messageScaler;
     public Text messageText;
+    bool AlreadyDismissed = false;
 
     void Awake()
     {
@@ -38,6 +39,7 @@ public class MessagesController : MonoBehaviour
         messageScaler.setEaseType(EaseType.cubicOut);
         messageScaler.scaleInImmediately();
         messageScaler.scaleOut();
+        AlreadyDismissed = false;
     }
 
     public void ShowMessage(string text)
@@ -47,6 +49,7 @@ public class MessagesController : MonoBehaviour
 
     public void DismissMessage()
     {
+        if (AlreadyDismissed) return;
         messageScaler.maxScale = 1.0f;
         messageScaler.minScale = 0.0f;
         messageScaler.speed = 1.0f;
@@ -54,5 +57,6 @@ public class MessagesController : MonoBehaviour
         messageScaler.setEaseType(EaseType.cubicIn);
         messageScaler.scaleInImmediately();
         messageScaler.scaleOut();
+        AlreadyDismissed = true;
     }
 }

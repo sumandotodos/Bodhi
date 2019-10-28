@@ -33,6 +33,11 @@ public class UIMoverTwoPoints : MonoBehaviour {
         {
             Initial = this.transform.localPosition;
         }
+        if(coordinateType == UICoordinateType.Virtual)
+        {
+            PointA = FGUtils.virtualToPhysicalCoordinates(PointA);
+            PointB = FGUtils.virtualToPhysicalCoordinates(PointB);
+        }
         if (AutoStart)
         {
             Go();

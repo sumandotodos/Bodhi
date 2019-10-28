@@ -14,13 +14,12 @@ public class LoginStatus : MonoBehaviour
     public Texture LoggedOutTex;
     public Texture LoggedInTex;
 
-    // Start is called before the first frame update
-    public void Initialize(LoginStatusData loginStatusData)
+    public void Initialize(LoginStatusData loginStatusData, LoginController lc)
     {
-        Refresh(loginStatusData);
+        Refresh(loginStatusData, lc);
     }
 
-    public void Refresh(LoginStatusData loginStatusData)
+    public void Refresh(LoginStatusData loginStatusData, LoginController lc)
     {
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
         REST.GetSingleton().GET(LoginConfigurations.MakeUserIdLoginRequest(loginStatusData.AppToken),
@@ -38,6 +37,11 @@ public class LoginStatus : MonoBehaviour
                     else
                     {
                         LoginConfigurations.Headers.Add("userid", result.result);
+                    }
+                    Debug.Log("<color=purple>UserId from server: " + result.result + "</color>");
+                    if (lc != null)
+                    {
+                        lc.CheckId = result.result;
                     }
                     LightImage.texture = loginStatusData.loggedIn ? LoggedInTex : LoggedOutTex;
                     LabelText.text = loginStatusData.loggedIn ? LoginString + loginStatusData.id : LogoutString;

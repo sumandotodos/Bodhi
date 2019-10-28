@@ -27,4 +27,11 @@ public class FavoriteOfOtherUserSlab : Slab
         pos.y = -(_Height + 130.0f) + 200.0f;
         ReplyButton.anchoredPosition = pos;
     }
+
+    public void TouchOnSendVideoResponse()
+    {
+        Debug.Log("QuestionId: " + id);
+        Debug.Log("ToUser: " + extra);
+        SendVideoResponseController.TouchOnSendVideoResponse(extra, question, id);
+    }
 }

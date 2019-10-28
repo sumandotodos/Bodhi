@@ -153,7 +153,7 @@ public class PersonProfilePopulator : ItemPopulator
                          content = cont;
                      });
                 }
-                listItems.Add(new ListItem(id, col, content, "", "", PersonsFavoritePrefab));
+                listItems.Add(new ListItem(id, col, content, content, OtherUserId, PersonsFavoritePrefab));
             }
         }
 
