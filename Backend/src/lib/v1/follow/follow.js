@@ -10,7 +10,7 @@ const Follows = require('../../schema/Follows/Follows').model
 const helpers = require('../Helpers')
 
 router.post('/:otheruserid', function(req, res) {
-	const userid = req.header["userid"]
+	const userid = req.headers["userid"]
 	const otheruser = req.params["otheruserid"]
 	Follows.findOne({_userid:userid}, function(err, fol) {
 		if(err != null) {
@@ -41,7 +41,7 @@ router.post('/:otheruserid', function(req, res) {
 })
 
 router.delete('/:otheruserid', function(req, res) {
-	const userid = req.header["userid"]
+	const userid = req.headers["userid"]
 	const otheruser = req.params["otheruserid"]
 	console.log("follow delete " + otheruser + " called")
 	Follows.findOne({_userid:userid}, function(err, fol) {
@@ -71,12 +71,14 @@ router.delete('/:otheruserid', function(req, res) {
 })
 
 router.get('/', function(req, res) {
-        const userid = req.header["userid"]
-        Follows.findOne({_userid:userid}, function(err, fol) {
+        const userid = req.headers["userid"]
+        console.log("Asking for followeds of user " + userid)
+	Follows.findOne({_userid:userid}, function(err, fol) {
                 if(err != null) {
                         res.status(500).json(err);
                 }
                 else if(fol == null) {
+			console.log("was not found....., so []")
                         res.json({result:[]})
                 }
                 else {
@@ -102,7 +104,7 @@ router.get('/', function(req, res) {
 })
 
 router.get('/:otheruserid', function(req, res) {
-	const userid = req.header["userid"]
+	const userid = req.headers["userid"]
 	const otheruserid = req.params["otheruserid"]
 	Follows.findOne({_userid:userid}, function(err, fol) {
 		if(err != null) {
@@ -196,6 +198,7 @@ router.get('/commprefs/:user/:otheruser', function(req, res) {
 })
 
 router.put('/commprefs/:otheruser/:index', function(req, res) {
+	console.log("put commprefs called")
 	const user = req.headers["userid"]
 	const otheruser = req.params["otheruser"]
 	const index = parseInt(req.params["index"])
