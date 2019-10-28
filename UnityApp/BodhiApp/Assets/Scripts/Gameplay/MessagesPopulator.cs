@@ -52,32 +52,7 @@ public class MessagesPopulator : ItemPopulator
         return GetItemsWithHandleSystem((listitems) =>
         {
             callback(listitems);
-        });/*API.GetSingleton().GetMessagesList(PlayerPrefs.GetString("UserId"), (err, text) =>
-        {
-            List<ListItem> listItems = new List<ListItem>();
-            MessageListResult result = JsonUtility.FromJson<MessageListResult>(text);
-
-            for (int i = 0; i < result.result.Count; ++i)
-            {
-                GameObject Prefab = QuestionAnsweredPrefab;
-                if(result.result[i].type=="Answer to Watch")
-                {
-                    Prefab = AnswerToWatchPrefab;
-                }
-                Color col = ColorFromType(result.result[i].type);
-                string question = result.result[i].content;
-                listItems.Add(new ListItem(
-                    result.result[i]._id, 
-                    result.result[i]._fromuserid,
-                    col, 
-                    MakeContent(result.result[i]),
-                    question,
-                    result.result[i].extra,
-                    Prefab));
-            }
-            callback(listItems);
-        }
-        );*/
+        });
     }
 
     private Color ColorFromType(string type)
@@ -193,8 +168,18 @@ public class MessagesPopulator : ItemPopulator
         }
     }
 
-    public override void DeleteItemCallback(string id)
+    public override void DeleteItemCallback(string id, string extra)
     {
+        Debug.Log("Message delete item callback called for " + id);
+        if (extra != "")
+        {
+            Debug.Log("Deleting video from server: " + extra);
+            API.GetSingleton().DeleteVideo(extra, (text) =>
+            {
+                Debug.Log("  >> video delete response: " + text);
+            });
+        }
         API.GetSingleton().DeleteMessage(PlayerPrefs.GetString("UserId"), id);
     }
+
 }

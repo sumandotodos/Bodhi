@@ -331,6 +331,20 @@ public class API : MonoBehaviour
         });
     }
 
+    public Coroutine DeleteVideo(string fullpath, System.Action<string> callback)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+            "/item/video/" + fullpath.Replace('/', ':');
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        REST.GetSingleton().AddHeader("content-type", "application/json");
+        Fullpath newFullpath = new Fullpath();
+        newFullpath.fullpath = fullpath;
+        return REST.GetSingleton().DELETE(url, (err, text) =>
+        {
+            callback(text);
+        });
+    }
+
     public void CreateMessage(string fromUserId, string toUserId, string type, string content, string extra)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
@@ -348,12 +362,12 @@ public class API : MonoBehaviour
           });
     }
 
-    public void GetFollowedUsers(string userid, System.Action<string, UserListResult> callback)
+    public Coroutine GetFollowedUsers(string userid, int skip, int maxUsers, System.Action<string, UserListResult> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
-            "/follow/";
+            "/follow/" + skip + "/" + maxUsers;
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
-        REST.GetSingleton().GET(url, (err, response) =>
+        return REST.GetSingleton().GET(url, (err, response) =>
         {
             UserListResult listOfUsers = JsonUtility.FromJson<UserListResult>(response);
             callback(err, listOfUsers);

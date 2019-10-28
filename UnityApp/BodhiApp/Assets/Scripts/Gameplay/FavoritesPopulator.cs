@@ -18,7 +18,7 @@ public class FavoritesPopulator : ItemPopulator
         });
     }
 
-    override public void DeleteItemCallback(string id)
+    override public void DeleteItemCallback(string id, string extra)
     {
         API.GetSingleton().DestroyFavorite(PlayerPrefs.GetString("UserId"), id);
     }

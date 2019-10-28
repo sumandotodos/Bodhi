@@ -203,7 +203,7 @@ public class PersonProfilePopulator : ItemPopulator
         }
     }
 
-    override public void DeleteItemCallback(string id)
+    override public void DeleteItemCallback(string id, string extra)
     {
        
     }

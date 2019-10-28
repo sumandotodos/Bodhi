@@ -44,8 +44,14 @@ public class Planet : MonoBehaviour
 
     public void SetLabel(string NewLabel)
     {
+        SetLabel(NewLabel, Color.white);
+    }
+
+    public void SetLabel(string NewLabel, Color color)
+    {
         TextMeshPro textComponent = GetComponentInChildren<TextMeshPro>();
         textComponent.text = NewLabel;
+        textComponent.color = color;
     }
 
     public void SetCategory(string NewCat)

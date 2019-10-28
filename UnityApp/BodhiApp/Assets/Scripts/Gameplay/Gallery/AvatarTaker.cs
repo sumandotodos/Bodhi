@@ -13,7 +13,9 @@ public class AvatarImage
 
 public class AvatarTaker : MonoBehaviour
 {
-    public Texture2D MaskTexture;
+    public Texture2D StandardMaskTexture;
+    public Texture2D FollowingMaskTexture;
+    Texture2D MaskTexture;
     public Texture2D DefaultUserTexture;
     public Texture2D MockImage;
 
@@ -37,7 +39,12 @@ public class AvatarTaker : MonoBehaviour
 
     public Texture2D ApplyMaskTexture(Texture2D tex)
     {
+        return ApplyMaskTexture(tex, false);
+    }
 
+    public Texture2D ApplyMaskTexture(Texture2D tex, bool following)
+    {
+        MaskTexture = following ? StandardMaskTexture : FollowingMaskTexture;
         int targetSize = MaskTexture.width;
         Texture2D crop = CropTextureToSquare(tex);
         TextureScale.Bilinear(crop, targetSize, targetSize);

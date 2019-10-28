@@ -688,7 +688,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50af3ec877c874d4f814d1b140a8be00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaskTexture: {fileID: 2800000, guid: fad96747f816c47c8b940efc40440921, type: 3}
+  StandardMaskTexture: {fileID: 2800000, guid: fad96747f816c47c8b940efc40440921, type: 3}
+  FollowingMaskTexture: {fileID: 2800000, guid: b7fc0d2c16c6941a09d2973c898f0683,
+    type: 3}
   DefaultUserTexture: {fileID: 2800000, guid: 7454565017df24066b4c3b37aaaf6adf, type: 3}
   MockImage: {fileID: 2800000, guid: 1c639139aac2e40439c1e58ded4d48ae, type: 3}
   TextureSize: 256

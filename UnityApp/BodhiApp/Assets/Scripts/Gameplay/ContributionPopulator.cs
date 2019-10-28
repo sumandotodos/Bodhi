@@ -23,7 +23,7 @@ public class ContributionPopulator : ItemPopulator
         );
     }
 
-    override public void DeleteItemCallback(string id)
+    override public void DeleteItemCallback(string id, string extra)
     {
         API.GetSingleton().DeleteComment(PlayerPrefs.GetString("UserId"), id);
     }

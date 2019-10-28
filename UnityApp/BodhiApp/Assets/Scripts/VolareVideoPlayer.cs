@@ -13,6 +13,7 @@ public class VolareVideoPlayer : MonoBehaviour
     public RawImage StopButtonRI;
     public RawImage PlayButtonRI;
     public RawImage PauseButtonRI;
+    public byte[] VideoRawBytes;
     // Start is called before the first frame update
     void Start()
     {
@@ -72,5 +73,14 @@ public class VolareVideoPlayer : MonoBehaviour
             // if no communications agreement, show comms menu
             CommsMenuScaler.scaleIn();
         });
+    }
+
+    public void TouchOnSaveToGallery()
+    {
+#if UNITY_EDITOR
+        Debug.Log("Image saved to gallery");
+#else
+        NativeGallery.SaveVideoToGallery(VideoRawBytes, "Volare", "VolareVideo-"+new System.DateTime().ToString());
+#endif
     }
 }

@@ -36,6 +36,7 @@ public class MainMenuController : MonoBehaviour
 
     public void TouchOnPersonsStar()
     {
+        PlayerPrefs.SetInt("PagesType", 0);
         PlayerPrefs.SetString("TypeOfMenu", "Persons");
         CameraTarget = PersonasStar.transform.position;
         StartCoroutine(GoToNextScreen());

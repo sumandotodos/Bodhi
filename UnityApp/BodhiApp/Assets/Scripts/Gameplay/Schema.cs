@@ -20,6 +20,12 @@ public class UploadURL
 }
 
 [System.Serializable]
+public class Fullpath
+{
+    public string fullpath;
+}
+
+[System.Serializable]
 public class User
 {
     public string _id;

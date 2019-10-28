@@ -70,6 +70,7 @@ public class ItemsController : MonoBehaviour
     public DragController dragController;
     public ListController listController;
     public ItemPopulator itemPopulator;
+    public UIScaleFader DislikeConfirmMenu;
 
     public float MinSlabHeight = 200.0f;
 
@@ -229,12 +230,32 @@ public class ItemsController : MonoBehaviour
         yield return SceneManager.LoadSceneAsync("Planets");
     }
 
+    int ConfirmIndex;
+    string ConfirmId;
+
     // @TODO I'm not very fond of this redundancy, but it saves cycles...
     // should renamed from Dislike to Dismiss, maybe....
-    public void Dislike(string id, int index)
+    public void Dislike(string id, int index, bool Confirm)
     {
-        listController.DismissItem(index);
-        itemPopulator.DeleteItemCallback(id);
+        if(Confirm)
+        {
+            DislikeConfirmMenu.scaleIn();
+            ConfirmIndex = index;
+            ConfirmId = id;
+        }
+        else
+        {
+            listController.DismissItem(index);
+            itemPopulator.DeleteItemCallback(id, listController.GetSlab(index).extra);
+        }
+
+    }
+
+    public void GoAheadWithDislike()
+    {
+        listController.DismissItem(ConfirmIndex);
+        itemPopulator.DeleteItemCallback(ConfirmId,listController.GetSlab(ConfirmIndex).extra);
+        DislikeConfirmMenu.scaleOut();
     }
 
 }

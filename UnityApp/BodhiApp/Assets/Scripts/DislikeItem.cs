@@ -6,6 +6,7 @@ public class DislikeItem : MonoBehaviour
 {
     public Slab slab;
     ItemsController itemsController;
+    public bool Confirm = false;
 
     private void Awake()
     {
@@ -14,6 +15,6 @@ public class DislikeItem : MonoBehaviour
 
     public void Dislike()
     {
-        itemsController.Dislike(slab.id, slab.Index);
+        itemsController.Dislike(slab.id, slab.Index, Confirm);
     }
 }

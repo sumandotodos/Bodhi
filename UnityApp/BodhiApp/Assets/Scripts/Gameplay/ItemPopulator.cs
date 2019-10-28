@@ -11,7 +11,7 @@ public class ItemPopulator : MonoBehaviour
         return null;
     }
 
-    virtual public void DeleteItemCallback(string id)
+    virtual public void DeleteItemCallback(string id, string extra)
     {
 
     }

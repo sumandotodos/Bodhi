@@ -54,10 +54,6 @@ public class OtherUsersPlanetsController : MonoBehaviour
         {
             DownloadTextureForUser(listOfUsers[i]._id, i, (index, tex, origTex) =>
             {
-                //if(tex != MaskedDefaultUserTexture)
-                //{
-                  //  PlanetMaterials[index].mainTexture = avatarTaker.Sphericalize(origTex);
-                //}
                 textures[index] = tex;
             });
         }
@@ -85,7 +81,7 @@ public class OtherUsersPlanetsController : MonoBehaviour
         yield return API.GetSingleton().GetAvatar(id, (err, success, tex) => {
             if (success)
             {
-                callback(index, avatarTaker.ApplyMaskTexture(tex), tex);
+                callback(index, avatarTaker.ApplyMaskTexture(tex, PlayerPrefs.GetInt("PagesType") == 0), tex);
             }
             else
             {

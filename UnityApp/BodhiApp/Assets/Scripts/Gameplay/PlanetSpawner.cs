@@ -50,6 +50,10 @@ public class PlanetSpawner : MonoBehaviour
 
     public int MaxPersonsPerPage = 6;
 
+    List<User> myListOfUsers;
+
+    List<ScaleFader> listOfScaleFaders;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -281,6 +285,43 @@ public class PlanetSpawner : MonoBehaviour
         StartCoroutine(SetUpPersonsCoroutine());
     }
 
+    void SetUpBunchOfPeople(string text, UserListResult userlist)
+    {
+        myListOfUsers = userlist.result;
+        int matIndex = 0;
+        int userIndex = 0;
+
+        foreach (User u in userlist.result)
+        {
+            GameObject newGO = (GameObject)Instantiate(PersonPlanetPrefab);
+            newGO.transform.SetParent(PlanetsParent);
+            newGO.transform.localScale = Vector3.one;
+            PersonPlanet newPlanet = newGO.GetComponent<PersonPlanet>();
+            newPlanet.SetMaterial(planetMats[matIndex]);
+            matIndex = (matIndex + 1) % 4;
+            newPlanet.InnerRing = false;
+            newPlanet.OuterRing = false;
+            newPlanet.MiddleRing = false;
+            newPlanet.handle = u.handle;
+            newPlanet.id = u._id;
+            newPlanet.Start();
+            newGO.transform.position = Vector3.zero;
+            newGO.transform.rotation = Quaternion.Euler(0.0f + Random.Range(-12.0f, 12.0f), (360.0f / (float)UsersPerPage) * (userIndex++), 1.0f);
+            newPlanet.SetLabel(u.handle, PlayerPrefs.GetInt("PagesType") == 0 ? Color.green : Color.white);
+            newPlanet.SetScale(0.8f);
+            newPlanet.SetRadius(3.8f + Random.Range(-0.8f, 0.4f));
+            newPlanet.MinesweeperType = "Lighthouse";
+            ScaleFader sf = newPlanet.GetComponentInChildren<ScaleFader>();
+            listOfScaleFaders.Add(sf);
+        }
+
+        if (userlist.result.Count < UsersPerPage)
+        {
+            PlayerPrefs.SetInt("PagesType", 1 - PlayerPrefs.GetInt("PagesType"));
+            PlayerPrefs.SetInt("SkipUsers", -UsersPerPage);
+        }
+    }
+
     IEnumerator SetUpPersonsCoroutine()
     {
         List<Person> persons = new List<Person>();
@@ -288,46 +329,29 @@ public class PlanetSpawner : MonoBehaviour
 
         otherUsersPlanetsController.PlanetMaterials = planetMats;
 
-        List<User> myListOfUsers = null;
+        myListOfUsers = null;
 
-        List<ScaleFader> listOfScaleFaders = new List<ScaleFader>();
+        listOfScaleFaders = new List<ScaleFader>();
 
         int skip = PlayerPrefs.GetInt("SkipUsers");
 
-        yield return API.GetSingleton().GetRandomUsers(PlayerPrefs.GetString("UserId"),
-            "session",
-            skip,
-            UsersPerPage,
-            (text, userlist) =>
-            {
-                myListOfUsers = userlist.result;
-                int matIndex = 0;
-                int userIndex = 0;
-                foreach (User u in userlist.result)
-                {
-                    GameObject newGO = (GameObject)Instantiate(PersonPlanetPrefab);
-                    newGO.transform.SetParent(PlanetsParent);
-                    newGO.transform.localScale = Vector3.one;
-                    PersonPlanet newPlanet = newGO.GetComponent<PersonPlanet>();
-                    newPlanet.SetMaterial(planetMats[matIndex]);
-                    matIndex = (matIndex + 1) % 4;
-                    newPlanet.InnerRing = false;
-                    newPlanet.OuterRing = false;
-                    newPlanet.MiddleRing = false;
-                    newPlanet.handle = u.handle;
-                    newPlanet.id = u._id;
-                    newPlanet.Start();
-                    newGO.transform.position = Vector3.zero;
-                    newGO.transform.rotation = Quaternion.Euler(0.0f + Random.Range(-12.0f, 12.0f), (360.0f / (float)UsersPerPage) * (userIndex++), 1.0f);
-                    newPlanet.SetLabel(u.handle);
-                    newPlanet.SetScale(0.8f);
-                    newPlanet.SetRadius(3.8f + Random.Range(-0.8f, 0.4f));
-                    newPlanet.MinesweeperType = "Lighthouse";
-                    ScaleFader sf = newPlanet.GetComponentInChildren<ScaleFader>();
-                    listOfScaleFaders.Add(sf);
-                }
-
-            });
+        if (PlayerPrefs.GetInt("PagesType") == 0)
+        {
+            Debug.Log("Taking followeds with skip " + skip);
+            yield return API.GetSingleton().GetFollowedUsers(PlayerPrefs.GetString("UserId"),
+                skip,
+                UsersPerPage,
+                SetUpBunchOfPeople);
+        }
+        else
+        {
+            Debug.Log("Taking randoms with skip " + skip);
+            yield return API.GetSingleton().GetRandomUsers(PlayerPrefs.GetString("UserId"),
+                "session",
+                skip,
+                UsersPerPage,
+                SetUpBunchOfPeople);
+        }
 
         foreach(User u in myListOfUsers)
         {
