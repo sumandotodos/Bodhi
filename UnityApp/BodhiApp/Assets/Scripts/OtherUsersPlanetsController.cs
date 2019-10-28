@@ -21,6 +21,7 @@ public class OtherUsersPlanetsController : MonoBehaviour
     int prevSection = 0;
 
     float PlanetaryRotation = 0.0f;
+    int MaxUsersPerPage = 0;
 
     Texture2D[] textures;
 
@@ -42,11 +43,12 @@ public class OtherUsersPlanetsController : MonoBehaviour
         planetScaleFaders = Faders.ToArray();
     }
 
-    public void SetListOfUsers(List<User> newList)
+    public void SetListOfUsers(int UsersPerPage, List<User> newList)
     {
+        MaxUsersPerPage = UsersPerPage;
         listOfUsers = newList;
         nSectors = listOfUsers.Count;
-        sectorWidth = (360.0f) / (float)nSectors;
+        sectorWidth = (360.0f) / (float)MaxUsersPerPage;
         SetUpNumberOfTextures(nSectors);
         for (int i = 0; i < nSectors; ++i)
         {
@@ -108,13 +110,21 @@ public class OtherUsersPlanetsController : MonoBehaviour
             return;
         }
 
-        int section = (int)(FGUtils.NormalizeAngle((listOfUsers.Count-1) * sectorWidth + CameraYPivot.rotation.eulerAngles.y - PlanetaryRotation + sectorWidth / 2.0f) / sectorWidth);
+        int section = (int)(FGUtils.NormalizeAngle((MaxUsersPerPage-1) * sectorWidth + CameraYPivot.rotation.eulerAngles.y - PlanetaryRotation + sectorWidth / 2.0f) / sectorWidth);
         if (section < 0) section = -section;
-        section = section % listOfUsers.Count;
-        if (section != prevSection)
+        section = section % MaxUsersPerPage;
+        if ((section != prevSection))
         {
-            uiController.changeAvatar(textures[section]);
-            uiController.changeQuestion(listOfUsers[section].favquestion);
+            if(section < listOfUsers.Count)
+            {
+                uiController.changeAvatar(textures[section]);
+                uiController.changeQuestion(listOfUsers[section].favquestion);
+            }
+            else
+            {
+                uiController.changeAvatar(null);
+                uiController.changeQuestion(null);
+            }
             ScaleHighlightPlanet(section);
             prevSection = section;
         }

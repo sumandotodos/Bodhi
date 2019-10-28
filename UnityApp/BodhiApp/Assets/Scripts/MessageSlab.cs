@@ -30,7 +30,7 @@ public class MessageSlab : Slab
     public void TouchOnDownloadAndPlayVideo()
     {
         Debug.Log("Downloading: " + extra);
-        ReceiveVideoResponseController.GetSingleton().SetOriginalQuestion(question);
+        ReceiveVideoResponseController.GetSingleton().SetOriginalQuestion(questionid, question);
         ReceiveVideoResponseController.GetSingleton().DownloadAndPlayVideoResponse(extra);
     }
 

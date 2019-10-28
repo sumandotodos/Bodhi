@@ -39,11 +39,16 @@ public class LoginConfigurations : MonoBehaviour
 
     /* Facebook auth / login API */
     public static string FacebookAuthURL = "https://www.facebook.com/v3.3/dialog/oauth";
-    public static string FacebookLogoutURL = "https://www.facebook.com/";
+    //public static string FacebookLogoutURL = "https://www.facebook.com/logout.php?next=REDIRECT-URL&access_token=ACCESS-TOKEN";
+    public static string FacebookLogoutURL = "http://m.facebook.com/logout.php?confirm=1&next=REDIRECT-URL";
     public static string FBStateParam = "tumadrecomeca31416";
 
     public static string FlygamesRedirectURL = "https://apps.flygames.org/auth-redirect/";
 
+    public static string MakeFBLogoutUrl()
+    {
+        return FacebookLogoutURL.Replace("REDIRECT-URL", FlygamesRedirectURL);
+    }
 
     public static string MakeIGAuthURL()
     {

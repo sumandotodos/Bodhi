@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class PersonProfilePopulator : ItemPopulator
 {
+    public Texture2D DefaultUserAvatar;
+    public AvatarTaker avatarTaker;
     public GameObject HeaderPrefab;
     public GameObject ContributionPrefab;
     public GameObject PersonsFavoritePrefab;
     public GameObject FollowSlab;
     public GameObject EmptySlab;
+    public GameObject AvatarSlab;
     public GameObject CommunicationsSlab;
 
     public ContentsManager contentsManager;
@@ -17,6 +20,7 @@ public class PersonProfilePopulator : ItemPopulator
     public bool FollowingThisUser = false;
     public int CommStateForThisUser = -1;
     public string ThisUserPhone = "";
+    public Texture2D ThisUserAvatar = null;
 
     int CommonMeans;
 
@@ -49,6 +53,12 @@ public class PersonProfilePopulator : ItemPopulator
 
         bool following = false;
 
+        yield return API.GetSingleton().GetAvatar(ProfileUserId, (res, ok, tex) =>
+        {
+            Debug.Log("User profile avatar get with status: " + ok);
+            ThisUserAvatar = avatarTaker.ApplyMaskTexture(ok ? tex : DefaultUserAvatar);
+        });
+
        yield return API.GetSingleton().IsFollowing(PlayerPrefs.GetString("UserId"), OtherUserId, (err, result) =>
         {
             if(err==null)
@@ -60,7 +70,7 @@ public class PersonProfilePopulator : ItemPopulator
         FollowingThisUser = following;
 
         // Follow / Unfollow section
-        listItems.Add(new ListItem(OtherUserId, Color.grey, "", "", "", FollowSlab));
+        listItems.Add(new ListItem(OtherUserId, Color.grey, "", "", "", "", FollowSlab));
 
         int MeToThisUser = -1;
         int ThisUserToMe = -1;
@@ -81,33 +91,36 @@ public class PersonProfilePopulator : ItemPopulator
         CommonMeans = GetCommonMeans(MeToThisUser, ThisUserToMe);
 
         // Communication preference panel
-        listItems.Add(new ListItem(OtherUserId, Color.white, "", "", "", CommunicationsSlab));
+        listItems.Add(new ListItem(OtherUserId, Color.white, "", "", "", "", CommunicationsSlab));
 
         // Profile header section ...
-        listItems.Add(new ListItem("", Color.grey, "Perfil de " + OtherUserHandle, "", "", HeaderPrefab));
+        listItems.Add(new ListItem("", Color.grey, "Perfil de " + OtherUserHandle, "", "", "", HeaderPrefab));
+
+        // User's avatar
+        listItems.Add(new ListItem("", Color.white, "", "", "", "", AvatarSlab));
 
         // ... and profile section
         yield return API.GetSingleton().GetProfile(OtherUserId, (err, profile) =>
         {
             if (profile.about == "")
             {
-                listItems.Add(new ListItem("", Color.gray, "Sin perfil", "", "", EmptySlab));
+                listItems.Add(new ListItem("", Color.gray, "Sin perfil", "", "", "", EmptySlab));
             }
             else
             {
-                listItems.Add(new ListItem(OtherUserId, Color.cyan, profile.about, "", "", SlabPrefab));
+                listItems.Add(new ListItem(OtherUserId, Color.cyan, profile.about, "", "", "", SlabPrefab));
                 ThisUserPhone = profile.phone;
             }
         });
 
         // Contributions header ...
-        listItems.Add(new ListItem("", Color.grey, "Contribuciones de " + OtherUserHandle, "", "", HeaderPrefab));
+        listItems.Add(new ListItem("", Color.grey, "Contribuciones de " + OtherUserHandle, "", "", "", HeaderPrefab));
         // ... and contributions
         yield return API.GetSingleton().GetContributionsList(OtherUserId, (err, result) =>
         {
             if (result.result.Count == 0)
             {
-                listItems.Add(new ListItem("", Color.gray, "No hay contribuciones", "", "", EmptySlab));
+                listItems.Add(new ListItem("", Color.gray, "No hay contribuciones", "", "", "", EmptySlab));
             }
             else
             {
@@ -118,13 +131,13 @@ public class PersonProfilePopulator : ItemPopulator
                     {
                         col = Color.gray;
                     }
-                    listItems.Add(new ListItem(result.result[i]._id, col, result.result[i].content, "", "", ContributionPrefab));
+                    listItems.Add(new ListItem(result.result[i]._id, col, result.result[i].content, "", "", "", ContributionPrefab));
                 }
             }
         });
 
         // Favorites headers ...
-        listItems.Add(new ListItem("", Color.grey, "Favoritos de " + OtherUserHandle, "", "", HeaderPrefab));
+        listItems.Add(new ListItem("", Color.grey, "Favoritos de " + OtherUserHandle, "", "", "", HeaderPrefab));
         // ... and favorites
         List<string> idsToLoad = null;
         yield return API.GetSingleton().GetFavoritesList(OtherUserId, (err, result) =>
@@ -134,7 +147,7 @@ public class PersonProfilePopulator : ItemPopulator
         if (idsToLoad.Count == 0)
         {
 
-            listItems.Add(new ListItem("", Color.gray, "Ningún favorito", "", "", EmptySlab));
+            listItems.Add(new ListItem("", Color.gray, "Ningún favorito", "", "", "", EmptySlab));
         }
         else
         {
@@ -153,7 +166,8 @@ public class PersonProfilePopulator : ItemPopulator
                          content = cont;
                      });
                 }
-                listItems.Add(new ListItem(id, col, content, content, OtherUserId, PersonsFavoritePrefab));
+                listItems.Add(new ListItem(id, col, content, "", content, OtherUserId, PersonsFavoritePrefab));
+
             }
         }
 
@@ -176,6 +190,16 @@ public class PersonProfilePopulator : ItemPopulator
             cSlab.SetAgreement(IndexToMeansName(CommonMeans));
             cSlab.SetPhoneNumber(ThisUserPhone);
             StartCommsCoincidenceService(cSlab, ProfileUserId, 5.0f);
+        }
+        ImageSlab iSlab = FindObjectOfType<ImageSlab>();
+        if(iSlab != null)
+        {
+            Debug.Log("Setting image slab image");
+            iSlab.SetImage(ThisUserAvatar);
+        }
+        else
+        {
+            Debug.Log("Could not find a slab image");
         }
     }
 

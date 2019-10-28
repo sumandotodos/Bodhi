@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -471,7 +471,7 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1716625963}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1216874297206270980
+--- !u!1001 &1856144750795043181
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -482,6 +482,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: VideoDownloadAndController 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6994000483364661553, guid: e6fe26d325e1f4fe49fcfa3b15c919d6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6070790814440128666, guid: e6fe26d325e1f4fe49fcfa3b15c919d6,
         type: 3}

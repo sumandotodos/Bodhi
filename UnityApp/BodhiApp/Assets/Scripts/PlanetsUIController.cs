@@ -43,16 +43,23 @@ public class PlanetsUIController : MonoBehaviour
     IEnumerator QuestionChangeCoroutine(string newQuestion)
     {
         Question.GetComponent<UITextFader>().fadeToTransparent();
-        yield return new WaitForSeconds(0.5f);
-        Question.GetComponent<Text>().text = newQuestion;
-        Question.GetComponent<UITextFader>().fadeToOpaque();
-        if(newQuestion == "")
+        if (newQuestion != null)
         {
-            ButtonScaler.scaleOut();
+            yield return new WaitForSeconds(0.5f);
+            Question.GetComponent<Text>().text = newQuestion;
+            Question.GetComponent<UITextFader>().fadeToOpaque();
+            if (newQuestion == "")
+            {
+                ButtonScaler.scaleOut();
+            }
+            else
+            {
+                ButtonScaler.scaleIn();
+            }
         }
         else
         {
-            ButtonScaler.scaleIn();
+            ButtonScaler.scaleOut();
         }
     }
 
@@ -64,10 +71,13 @@ public class PlanetsUIController : MonoBehaviour
     IEnumerator AvatarChangeCoroutine(Texture2D NewAvatar)
     {
         AvatarFader.fadeToTransparent();
-        yield return new WaitForSeconds(0.5f);
-        Sprite avatarSprite = Sprite.Create(NewAvatar, new Rect(0, 0, NewAvatar.width, NewAvatar.height), new Vector2(0.5f, 0.5f));
-        AvatarSpriteRenderer.sprite = avatarSprite;
-        AvatarSpriteRenderer.enabled = true;
-        AvatarFader.fadeToOpaque();
+        if (NewAvatar != null)
+        {
+            yield return new WaitForSeconds(0.5f);
+            Sprite avatarSprite = Sprite.Create(NewAvatar, new Rect(0, 0, NewAvatar.width, NewAvatar.height), new Vector2(0.5f, 0.5f));
+            AvatarSpriteRenderer.sprite = avatarSprite;
+            AvatarSpriteRenderer.enabled = true;
+            AvatarFader.fadeToOpaque();
+        }
     }
 }

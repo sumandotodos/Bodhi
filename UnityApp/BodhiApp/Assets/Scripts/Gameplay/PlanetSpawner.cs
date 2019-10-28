@@ -168,10 +168,14 @@ public class PlanetSpawner : MonoBehaviour
         newPlanet.SetScale(1.0f);
         newPlanet.SetRadius(3.5f);
 
-        Texture2D avatarTex = avatarTaker.ApplyMaskTexture(avatarTaker.LoadAvatar());
-        Sprite avatarSprite = Sprite.Create(avatarTex, new Rect(0, 0, avatarTex.width, avatarTex.height), new Vector2(0.5f, 0.5f));
-        spriteRenderer.enabled = true;
-        spriteRenderer.sprite = avatarSprite;
+        avatarTaker.GetAvatar(PlayerPrefs.GetString("UserId"), (tex) =>
+        {
+            Texture2D avatarTex = avatarTaker.ApplyMaskTexture(tex);
+            Sprite avatarSprite = Sprite.Create(avatarTex, new Rect(0, 0, avatarTex.width, avatarTex.height), new Vector2(0.5f, 0.5f));
+            spriteRenderer.enabled = true;
+            spriteRenderer.sprite = avatarSprite;
+        });
+
 
         planetHandleController.ShowHandle();
     }
@@ -342,7 +346,7 @@ public class PlanetSpawner : MonoBehaviour
         }
 
         otherUsersPlanetsController.SetPlanetsScaleFaders(listOfScaleFaders);
-        otherUsersPlanetsController.SetListOfUsers(myListOfUsers);
+        otherUsersPlanetsController.SetListOfUsers(UsersPerPage, myListOfUsers);
     }
 
     public void NextUsersPage()

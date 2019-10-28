@@ -348,14 +348,15 @@ public class API : MonoBehaviour
           });
     }
 
-    public void GetFollowedUsers(string userid, System.Action<string, string> callback)
+    public void GetFollowedUsers(string userid, System.Action<string, UserListResult> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
-            "/message/";
+            "/follow/";
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
         REST.GetSingleton().GET(url, (err, response) =>
         {
-            callback(err, response);
+            UserListResult listOfUsers = JsonUtility.FromJson<UserListResult>(response);
+            callback(err, listOfUsers);
         });
     }
 

@@ -360,6 +360,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 231686756}
   m_CullTransparentMesh: 0
+--- !u!1 &275390587
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 275390589}
+  - component: {fileID: 275390588}
+  m_Layer: 0
+  m_Name: AvatarTaker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &275390588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275390587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50af3ec877c874d4f814d1b140a8be00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaskTexture: {fileID: 2800000, guid: fad96747f816c47c8b940efc40440921, type: 3}
+  DefaultUserTexture: {fileID: 2800000, guid: 7454565017df24066b4c3b37aaaf6adf, type: 3}
+  MockImage: {fileID: 2800000, guid: b59ac96cb25914bdf8994e7da14694a5, type: 3}
+  TextureSize: 256
+--- !u!4 &275390589
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275390587}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 139.27982, y: 299.28217, z: -78.123055}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &362041487
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,6 +533,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SlabPrefab: {fileID: 7508923884739252052, guid: 7015f428e32d6421c85d79d0013cda53,
     type: 3}
+  DefaultUserAvatar: {fileID: 2800000, guid: 7454565017df24066b4c3b37aaaf6adf, type: 3}
+  avatarTaker: {fileID: 275390588}
   HeaderPrefab: {fileID: 6498899324805205208, guid: 45e294fe8e80d4db181b53e0c2810544,
     type: 3}
   ContributionPrefab: {fileID: 2791913216433854001, guid: 9878ae3e32d6a44ff8ac1b71d2a4f1ab,
@@ -496,6 +545,8 @@ MonoBehaviour:
     type: 3}
   EmptySlab: {fileID: 2266185598932961520, guid: 66ce851b36fc741f0a91ab589cbb37aa,
     type: 3}
+  AvatarSlab: {fileID: 8796179153100559471, guid: f3a86dceda6a34d85ab64e7bc5e6e797,
+    type: 3}
   CommunicationsSlab: {fileID: 5740214776805286454, guid: 575dd467c6ea72a4aa3f51b0b408c8f7,
     type: 3}
   contentsManager: {fileID: 7489660623065327459}
@@ -503,6 +554,7 @@ MonoBehaviour:
   FollowingThisUser: 0
   CommStateForThisUser: -1
   ThisUserPhone: 
+  ThisUserAvatar: {fileID: 0}
 --- !u!4 &610480729
 Transform:
   m_ObjectHideFlags: 0

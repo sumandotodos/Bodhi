@@ -169,7 +169,6 @@ public class REST : MonoBehaviour
             }
             else
             {
-                Debug.Log("No error");
                 Succeded = true;
             }
         } while (!Succeded);
@@ -184,12 +183,12 @@ public class REST : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("   >>> REST: res.downloadHandler is shit");
+                    Debug.Log("   >>> REST: res.downloadHandler is null");
                 }
             }
             else
             {
-                Debug.Log("   >>> REST: res is shit");
+                Debug.Log("   >>> REST: res is null");
             }
         }
 
@@ -249,11 +248,10 @@ public class REST : MonoBehaviour
             }
             else
             {
-                Debug.Log("No error");
                 Succeded = true;
             }
         } while (!Succeded);
-        Debug.Log("Break out of do while");
+
         if (callback != null)
         {
             if (res != null)

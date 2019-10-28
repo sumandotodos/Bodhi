@@ -20,9 +20,17 @@ public class ReceiveVideoResponseController : MonoBehaviour
         instance = this;
     }
 
-    public void SetOriginalQuestion(string question)
+    public void SetOriginalQuestion(string questionid, string question)
     {
-        originalQuestionText.text = question;
+        if(ContentsManager.IsLocalContent(questionid))
+        {
+            originalQuestionText.text = ContentsManager.GetSingleton().GetLocalContentFromId(questionid);
+        }
+        else
+        {
+            originalQuestionText.text = question;
+        }
+
     }
 
     public static ReceiveVideoResponseController GetSingleton()
@@ -53,8 +61,8 @@ public class ReceiveVideoResponseController : MonoBehaviour
         {
             if (err == null)
             {
-                File.WriteAllBytes(Application.temporaryCachePath + "/" + id + ".MP4", res);
-                videoPlayer.url = Application.temporaryCachePath + "/" + id + ".MP4";
+                File.WriteAllBytes(Application.temporaryCachePath + "/" + id, res);
+                videoPlayer.url = Application.temporaryCachePath + "/" + id;
                 volareVideoPlayer.ShowCinema();
                 volareVideoPlayer.StartPlaying();
                 StartCoroutine(VideoFinishPoll());
@@ -86,10 +94,16 @@ public class ReceiveVideoResponseController : MonoBehaviour
 
     IEnumerator VideoFinishPoll()
     {
-        yield return new WaitForSeconds(1.0f);
-        while(videoPlayer.time < videoPlayer.length)
+
+        yield return new WaitForSeconds(0.25f);
+        videoPlayer.playOnAwake = true;
+        videoPlayer.Play();
+        while (videoPlayer.time <= videoPlayer.length)
         {
             yield return new WaitForSeconds(1.0f);
+            Debug.Log("w: " + videoPlayer.width + ", h: " + videoPlayer.height);
+            Debug.Log("sw: " + Screen.width + ", sh: " + Screen.height);
+
         }
         volareVideoPlayer.TouchOnStop();
     }

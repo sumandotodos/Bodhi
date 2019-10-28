@@ -23,23 +23,25 @@ public class ListItem
     public string id;
     public Color color;
     public string content;
+    public string questionid;
     public string question;
     public string fromuserid;
     public string extra;
     public GameObject Prefab;
     //public float fixedSize = -1.0f;
 
-    public ListItem(string _id, Color _color, string _content, string _question, string _extra, GameObject _Prefab)//, float FixedSize = -1.0f)
+    public ListItem(string _id, Color _color, string _content, string _questionid, string _question, string _extra, GameObject _Prefab)//, float FixedSize = -1.0f)
     {
         id = _id;
         color = _color;
         content = _content;
         Prefab = _Prefab;
+        questionid = _questionid;
         question = _question;
         extra = _extra;
        // fixedSize = FixedSize;
     }
-    public ListItem(string _id, string _fromuserid, Color _color, string _content, string _question, string _extra, GameObject _Prefab)//, float FixedSize = -1.0f)
+    public ListItem(string _id, string _fromuserid, Color _color, string _content, string _questionid, string _question, string _extra, GameObject _Prefab)//, float FixedSize = -1.0f)
     {
         id = _id;
         fromuserid = _fromuserid;
@@ -47,6 +49,7 @@ public class ListItem
         content = _content;
         Prefab = _Prefab;
         question = _question;
+        questionid = _questionid;
         extra = _extra;
         // fixedSize = FixedSize;
     }
@@ -145,6 +148,7 @@ public class ItemsController : MonoBehaviour
         newSlab.Index = listController.GetNumberOfSlabs();
         newSlab.id = item.id;
         newSlab.fromuserid = item.fromuserid;
+        newSlab.questionid = item.questionid;
         newSlab.question = item.question;
         newSlab.extra = item.extra;
         float h = 0.0f;

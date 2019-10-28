@@ -37,7 +37,7 @@ public class LoginController : MonoBehaviour
     public UIGeneralFader goForwardFader;
     public UIOpacityWiggle goForwardOpWiggle;
 
-    LoginStatusData loginStatusData;
+    public LoginStatusData loginStatusData;
 
     public static bool Initialized = false;
 
@@ -201,6 +201,14 @@ public class LoginController : MonoBehaviour
 
     public void LogoutButtonTouch()
     {
+        if(loginStatusData.FBid != "")
+        {
+            FindObjectOfType<FacebookAuthManager>().LogoutWithFacebookButton();
+        }
+        if(loginStatusData.IGid != "")
+        {
+            FindObjectOfType<InstagramAuthManager>().LogoutWithInstagramButton();
+        }
         HideLogoutInterface();
         ShowLoginInterface();
         loginStatusData.loggedIn = false;

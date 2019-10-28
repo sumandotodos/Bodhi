@@ -186,7 +186,7 @@ public class AvatarTaker : MonoBehaviour
         return tex;
     }
 
-    public int SaveAvatar(Texture2D tex)
+    /*public int SaveAvatar(Texture2D tex)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream file = File.Open(Application.persistentDataPath + "/avatar.jpg", FileMode.Create);
@@ -195,9 +195,24 @@ public class AvatarTaker : MonoBehaviour
         formatter.Serialize(file, data);
         file.Close();
         return data.data.Length;
+    }*/
+
+    public void GetAvatar(string userid, System.Action<Texture2D> callback)
+    {
+        API.GetSingleton().GetAvatar(PlayerPrefs.GetString("UserId"), (err, success, tex) =>
+        {
+            if (success)
+            {
+                callback(tex);
+            }
+            else
+            {
+                callback(null);
+            }
+        });
     }
 
-    public Texture2D LoadAvatar()
+    /*public Texture2D LoadAvatar()
     {
         if (File.Exists(Application.persistentDataPath + "/avatar.jpg"))
         {
@@ -213,7 +228,8 @@ public class AvatarTaker : MonoBehaviour
         }
         else
         {
-            return DefaultUserTexture;
+            //return DefaultUserTexture;
+            return null;
         }
-    }
+    }*/
 }

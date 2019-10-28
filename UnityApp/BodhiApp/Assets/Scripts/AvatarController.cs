@@ -33,9 +33,18 @@ public class AvatarController : MonoBehaviour
 
         forwardArrowFader.GetComponentInChildren<UIOpacityWiggle>().isActive = true;
 
-        UpdateAvatarRI(avatarTaker.ApplyMaskTexture(avatarTaker.LoadAvatar()));
+        Texture2D thisUserAvatar = DefaultUserAvatar;
+       
+        yield return API.GetSingleton().GetAvatar(PlayerPrefs.GetString("UserId"), (err, success, tex) =>
+        {
+            if (success)
+            {
+                thisUserAvatar = tex;
+            }
+        });
 
-        //avatarTaker.GetAvatarFromGallery((tex) => { UpdateAvatarRI(tex); });
+        UpdateAvatarRI(avatarTaker.ApplyMaskTexture(thisUserAvatar));
+
         yield return API.GetSingleton().GetProfile(PlayerPrefs.GetString("UserId"),
             (err, profile) =>
             {
@@ -49,7 +58,7 @@ public class AvatarController : MonoBehaviour
     {
         avatarTaker.GetAvatarFromCamera((tex) => {
             UpdateAvatarRI(tex);
-            avatarTaker.SaveAvatar(tex);
+            //avatarTaker.SaveAvatar(tex);
             byte[] jpegData = avatarTaker.Rescale(avatarTaker.CropTextureToSquare(tex), 256, 256).EncodeToJPG(50);
             Debug.Log("<color=purple>Image: " + jpegData.Length + " bytes</color>");
             API.GetSingleton().PutAvatar(PlayerPrefs.GetString("UserId"), jpegData, (err, text) =>
@@ -63,7 +72,7 @@ public class AvatarController : MonoBehaviour
     {
         avatarTaker.GetAvatarFromGallery((tex) => {
             UpdateAvatarRI(tex);
-            avatarTaker.SaveAvatar(tex);
+            //avatarTaker.SaveAvatar(tex);
             byte[] jpegData = avatarTaker.Rescale(avatarTaker.CropTextureToSquare(tex), 256, 256).EncodeToJPG(50);
             Debug.Log("<color=purple>Image: " + jpegData.Length + " bytes</color>");
             API.GetSingleton().PutAvatar(PlayerPrefs.GetString("UserId"), jpegData, (err, text) =>

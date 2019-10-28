@@ -20,16 +20,20 @@ public class UnreadMessagesUpdater : MonoBehaviour
     {
         string currentUser = PlayerPrefs.GetString("UserId");
         int UnreadMessages = 0;
-        yield return API.GetSingleton().GetUnreadMessagesCount(currentUser,
-        (err, text) =>
+        for (; ; )
         {
-            IntResult result = JsonUtility.FromJson<IntResult>(text);
-            Debug.Log("<color=red>" + result.result + "</color>");
-            UnreadMessages = result.result;
-        });
-        textMesh.text = "" + UnreadMessages;
-        PlayerPrefs.SetInt("UnreadMessages", UnreadMessages);
-        SetIconEnabled(UnreadMessages > 0);
+            yield return API.GetSingleton().GetUnreadMessagesCount(currentUser,
+            (err, text) =>
+            {
+                IntResult result = JsonUtility.FromJson<IntResult>(text);
+                Debug.Log("<color=red>" + result.result + "</color>");
+                UnreadMessages = result.result;
+            });
+            textMesh.text = "" + UnreadMessages;
+            PlayerPrefs.SetInt("UnreadMessages", UnreadMessages);
+            SetIconEnabled(UnreadMessages > 0);
+            yield return new WaitForSeconds(10.0f);
+        }
     }
 
     private void SetIconEnabled(bool en)

@@ -12,6 +12,7 @@ public class Slab : MonoBehaviour
     public UIFader backgrFader;
     public string id;
     public string extra;
+    public string questionid;
     public string question;
     public string fromuserid;
     protected float Height;

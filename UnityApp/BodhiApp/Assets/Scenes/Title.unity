@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.23207375, g: 0.23575982, b: 0.27139103, a: 1}
+  m_IndirectSpecularColor: {r: 0.23227188, g: 0.23546845, b: 0.2722027, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1283,7 +1283,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1080, y: 1920}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -1905,6 +1905,12 @@ MonoBehaviour:
   LogoutFader: {fileID: 641483900}
   goForwardFader: {fileID: 8491893681528507629}
   goForwardOpWiggle: {fileID: 8491893682682938519}
+  loginStatusData:
+    loggedIn: 0
+    FBid: 
+    IGid: 
+    AppToken: 
+    id: 
 --- !u!224 &1813401772
 RectTransform:
   m_ObjectHideFlags: 0

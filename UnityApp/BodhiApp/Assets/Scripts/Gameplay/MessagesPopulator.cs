@@ -33,6 +33,7 @@ public class MessagesPopulator : ItemPopulator
                 result.result[i]._fromuserid,
                 col,
                 MakeContent(result.result[i]),
+                result.result[i].contentid,
                 question,
                 result.result[i].extra,
                 Prefab));

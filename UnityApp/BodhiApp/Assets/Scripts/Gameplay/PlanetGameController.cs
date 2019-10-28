@@ -9,6 +9,7 @@ public class PlanetGameController : MonoBehaviour
     static PlanetGameController planetGameController = null;
 
     public UIFader fader;
+    public GameObject miniSpinner;
     public OrbitalCamera orbitalCamera_A = null;
 
     public GameObject NormalPlanetPrefab;
@@ -20,6 +21,7 @@ public class PlanetGameController : MonoBehaviour
 
     private void Awake()
     {
+        miniSpinner.SetActive(true);
         if(planetGameController == null)
         {
             planetGameController = this;
@@ -46,6 +48,7 @@ public class PlanetGameController : MonoBehaviour
         yield return new WaitForSecondsRealtime(2.5f);
 
         Time.timeScale = 1.0f;
+        miniSpinner.SetActive(false);
         fader.fadeToTransparent();
         orbitalCamera_A.SetZDistance(ZDistance); 
     }

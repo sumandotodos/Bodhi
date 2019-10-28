@@ -105,7 +105,8 @@ public class FacebookAuthManager : MonoBehaviour
 
     public void LogoutWithFacebookButton()
     {
-        webView.OpenWebView(LoginConfigurations.InstagramLogoutURL, null);
+        string logoutURL = LoginConfigurations.MakeFBLogoutUrl();
+        webView.OpenWebView(logoutURL, null);
         StartCoroutine(WaitABitAndClose());
     }
 

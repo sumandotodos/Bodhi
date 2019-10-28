@@ -22,6 +22,11 @@ public class VolareVideoPlayer : MonoBehaviour
     public void ShowCinema()
     {
         playerRI.enabled = true;
+        float width = (float)Screen.width;
+        float height = (float)Screen.height;
+        float aspect = width / height;
+        float yScale = aspect / (9.0f / 16.0f);
+        playerRI.transform.localScale = new Vector3(1, yScale, 1);
     }
 
     public void StartPlaying()

@@ -11,6 +11,7 @@ public class MainMenuController : MonoBehaviour
     public GameObject IdeasStar;
     public GameObject PreguntasStar;
     public GameObject YoStar;
+    public GameObject Spinner;
 
     public UIFader fader;
 
@@ -22,12 +23,14 @@ public class MainMenuController : MonoBehaviour
         {
             orbitalCamera_A = FindObjectOfType<OrbitalCamera>();
         }
+        Spinner.SetActive(true);
     }
 
     private void Start()
     {
         fader.Start();
         fader.fadeToTransparent();
+        Spinner.SetActive(false);
         PlayerPrefs.SetInt("SkipUsers", 0);
     }
 
@@ -80,6 +83,7 @@ public class MainMenuController : MonoBehaviour
     {
         fader.fadeToOpaque();
         yield return new WaitForSeconds(1.0f);
+        Spinner.SetActive(true);
         yield return SceneManager.LoadSceneAsync("Title");
     }
 }
