@@ -297,7 +297,7 @@ public class PlanetSpawner : MonoBehaviour
 
         if(userlist.result.Count == 0)
         {
-            NextUsersPage();
+            SwitchUsersType();
             StopAllCoroutines();
             SetUpPersons();
             return;
@@ -329,9 +329,14 @@ public class PlanetSpawner : MonoBehaviour
 
         if (userlist.result.Count < UsersPerPage)
         {
-            PlayerPrefs.SetInt("PagesType", 1 - PlayerPrefs.GetInt("PagesType"));
-            PlayerPrefs.SetInt("SkipUsers", -UsersPerPage);
+            SwitchUsersType();
         }
+    }
+
+    private void SwitchUsersType()
+    {
+        PlayerPrefs.SetInt("PagesType", 1 - PlayerPrefs.GetInt("PagesType"));
+        PlayerPrefs.SetInt("SkipUsers", -UsersPerPage);
     }
 
     IEnumerator SetUpPersonsCoroutine()
@@ -344,8 +349,15 @@ public class PlanetSpawner : MonoBehaviour
         myListOfUsers = null;
 
         if (PlayerPrefs.GetInt("PagesType") == 0)
+        {
+            RandomUsersLabel.SetActive(false);
             FollowedUsersLabel.SetActive(true);
-        else RandomUsersLabel.SetActive(true);
+        }
+        else
+        {
+            RandomUsersLabel.SetActive(true);
+            FollowedUsersLabel.SetActive(false);
+        }
 
         listOfScaleFaders = new List<ScaleFader>();
 

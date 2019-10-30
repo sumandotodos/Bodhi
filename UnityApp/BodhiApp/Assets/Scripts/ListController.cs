@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class ListController : MonoBehaviour
 {
+    public bool HeaderFrameMustBeColored = false;
+    public bool AllFramesMustBeColoredNormal = false;
 
     List<Slab> slabs;
+
+    public Color HeaderSlabColor = Color.magenta;
+    public Color NormalSlabColor = Color.yellow;
 
     public int GetNumberOfSlabs()
     {
@@ -14,6 +19,21 @@ public class ListController : MonoBehaviour
 
     public void AddSlab(Slab slab)
     {
+        if (HeaderFrameMustBeColored)
+        {
+            if (slabs.Count == 0)
+            {
+                slab.SetFrameColor(HeaderSlabColor);
+            }
+            else
+            {
+                slab.SetFrameColor(NormalSlabColor);
+            }
+        }
+        else if(AllFramesMustBeColoredNormal)
+        {
+            slab.SetFrameColor(NormalSlabColor);
+        }
         slabs.Add(slab);
     }
 
@@ -35,6 +55,14 @@ public class ListController : MonoBehaviour
         slabs[i].Index = i;
         slabs[j] = TempSlab;
         slabs[j].Index = j;
+        if(HeaderFrameMustBeColored)
+        { 
+            if (i == 0 || j == 0)
+            {
+                slabs[j].SetFrameColor(HeaderSlabColor);
+                slabs[i].SetFrameColor(NormalSlabColor);
+            }
+        }
     }
 
     public float GetTotalHeight()

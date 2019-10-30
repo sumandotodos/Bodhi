@@ -24,37 +24,10 @@ public class InstagramAuthManager : MonoBehaviour
 {
     public LoginController loginController;
 
-    private static int NumberOfInstances = 0;
-    private void Awake()
-    {
-        ++NumberOfInstances;
-        if (NumberOfInstances > 1)
-        {
-            Debug.Log("<color=red>Error: Singleton pattern violation</color>");
-            DestroyImmediate(this.gameObject);
-
-
-
-
-        }
-    }
-
     public SampleWebView webView;
 
     private string CodeFromIG;
     private string TokenFromIG;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void LoginWithInstagramButton()
     {

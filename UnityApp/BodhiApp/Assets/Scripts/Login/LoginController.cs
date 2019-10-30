@@ -47,6 +47,12 @@ public class LoginController : MonoBehaviour
         ButtonLock.Release();
     }
 
+    public void ForceInitialize()
+    {
+        Initialized = false;
+        Initialize();
+    }
+
     public void Initialize()
     {
         if(Initialized)

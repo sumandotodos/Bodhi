@@ -110,7 +110,9 @@ public class ItemsController : MonoBehaviour
 
         TypeOfContent contentFilter;
 
-        contentFilter = TypeOfContent.Any; //Heart.FavTypeFromString(PlayerPrefs.GetString("FavoriteType"));
+        contentFilter = Heart.FavTypeFromString(PlayerPrefs.GetString("FavoriteType"));
+
+        listController.HeaderFrameMustBeColored = (contentFilter == TypeOfContent.Question);
 
         fader.Start();
         yield return new WaitForSeconds(0.1f);
