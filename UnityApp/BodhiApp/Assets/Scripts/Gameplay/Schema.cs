@@ -123,3 +123,10 @@ public class PerformanceResult
     public int favorites;
     public int upvotes;
 }
+
+[System.Serializable]
+public class PostCommentData
+{
+    public string prefix;
+    public string content;
+}

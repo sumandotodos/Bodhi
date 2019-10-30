@@ -26,6 +26,7 @@ public class ListItem
     public string questionid;
     public string question;
     public string fromuserid;
+    public string fromuserhandle;
     public string extra;
     public GameObject Prefab;
     //public float fixedSize = -1.0f;
@@ -48,6 +49,19 @@ public class ListItem
         color = _color;
         content = _content;
         Prefab = _Prefab;
+        question = _question;
+        questionid = _questionid;
+        extra = _extra;
+        // fixedSize = FixedSize;
+    }
+    public ListItem(string _id, string _fromuserid, string _fromuserhandle, Color _color, string _content, string _questionid, string _question, string _extra, GameObject _Prefab)//, float FixedSize = -1.0f)
+    {
+        id = _id;
+        fromuserid = _fromuserid;
+        color = _color;
+        content = _content;
+        Prefab = _Prefab;
+        fromuserhandle = _fromuserhandle;
         question = _question;
         questionid = _questionid;
         extra = _extra;
@@ -245,17 +259,17 @@ public class ItemsController : MonoBehaviour
         }
         else
         {
-            listController.DismissItem(index);
             itemPopulator.DeleteItemCallback(id, listController.GetSlab(index).extra);
+            listController.DismissItem(index);
         }
 
     }
 
     public void GoAheadWithDislike()
     {
-        listController.DismissItem(ConfirmIndex);
         itemPopulator.DeleteItemCallback(ConfirmId,listController.GetSlab(ConfirmIndex).extra);
         DislikeConfirmMenu.scaleOut();
+        listController.DismissItem(ConfirmIndex);
     }
 
 }

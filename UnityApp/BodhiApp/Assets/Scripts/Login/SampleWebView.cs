@@ -38,6 +38,11 @@ public class SampleWebView : MonoBehaviour
     float scale = 0.0f;
     bool dismissOnClose = false;
 
+    public void ClearCookies()
+    {
+        webViewObject.ClearCookies();
+        webViewObject.ClearCustomHeader();
+    }
 
     private void Update()
     {

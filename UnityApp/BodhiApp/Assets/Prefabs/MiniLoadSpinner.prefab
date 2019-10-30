@@ -86,4 +86,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1226ebb71bc3480f85e508837cc8ccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EulerAngularSpeeds: {x: 0, y: 0, z: -60}
+  EulerAngularSpeeds: {x: 0, y: 0, z: -20}

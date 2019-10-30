@@ -12,12 +12,20 @@ public class ReceiveVideoResponseController : MonoBehaviour
     public RawImage cinema;
     public VolareVideoPlayer volareVideoPlayer;
     public Text originalQuestionText;
+    public string OtherUserId;
+    public VideoPlayerCommsPrefsController commsController;
 
     public static ReceiveVideoResponseController instance;
 
     private void Awake()
     {
         instance = this;
+    }
+
+    public void SetOtherUserId(string _otherUserId)
+    {
+        OtherUserId = _otherUserId;
+        commsController.OtherUserId = _otherUserId;
     }
 
     public void SetOriginalQuestion(string questionid, string question)
@@ -66,6 +74,7 @@ public class ReceiveVideoResponseController : MonoBehaviour
                 volareVideoPlayer.ShowCinema();
                 volareVideoPlayer.VideoRawBytes = res;
                 volareVideoPlayer.StartPlaying();
+                volareVideoPlayer.SetOtherUserId(OtherUserId);
                 StartCoroutine(VideoFinishPoll());
             }
             else 

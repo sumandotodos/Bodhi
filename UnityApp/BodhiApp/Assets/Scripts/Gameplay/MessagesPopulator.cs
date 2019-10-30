@@ -31,6 +31,7 @@ public class MessagesPopulator : ItemPopulator
             listItems.Add(new ListItem(
                 result.result[i]._id,
                 result.result[i]._fromuserid,
+                result.result[i].fromuserhandle,
                 col,
                 MakeContent(result.result[i]),
                 result.result[i].contentid,
@@ -91,7 +92,7 @@ public class MessagesPopulator : ItemPopulator
                     msg.content = ContentsManager.GetSingleton().GetLocalContentFromId(msg.contentid);
                 }
                 return "Ahora puedes ver lo que el usuario <color=white>"
-                    + msg._fromuserid +
+                    + msg.fromuserhandle +
                     "</color> ha contestado a tu pregunta <color=yellow>" +
                     msg.content +
                     "</color>";
@@ -101,7 +102,7 @@ public class MessagesPopulator : ItemPopulator
                 {
                     msg.content = ContentsManager.GetSingleton().GetLocalContentFromId(msg.contentid);
                 }
-                return "El usuario <color=white>"+msg._fromuserid+"</color> ha contestado a tu pregunta <color=yellow>"+
+                return "El usuario <color=white>"+ msg.fromuserhandle + "</color> ha contestado a tu pregunta <color=yellow>"+
                 msg.content + "</color>. Responte a una de sus preguntas para ver el vídeo";
 
             case "Question Answered":
@@ -109,7 +110,7 @@ public class MessagesPopulator : ItemPopulator
                 {
                     msg.content = ContentsManager.GetSingleton().GetLocalContentFromId(msg.contentid);
                 }
-                return "El usuario <color=white>"+msg._fromuserid+"</color> ha contestado a tu pregunta <color=yellow>"+
+                return "El usuario <color=white>"+ msg.fromuserhandle + "</color> ha contestado a tu pregunta <color=yellow>"+
                     msg.content
                     + "</color>";
 

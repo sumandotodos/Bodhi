@@ -14,10 +14,16 @@ public class VolareVideoPlayer : MonoBehaviour
     public RawImage PlayButtonRI;
     public RawImage PauseButtonRI;
     public byte[] VideoRawBytes;
+    public string OtherUserId;
     // Start is called before the first frame update
     void Start()
     {
         playerRI.enabled = true;
+    }
+
+    public void SetOtherUserId(string _otherUserId)
+    {
+        OtherUserId = _otherUserId;
     }
 
     public void ShowCinema()
@@ -71,7 +77,14 @@ public class VolareVideoPlayer : MonoBehaviour
         {
             playerRI.enabled = true;
             // if no communications agreement, show comms menu
-            CommsMenuScaler.scaleIn();
+            API.GetSingleton().GetCommsPreference(PlayerPrefs.GetString("UserId"), OtherUserId, (err, status) =>
+            {
+                if(status == -1)
+                {
+                    CommsMenuScaler.scaleIn();
+                }
+            });
+
         });
     }
 

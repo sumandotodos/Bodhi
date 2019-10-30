@@ -42,6 +42,8 @@ public class PlanetSpawner : MonoBehaviour
     public Material[] planetMats;
     public PlanetHandleController planetHandleController;
     public OtherUsersPlanetsController otherUsersPlanetsController;
+    public GameObject RandomUsersLabel;
+    public GameObject FollowedUsersLabel;
     int UsersPerPage = 3;
 
     public string DefaultCase = "";
@@ -59,6 +61,8 @@ public class PlanetSpawner : MonoBehaviour
     {
         spriteRenderer.enabled = false;
         string TypeOfMenu = PlayerPrefs.GetString("TypeOfMenu");
+        RandomUsersLabel.SetActive(false);
+        FollowedUsersLabel.SetActive(false);
         if(TypeOfMenu == "") 
         {
             SetupScene(DefaultCase);
@@ -144,7 +148,7 @@ public class PlanetSpawner : MonoBehaviour
         newGO.transform.localScale = Vector3.one;
         newPlanet = newGO.GetComponent<Pencil>();
         newPlanet.Start();
-        newPlanet.SetLabel("Mis ides");
+        newPlanet.SetLabel("Mis ideas");
         newGO.transform.position = Vector3.zero;
         newGO.transform.rotation = Quaternion.Euler(6.4f, 18.0f, 0.0f);
         newPlanet.SetScale(1.0f);
@@ -291,6 +295,14 @@ public class PlanetSpawner : MonoBehaviour
         int matIndex = 0;
         int userIndex = 0;
 
+        if(userlist.result.Count == 0)
+        {
+            NextUsersPage();
+            StopAllCoroutines();
+            SetUpPersons();
+            return;
+        }
+
         foreach (User u in userlist.result)
         {
             GameObject newGO = (GameObject)Instantiate(PersonPlanetPrefab);
@@ -330,6 +342,10 @@ public class PlanetSpawner : MonoBehaviour
         otherUsersPlanetsController.PlanetMaterials = planetMats;
 
         myListOfUsers = null;
+
+        if (PlayerPrefs.GetInt("PagesType") == 0)
+            FollowedUsersLabel.SetActive(true);
+        else RandomUsersLabel.SetActive(true);
 
         listOfScaleFaders = new List<ScaleFader>();
 

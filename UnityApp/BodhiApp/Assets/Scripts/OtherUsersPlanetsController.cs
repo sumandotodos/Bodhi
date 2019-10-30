@@ -81,7 +81,7 @@ public class OtherUsersPlanetsController : MonoBehaviour
         yield return API.GetSingleton().GetAvatar(id, (err, success, tex) => {
             if (success)
             {
-                callback(index, avatarTaker.ApplyMaskTexture(tex, PlayerPrefs.GetInt("PagesType") == 0), tex);
+                callback(index, avatarTaker.ApplyMaskTexture(tex), tex);
             }
             else
             {

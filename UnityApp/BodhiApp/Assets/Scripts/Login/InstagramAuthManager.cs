@@ -65,12 +65,13 @@ public class InstagramAuthManager : MonoBehaviour
     public void LogoutWithInstagramButton()
     {
         webView.OpenWebView(LoginConfigurations.InstagramLogoutURL, null);
-        StartCoroutine(WaitABitAndClose());
+        StartCoroutine(WaitABitAndClose(0.75f));
+        ClearCookies();
     }
 
-    IEnumerator WaitABitAndClose()
+    IEnumerator WaitABitAndClose(float Delay = 2.5f)
     {
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(Delay);
         webView.CloseWebView();
     }
 
@@ -132,5 +133,10 @@ public class InstagramAuthManager : MonoBehaviour
         {
             Debug.Log("<color=green>Token valid</color>");
         }
+    }
+
+    public void ClearCookies()
+    {
+        webView.ClearCookies();
     }
 }

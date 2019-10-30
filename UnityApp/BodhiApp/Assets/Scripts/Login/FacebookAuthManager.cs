@@ -107,7 +107,8 @@ public class FacebookAuthManager : MonoBehaviour
     {
         string logoutURL = LoginConfigurations.MakeFBLogoutUrl();
         webView.OpenWebView(logoutURL, null);
-        StartCoroutine(WaitABitAndClose());
+        StartCoroutine(WaitABitAndClose(0.75f));
+        ClearCookies();
     }
 
     IEnumerator LoginWithFacebookIfNetworkAvailable()
@@ -159,9 +160,14 @@ public class FacebookAuthManager : MonoBehaviour
 
     }*/
 
-    IEnumerator WaitABitAndClose()
+    IEnumerator WaitABitAndClose(float Delay = 2.5f)
     {
         yield return new WaitForSeconds(2.5f);
         webView.CloseWebView();
+    }
+
+    public void ClearCookies()
+    {
+        webView.ClearCookies();
     }
 }
