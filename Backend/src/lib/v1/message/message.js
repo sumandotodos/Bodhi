@@ -167,6 +167,7 @@ function getFavoritesAndUpvotesAdvantage(userId, successCallback, errorCallback,
 
 router.post('/', function(req, res) {
 	var obj = req.body
+	console.log("Posting new message with body: " + JSON.stringify(req.body))
 	Messages.create({
                         _id: mongoose.Types.ObjectId(),
                         _fromuserid:obj.fromuserid,

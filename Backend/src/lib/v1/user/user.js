@@ -113,6 +113,21 @@ router.get('/index', function(req, res) {
 	)
 })
 
+router.get('/handle/:userid', function(req, res) {
+	const userid = req.params["userid"]
+	Users.findOne({_id:userid}, function(err, user) {
+		if(err!=null) {
+			res.status(500).json({result:'error', error:err})
+		}
+		else if(user == null) {
+			res.status(404).json({result:'not found'})
+		}
+		else {
+			res.json({result:user.handle})
+		}
+	})
+})
+
 router.get('/profileandquestion/:user', function(req, res) {
 	const user = req.params["user"]
 	var result = {}

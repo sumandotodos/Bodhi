@@ -731,15 +731,33 @@ router.post('/downvote/:id', function(req, res) {
         })
 })
 
-router.post('/comment/:prefix', function(req, res) {
+router.post('/comment', function(req, res) {
 	const owner = req.headers["userid"]
-	const prefix = req.params["prefix"]
+	var obj = JSON.parse(req.body.payload)
+	const prefix = obj.prefix
 	newId = prefix + mongoose.Types.ObjectId().toString()	
-	Items.create({_id:newId,_userid:owner,views:0,favoritized:0,upvotes:0,downvotes:0,type:'comment',content:req.body.comment,validated:false}, function(err, item) {
+	console.log("Posting new comment user: " + owner + ", newId: " + newId + ", body: " + JSON.stringify(obj))
+	Items.create({_id:newId,_userid:owner,views:0,favoritized:0,upvotes:0,downvotes:0,type:'comment',content:obj.content,validated:false}, function(err, item) {
 		if (err != null) {
 			res.status(500).json({result:'error', error:err})
 		}
 		else {
+			res.json({result:'success'})
+		}
+	})
+})
+
+router.delete('/comment/:contentid', function(req, res) {
+	const owner = req.headers["userid"]
+	const contentid = req.params["contentid"]
+	console.log("User " + owner + " trying to delete " + contentid + "...")
+	Items.deleteOne({_id:contentid}, function(err) {
+		if(err != null) {
+			console.log("... but something was shit")
+			res.status(500).json({result:'error', error:err})
+		}
+		else {
+			console.log("... and succeded")
 			res.json({result:'success'})
 		}
 	})
