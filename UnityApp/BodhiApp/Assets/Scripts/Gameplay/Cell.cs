@@ -18,6 +18,7 @@ public class Cell : MonoBehaviour
     public bool FadeDetailOnWreck = true;
     int neighbors = 0;
     public Color[] colors;
+    public int I, J;
     // Start is called before the first frame update
     public void Start()
     {
@@ -53,6 +54,11 @@ public class Cell : MonoBehaviour
     {
         return hasBicho ||
             hasBeenTouched;
+    }
+
+    public bool HasBeenTouched()
+    {
+        return hasBeenTouched;
     }
 
     public bool isFrontier()

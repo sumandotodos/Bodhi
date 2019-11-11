@@ -16,6 +16,17 @@ public class BombController : MonoBehaviour
     private void Start()
     {
         NBombs = LoadSaveController.LoadBombs();
+
+        StartCoroutine(ActivateStuff());
+    }
+
+    IEnumerator ActivateStuff()
+    {
+        yield return new WaitForEndOfFrame();
+        foreach(Image b in BombImages)
+        {
+            b.gameObject.SetActive(true);
+        }
         SetNBombs(NBombs);
     }
 

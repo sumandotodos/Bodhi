@@ -386,6 +386,8 @@ MonoBehaviour:
     type: 3}
   QuestionAnsweredPrefab: {fileID: 7613379986560869352, guid: e4158a792b8e34d72b8270306750e175,
     type: 3}
+  EmptyPrefab: {fileID: 2266185598932961520, guid: 66ce851b36fc741f0a91ab589cbb37aa,
+    type: 3}
 --- !u!1001 &1716625963
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -463,6 +465,12 @@ PrefabInstance:
       propertyPath: DislikeConfirmMenu
       value: 
       objectReference: {fileID: 487507877693827459}
+    - target: {fileID: 4529523705912678316, guid: 8ed3914c443834f379afa578b0d8ce78,
+        type: 3}
+      propertyPath: EmptyPrefab
+      value: 
+      objectReference: {fileID: 2266185598932961520, guid: 66ce851b36fc741f0a91ab589cbb37aa,
+        type: 3}
     - target: {fileID: 4529523705655250348, guid: 8ed3914c443834f379afa578b0d8ce78,
         type: 3}
       propertyPath: ForceId
@@ -674,6 +682,7 @@ MonoBehaviour:
   OnReleaseAnimName: Release
   animatedImage: {fileID: 487507876076930550}
   labelMover: {fileID: 1556125321467680994}
+  ReactivationDelay: 5
   TargetScript: {fileID: 1716625964}
   MethodToInvoke: GoAheadWithDislike
 --- !u!222 &487507876265935145
@@ -924,6 +933,7 @@ MonoBehaviour:
   OnReleaseAnimName: Release
   animatedImage: {fileID: 487507876809207748}
   labelMover: {fileID: 1556125320597336590}
+  ReactivationDelay: 5
   TargetScript: {fileID: 487507877693827459}
   MethodToInvoke: scaleOut
 --- !u!222 &487507876809207751
@@ -1643,7 +1653,7 @@ PrefabInstance:
     - target: {fileID: 2294974905574858862, guid: e6fe26d325e1f4fe49fcfa3b15c919d6,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2294974905574858862, guid: e6fe26d325e1f4fe49fcfa3b15c919d6,
         type: 3}

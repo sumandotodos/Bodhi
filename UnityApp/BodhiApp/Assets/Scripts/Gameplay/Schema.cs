@@ -36,6 +36,7 @@ public class User
     public int upvotes;
     public int downvotes;
     public int favoritized;
+    public bool isFollowedByCurrentUser = false;
 
     public string favquestion;
     public string favquestionid;

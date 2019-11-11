@@ -152,6 +152,7 @@ public class GameController : MonoBehaviour
 
     IEnumerator BichoFoundCoroutine()
     {
+        mustDismissPanel = true;
         yield return new WaitForSeconds(1.35f);
         FrameScaler.SetSpeed(0.22f);
         FrameScaler.scaleOutImmediately();
@@ -165,7 +166,7 @@ public class GameController : MonoBehaviour
         {
             de.StartWork();
         }
-        mustDismissPanel = true;
+       
     }
 
     public void Like()
@@ -231,6 +232,7 @@ public class GameController : MonoBehaviour
 
     IEnumerator _FinishGameSequence()
     {
+        Debug.Log("Finish game sequence called with mustDismissPanel: " + mustDismissPanel);
         yield return new WaitUntil(() => (mustDismissPanel == false));
         skyFader.fadeToOpaque();
         yield return new WaitForSeconds(2.0f);

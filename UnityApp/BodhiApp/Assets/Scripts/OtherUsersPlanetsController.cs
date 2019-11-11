@@ -14,7 +14,7 @@ public class OtherUsersPlanetsController : MonoBehaviour
     public List<User> listOfUsers = null;
     public float PlanetaryOrbitalSpeed = 2.0f;
     public Material[] PlanetMaterials;
-   
+    public float Adjustment = 0.0f;
 
     float sectorWidth;
     int nSectors;
@@ -106,7 +106,12 @@ public class OtherUsersPlanetsController : MonoBehaviour
             return;
         }
 
-        int section = (int)(FGUtils.NormalizeAngle((MaxUsersPerPage-1) * sectorWidth + CameraYPivot.rotation.eulerAngles.y - PlanetaryRotation + sectorWidth / 2.0f) / sectorWidth);
+        float angle = (((MaxUsersPerPage - 1) * sectorWidth + 
+                        (-90.0f + sectorWidth) +
+                        CameraYPivot.rotation.eulerAngles.y - 
+                        PlanetaryRotation + sectorWidth / 2.0f) /
+                        sectorWidth);
+        int section = (int)(FGUtils.NormalizeAngle(angle));
         if (section < 0) section = -section;
         section = section % MaxUsersPerPage;
         if ((section != prevSection))

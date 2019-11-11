@@ -6,6 +6,7 @@ public class MessagesPopulator : ItemPopulator
 {
     public GameObject AnswerToWatchPrefab;
     public GameObject QuestionAnsweredPrefab;
+    public GameObject EmptyPrefab;
 
     IEnumerator GetItemsWithHandleSystemCoRo(System.Action<List<ListItem>> callback)
     {
@@ -15,29 +16,36 @@ public class MessagesPopulator : ItemPopulator
         {
             result = JsonUtility.FromJson<MessageListResult>(text);
         });
-        for(int i = 0; i < result.result.Count; ++i)
+        if (result.result.Count > 0)
         {
-            yield return API.GetSingleton().GetHandle(result.result[i]._fromuserid, (err, handle) =>
+            for (int i = 0; i < result.result.Count; ++i)
             {
-                result.result[i].fromuserhandle = handle;
-            });
-            GameObject Prefab = QuestionAnsweredPrefab;
-            if (result.result[i].type == "Answer to Watch")
-            {
-                Prefab = AnswerToWatchPrefab;
+                yield return API.GetSingleton().GetHandle(result.result[i]._fromuserid, (err, handle) =>
+                {
+                    result.result[i].fromuserhandle = handle;
+                });
+                GameObject Prefab = QuestionAnsweredPrefab;
+                if (result.result[i].type == "Answer to Watch")
+                {
+                    Prefab = AnswerToWatchPrefab;
+                }
+                Color col = ColorFromType(result.result[i].type);
+                string question = result.result[i].content;
+                listItems.Add(new ListItem(
+                    result.result[i]._id,
+                    result.result[i]._fromuserid,
+                    result.result[i].fromuserhandle,
+                    col,
+                    MakeContent(result.result[i]),
+                    result.result[i].contentid,
+                    question,
+                    result.result[i].extra,
+                    Prefab));
             }
-            Color col = ColorFromType(result.result[i].type);
-            string question = result.result[i].content;
-            listItems.Add(new ListItem(
-                result.result[i]._id,
-                result.result[i]._fromuserid,
-                result.result[i].fromuserhandle,
-                col,
-                MakeContent(result.result[i]),
-                result.result[i].contentid,
-                question,
-                result.result[i].extra,
-                Prefab));
+        }
+        else
+        {
+            listItems.Add(new ListItem("", Color.gray, "Sin mensajes", "", "", "", EmptyPrefab));
         }
         callback(listItems);
 

@@ -36,6 +36,7 @@ public class SendVideoResponseController : MonoBehaviour
     }
     public void touchOnSendVideoResponse()
     {
+        FindObjectOfType<PlanetRaycaster>()?.SetActive(false);
         string userId = otherUsersPlanetController.GetUserId();
         MessageRecipient = userId;
         string question = otherUsersPlanetController.GetQuestion();
@@ -121,6 +122,7 @@ public class SendVideoResponseController : MonoBehaviour
     }
     public void touchOnCancel()
     {
+        FindObjectOfType<PlanetRaycaster>()?.SetActive(true);
         SelectSourceMenuScaler.scaleOut();
     }
 
@@ -154,6 +156,7 @@ public class SendVideoResponseController : MonoBehaviour
 
                     }
             });
+        FindObjectOfType<PlanetRaycaster>()?.SetActive(true);
         ConfirmMenuScaler.scaleOut();
     }
 
@@ -165,6 +168,7 @@ public class SendVideoResponseController : MonoBehaviour
     public void touchOnNo()
     {
         videoPlayer.Stop();
+        FindObjectOfType<PlanetRaycaster>()?.SetActive(true);
         ConfirmMenuScaler.scaleOut();
     }
 

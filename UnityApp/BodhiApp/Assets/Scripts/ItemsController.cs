@@ -84,6 +84,7 @@ public class ItemsController : MonoBehaviour
     public DragController dragController;
     public ListController listController;
     public ItemPopulator itemPopulator;
+    public GameObject EmptyPrefab;
     public UIScaleFader DislikeConfirmMenu;
 
     public float MinSlabHeight = 200.0f;
@@ -148,6 +149,14 @@ public class ItemsController : MonoBehaviour
 
                 listController.AddSlab(SpawnSlab(item));
                 yield return new WaitForSeconds(0.15f);
+            }
+            else
+            {
+                if(item.Prefab == EmptyPrefab)
+                {
+                    listController.AddSlab(SpawnSlab(item));
+                    yield return new WaitForSeconds(0.15f);
+                }
             }
         }
 

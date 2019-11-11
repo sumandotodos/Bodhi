@@ -73,6 +73,7 @@ public class ReceiveVideoResponseController : MonoBehaviour
                 videoPlayer.url = Application.temporaryCachePath + "/" + id;
                 volareVideoPlayer.ShowCinema();
                 volareVideoPlayer.VideoRawBytes = res;
+                volareVideoPlayer.file = Application.temporaryCachePath + "/" + id;
                 volareVideoPlayer.StartPlaying();
                 volareVideoPlayer.SetOtherUserId(OtherUserId);
                 StartCoroutine(VideoFinishPoll());

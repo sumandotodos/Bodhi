@@ -49,6 +49,8 @@ public class GridSpawner : MonoBehaviour
                              (nPixels / unitsPerPixel) * i - totalHalfHeight,
                              0);
                 cells[i, j] = newGO.GetComponent<Cell>();
+                cells[i, j].I = i;
+                cells[i, j].J = j;
                 cells[i, j].Start();
             }
         }
@@ -132,6 +134,10 @@ public class GridSpawner : MonoBehaviour
 
     public void Touch(int i, int j, Vector2 screenCoords)
     {
+        if (!cells[i, j].isTerminal())
+        {
+            cells[i, j].gameObject.GetComponentInChildren<SoundEffect>().PlaySoundFromList();
+        }
         if (cells[i, j].getBicho())
         {
             Raycaster.GetSingleton().SetActive(false);
@@ -142,8 +148,6 @@ public class GridSpawner : MonoBehaviour
             FadeCellAt(i, j, 1);
             return;
         }
-
-        cells[i, j].gameObject.GetComponentInChildren<SoundEffect>().PlaySoundFromList();
         touchScore = 0;
         touchScoreAveragePosition = Vector2.zero;
         AddPropagator(i, j, 1);

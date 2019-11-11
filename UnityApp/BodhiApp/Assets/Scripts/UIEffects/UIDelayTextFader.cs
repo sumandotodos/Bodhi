@@ -9,6 +9,7 @@ public class UIDelayTextFader : MonoBehaviour {
 	float remainingTime;
 
 	public bool going = true;
+    public bool Autogo = false;
 
 	public bool fadeIn = true;
 
@@ -19,7 +20,11 @@ public class UIDelayTextFader : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		remainingTime = 0.0f;
-	}
+        if(Autogo)
+        {
+            resetTimer();
+        }
+    }
 
 	// Update is called once per frame
 	void Update () {

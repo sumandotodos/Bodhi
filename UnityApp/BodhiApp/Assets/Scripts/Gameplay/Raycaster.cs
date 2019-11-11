@@ -60,11 +60,16 @@ public class Raycaster : MonoBehaviour
             {
                 // if (h.collider.name == "UncleRayTarget")
                 // {
-                int j = Mathf.FloorToInt((h.point.x-(cellDimension)) / cellDimension) + (columns) / 2 + 1;
-                int i = Mathf.FloorToInt((h.point.y - (cellDimension)) / cellDimension) + (rows) / 2 + 1;
+                if(h.collider.GetComponentInParent<Cell>() == null)
+                {
+                    continue;
+                }
+                int j = h.collider.GetComponentInParent<Cell>().J; //Mathf.FloorToInt((h.point.x-(cellDimension)) / cellDimension) + (columns) / 2 + 1;
+                int i = h.collider.GetComponentInParent<Cell>().I; //Mathf.FloorToInt((h.point.y - (cellDimension)) / cellDimension) + (rows) / 2 + 1;
 
                 // }
                 gridSpawner_A.Touch(i, j, Input.mousePosition);
+                return;
             }
         }
     }

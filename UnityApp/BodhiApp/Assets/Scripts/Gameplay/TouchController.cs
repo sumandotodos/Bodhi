@@ -15,6 +15,9 @@ public class TouchController : MonoBehaviour
     public float Pitch = 18.5f;
     public float MovementThreshold = 20.0f;
 
+    float touchRemaining;
+    float touchDelay = 0.15f;
+
     public float YawSpeed = 0;
     float PitchSpeed = 0;
 
@@ -31,6 +34,7 @@ public class TouchController : MonoBehaviour
     {
         updateDelegate = notTouchingUpdate;
         Remaining = RefreshTime;
+        touchRemaining = touchDelay;
     }
 
     // Update is called once per frame
@@ -82,6 +86,7 @@ public class TouchController : MonoBehaviour
             Pitch += deltaAnglePitch;
             Pitch = Mathf.Clamp(Pitch, -85.0f, 85.0f);
             updateDelegate = notTouchingUpdate;
+            touchRemaining = touchDelay;
             float yDiff = Input.mousePosition.y - lastFrameCoordinates.y;
             if (Mathf.Abs(yDiff) > MovementThreshold)
             {
@@ -126,10 +131,14 @@ public class TouchController : MonoBehaviour
     {
         if(Input.GetMouseButton(0))
         {
-            lastFrameCoordinates = touchCoordinates = Input.mousePosition;
-            updateDelegate = isTouchingUpdate;
-            YawSpeed = 0.0f;
-            PitchSpeed = 0.0f;
+            touchRemaining -= Time.deltaTime;
+            if (touchRemaining < 0.0f)
+            {
+                lastFrameCoordinates = touchCoordinates = Input.mousePosition;
+                updateDelegate = isTouchingUpdate;
+                YawSpeed = 0.0f;
+                PitchSpeed = 0.0f;
+            }
         }
         orbitalCamera.SetYAngleImmediate(Yaw);
         orbitalCamera.SetXAngleImmediate(Mathf.Clamp(Pitch, -85.0f, 85.0f));
