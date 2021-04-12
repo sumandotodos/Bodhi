@@ -12,12 +12,12 @@ var encoding = {}
 function makeEncodeCommand(tempdir, infile) {
 	var outfile = helpers.generateRandomString(20) + ".mp4"
 	return {
-		command: "ffmpeg -i " + EncodeDir + "/" + 
-		tempdir + "/" + infile 
-		+ " -vf scale=-1:512 " + EncodeDir + "/" + 
-		tempdir + "/" + outfile,
+		command: 'ffmpeg -i ' + EncodeDir + '/' + 
+		tempdir + '/' + infile 
+		+ ' -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" ' + EncodeDir + '/' + 
+		tempdir + '/' + outfile,
 		outfile: outfile, 
-		directory: EncodeDir + "/" + tempdir
+		directory: EncodeDir + '/' + tempdir
 	} 
 }
 
