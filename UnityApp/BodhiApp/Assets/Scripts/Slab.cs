@@ -28,6 +28,12 @@ public class Slab : MonoBehaviour
         backgrFader.opaqueColor = c;
     }
 
+    public void SetFrameColor(Color c)
+    {
+        FrameImage.color = c;
+        FrameImage.GetComponent<UIFader>().opaqueColor = c;
+    }
+
     virtual public float SetText(string Text)
     {
         Factor = (1920.0f / ((float)Screen.height));

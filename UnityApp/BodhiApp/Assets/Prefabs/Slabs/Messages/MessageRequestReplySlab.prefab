@@ -115,6 +115,7 @@ MonoBehaviour:
   OnReleaseAnimName: Release
   animatedImage: {fileID: 416381845990398844}
   labelMover: {fileID: 416381846101598532}
+  ReactivationDelay: 5
   TargetScript: {fileID: 6268743719579316225}
   MethodToInvoke: TouchOnGoToUserProfile
 --- !u!114 &416381845990398832
@@ -278,8 +279,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d6bf188d3f4440cabd1f094daa1fdcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PointA: {x: -60, y: 60}
-  PointB: {x: 60, y: -60}
+  PointA: {x: 0, y: 0}
+  PointB: {x: 30, y: -30}
   Speed: 20
   easeType: 0
   coordinateType: 1
@@ -460,7 +461,7 @@ MonoBehaviour:
   questionid: 
   question: 
   fromuserid: 
-  ExtraHeight: 0
+  ExtraHeight: 80
   PlayButton: {fileID: 416381845990398843}
   videoFullPathId: 
 --- !u!114 &4564158466888106177
@@ -970,6 +971,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slab: {fileID: 6268743719579316225}
+  Confirm: 0
 --- !u!114 &5060897501899880576
 MonoBehaviour:
   m_ObjectHideFlags: 0

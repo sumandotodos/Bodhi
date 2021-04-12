@@ -101,8 +101,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -8.214571, y: 73.000015}
-  m_SizeDelta: {x: 562.4, y: 158.5}
+  m_AnchoredPosition: {x: -8.25, y: 74.4}
+  m_SizeDelta: {x: 909.73, y: 210.02}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &148962479784823571
 CanvasRenderer:
@@ -132,11 +132,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 2e62831f65b782a49b69a331c4422b39, type: 3}
-    m_FontSize: 92
+    m_FontSize: 156
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 92
+    m_MaxSize: 156
     m_Alignment: 7
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -1295,6 +1295,7 @@ MonoBehaviour:
   OnReleaseAnimName: Release
   animatedImage: {fileID: 735820368099552549}
   labelMover: {fileID: 735820367822415816}
+  ReactivationDelay: 5
   TargetScript: {fileID: 1246009452825351956}
   MethodToInvoke: touchOnSelectFromGallery
 --- !u!114 &735820368099552547
@@ -1682,6 +1683,7 @@ MonoBehaviour:
   OnReleaseAnimName: Release
   animatedImage: {fileID: 1246009451246987894}
   labelMover: {fileID: 148962480482170812}
+  ReactivationDelay: 5
   TargetScript: {fileID: 1246009452825351956}
   MethodToInvoke: touchOnNo
 --- !u!114 &1246009451246987888
@@ -1836,8 +1838,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -8.30519, y: -4.092544}
-  m_SizeDelta: {x: 1081.3793, y: 1919.9999}
+  m_AnchoredPosition: {x: -10.5, y: -4.092544}
+  m_SizeDelta: {x: 1531.5, y: 1920}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1246009451671187332
 CanvasRenderer:
@@ -1987,6 +1989,7 @@ MonoBehaviour:
   OnReleaseAnimName: Release
   animatedImage: {fileID: 1246009451726798916}
   labelMover: {fileID: 148962479612075344}
+  ReactivationDelay: 5
   TargetScript: {fileID: 1246009452825351956}
   MethodToInvoke: touchOnYes
 --- !u!114 &1246009451726798918
@@ -2164,8 +2167,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.99, y: -12.2}
-  m_SizeDelta: {x: 1491.22, y: 212.17}
+  m_AnchoredPosition: {x: 1.99, y: -16.7}
+  m_SizeDelta: {x: 1491.22, y: 446.99}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1246009451785431371
 CanvasRenderer:
@@ -2195,11 +2198,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 9acee9feac91149a6921f5fdb157f275, type: 3}
-    m_FontSize: 73
+    m_FontSize: 140
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 76
+    m_MaxSize: 152
     m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -2322,6 +2325,7 @@ MonoBehaviour:
   OnReleaseAnimName: Release
   animatedImage: {fileID: 1246009451850093608}
   labelMover: {fileID: 148962480987880447}
+  ReactivationDelay: 5
   TargetScript: {fileID: 1246009452825351956}
   MethodToInvoke: touchOnCancel
 --- !u!114 &1246009451850093610
@@ -3083,6 +3087,7 @@ MonoBehaviour:
   OnReleaseAnimName: Release
   animatedImage: {fileID: 1538335843967664044}
   labelMover: {fileID: 8993905797582550766}
+  ReactivationDelay: 5
   TargetScript: {fileID: 1246009452825351956}
   MethodToInvoke: touchOnRecordVideo
 --- !u!114 &1538335843967664032

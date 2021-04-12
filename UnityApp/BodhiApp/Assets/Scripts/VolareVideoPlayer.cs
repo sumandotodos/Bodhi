@@ -13,11 +13,21 @@ public class VolareVideoPlayer : MonoBehaviour
     public RawImage StopButtonRI;
     public RawImage PlayButtonRI;
     public RawImage PauseButtonRI;
+    public Texture2D renderTexture;
     public byte[] VideoRawBytes;
+    public string file;
+    public string OtherUserId;
+    public ConfirmNotice confirmNotice;
     // Start is called before the first frame update
     void Start()
     {
         playerRI.enabled = true;
+
+    }
+
+    public void SetOtherUserId(string _otherUserId)
+    {
+        OtherUserId = _otherUserId;
     }
 
     public void ShowCinema()
@@ -71,7 +81,14 @@ public class VolareVideoPlayer : MonoBehaviour
         {
             playerRI.enabled = true;
             // if no communications agreement, show comms menu
-            CommsMenuScaler.scaleIn();
+            API.GetSingleton().GetCommsPreference(PlayerPrefs.GetString("UserId"), OtherUserId, (err, status) =>
+            {
+                if(status == -1)
+                {
+                    CommsMenuScaler.scaleIn();
+                }
+            });
+
         });
     }
 
@@ -79,8 +96,26 @@ public class VolareVideoPlayer : MonoBehaviour
     {
 #if UNITY_EDITOR
         Debug.Log("Image saved to gallery");
+        confirmNotice.SetText("Vídeo guardado de coña");
+        confirmNotice.Show();
 #else
-        NativeGallery.SaveVideoToGallery(VideoRawBytes, "Volare", "VolareVideo-"+new System.DateTime().ToString());
+        NativeGallery.Permission perm = NativeGallery.SaveVideoToGallery(file, 
+            "Volare", 
+            "VolareVideo-"+new System.DateTime().ToString(), 
+            (err) => {
+                if(err==null) {
+                    confirmNotice.SetText("Vídeo guardado");
+                    confirmNotice.Show();
+                }
+                else {
+                    confirmNotice.SetText("Error guardando vídeo: " + err);
+                    confirmNotice.Show();
+                }
+        });
+        if(perm!=NativeGallery.Permission.Granted) {
+            confirmNotice.SetText("Esta app no tiene permiso para guardar vídeo en la galería");
+            confirmNotice.Show();
+        }
 #endif
     }
 }

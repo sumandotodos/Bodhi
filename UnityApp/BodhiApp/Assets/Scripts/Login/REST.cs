@@ -128,7 +128,7 @@ public class REST : MonoBehaviour
     private UnityWebRequest POSTRequest(string url, string body, byte[] bodyData)
     {
         WWWForm form = new WWWForm();
-        form.AddField("comment", body);
+        form.AddField("payload", body);
         return UnityWebRequest.Post(url, form);
     }
     public Coroutine POST(string url, string body, System.Action<string, string> callback)

@@ -26,6 +26,7 @@ public class ListItem
     public string questionid;
     public string question;
     public string fromuserid;
+    public string fromuserhandle;
     public string extra;
     public GameObject Prefab;
     //public float fixedSize = -1.0f;
@@ -53,6 +54,19 @@ public class ListItem
         extra = _extra;
         // fixedSize = FixedSize;
     }
+    public ListItem(string _id, string _fromuserid, string _fromuserhandle, Color _color, string _content, string _questionid, string _question, string _extra, GameObject _Prefab)//, float FixedSize = -1.0f)
+    {
+        id = _id;
+        fromuserid = _fromuserid;
+        color = _color;
+        content = _content;
+        Prefab = _Prefab;
+        fromuserhandle = _fromuserhandle;
+        question = _question;
+        questionid = _questionid;
+        extra = _extra;
+        // fixedSize = FixedSize;
+    }
 }
 
 [System.Serializable]
@@ -70,6 +84,7 @@ public class ItemsController : MonoBehaviour
     public DragController dragController;
     public ListController listController;
     public ItemPopulator itemPopulator;
+    public GameObject EmptyPrefab;
     public UIScaleFader DislikeConfirmMenu;
 
     public float MinSlabHeight = 200.0f;
@@ -96,7 +111,9 @@ public class ItemsController : MonoBehaviour
 
         TypeOfContent contentFilter;
 
-        contentFilter = TypeOfContent.Any; //Heart.FavTypeFromString(PlayerPrefs.GetString("FavoriteType"));
+        contentFilter = Heart.FavTypeFromString(PlayerPrefs.GetString("FavoriteType"));
+
+        listController.HeaderFrameMustBeColored = (contentFilter == TypeOfContent.Question);
 
         fader.Start();
         yield return new WaitForSeconds(0.1f);
@@ -132,6 +149,14 @@ public class ItemsController : MonoBehaviour
 
                 listController.AddSlab(SpawnSlab(item));
                 yield return new WaitForSeconds(0.15f);
+            }
+            else
+            {
+                if(item.Prefab == EmptyPrefab)
+                {
+                    listController.AddSlab(SpawnSlab(item));
+                    yield return new WaitForSeconds(0.15f);
+                }
             }
         }
 
@@ -245,17 +270,17 @@ public class ItemsController : MonoBehaviour
         }
         else
         {
-            listController.DismissItem(index);
             itemPopulator.DeleteItemCallback(id, listController.GetSlab(index).extra);
+            listController.DismissItem(index);
         }
 
     }
 
     public void GoAheadWithDislike()
     {
-        listController.DismissItem(ConfirmIndex);
         itemPopulator.DeleteItemCallback(ConfirmId,listController.GetSlab(ConfirmIndex).extra);
         DislikeConfirmMenu.scaleOut();
+        listController.DismissItem(ConfirmIndex);
     }
 
 }

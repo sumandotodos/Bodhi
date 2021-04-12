@@ -31,6 +31,7 @@ public class MessageSlab : Slab
     {
         Debug.Log("Downloading: " + extra);
         ReceiveVideoResponseController.GetSingleton().SetOriginalQuestion(questionid, question);
+        ReceiveVideoResponseController.GetSingleton().SetOtherUserId(fromuserid);
         ReceiveVideoResponseController.GetSingleton().DownloadAndPlayVideoResponse(extra);
     }
 

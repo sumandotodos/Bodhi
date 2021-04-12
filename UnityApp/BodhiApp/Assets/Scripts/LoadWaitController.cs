@@ -20,9 +20,12 @@ public class LoadWaitController : MonoBehaviour
 
     private void SetTextEnabled(bool en)
     {
-       TextThing.reset();
-       TextThing.isActive = en;
-       TextThing.gameObject.SetActive(en);
+        if (TextThing != null)
+        {
+            TextThing.reset();
+            TextThing.isActive = en;
+            TextThing.gameObject.SetActive(en);
+        }
     }
 
     public void StartNetworkTransfer()

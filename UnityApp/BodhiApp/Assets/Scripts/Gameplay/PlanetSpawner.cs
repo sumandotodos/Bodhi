@@ -42,6 +42,8 @@ public class PlanetSpawner : MonoBehaviour
     public Material[] planetMats;
     public PlanetHandleController planetHandleController;
     public OtherUsersPlanetsController otherUsersPlanetsController;
+    public GameObject RandomUsersLabel;
+    public GameObject FollowedUsersLabel;
     int UsersPerPage = 3;
 
     public string DefaultCase = "";
@@ -59,6 +61,8 @@ public class PlanetSpawner : MonoBehaviour
     {
         spriteRenderer.enabled = false;
         string TypeOfMenu = PlayerPrefs.GetString("TypeOfMenu");
+        RandomUsersLabel.SetActive(false);
+        FollowedUsersLabel.SetActive(false);
         if(TypeOfMenu == "") 
         {
             SetupScene(DefaultCase);
@@ -144,7 +148,7 @@ public class PlanetSpawner : MonoBehaviour
         newGO.transform.localScale = Vector3.one;
         newPlanet = newGO.GetComponent<Pencil>();
         newPlanet.Start();
-        newPlanet.SetLabel("Mis ides");
+        newPlanet.SetLabel("Mis ideas");
         newGO.transform.position = Vector3.zero;
         newGO.transform.rotation = Quaternion.Euler(6.4f, 18.0f, 0.0f);
         newPlanet.SetScale(1.0f);
@@ -291,6 +295,14 @@ public class PlanetSpawner : MonoBehaviour
         int matIndex = 0;
         int userIndex = 0;
 
+        if(userlist.result.Count == 0)
+        {
+            SwitchUsersType(0);
+            StopAllCoroutines();
+            SetUpPersons();
+            return;
+        }
+
         foreach (User u in userlist.result)
         {
             GameObject newGO = (GameObject)Instantiate(PersonPlanetPrefab);
@@ -307,7 +319,7 @@ public class PlanetSpawner : MonoBehaviour
             newPlanet.Start();
             newGO.transform.position = Vector3.zero;
             newGO.transform.rotation = Quaternion.Euler(0.0f + Random.Range(-12.0f, 12.0f), (360.0f / (float)UsersPerPage) * (userIndex++), 1.0f);
-            newPlanet.SetLabel(u.handle, PlayerPrefs.GetInt("PagesType") == 0 ? Color.green : Color.white);
+            newPlanet.SetLabel(u.handle, u.isFollowedByCurrentUser ? new Color(0, 0.52f, 1) : Color.white);
             newPlanet.SetScale(0.8f);
             newPlanet.SetRadius(3.8f + Random.Range(-0.8f, 0.4f));
             newPlanet.MinesweeperType = "Lighthouse";
@@ -317,9 +329,14 @@ public class PlanetSpawner : MonoBehaviour
 
         if (userlist.result.Count < UsersPerPage)
         {
-            PlayerPrefs.SetInt("PagesType", 1 - PlayerPrefs.GetInt("PagesType"));
-            PlayerPrefs.SetInt("SkipUsers", -UsersPerPage);
+            SwitchUsersType(-UsersPerPage);
         }
+    }
+
+    private void SwitchUsersType(int adjust)
+    {
+        PlayerPrefs.SetInt("PagesType", 1 - PlayerPrefs.GetInt("PagesType"));
+        PlayerPrefs.SetInt("SkipUsers", adjust);
     }
 
     IEnumerator SetUpPersonsCoroutine()
@@ -331,6 +348,17 @@ public class PlanetSpawner : MonoBehaviour
 
         myListOfUsers = null;
 
+        if (PlayerPrefs.GetInt("PagesType") == 0)
+        {
+            RandomUsersLabel.SetActive(false);
+            FollowedUsersLabel.SetActive(true);
+        }
+        else
+        {
+            RandomUsersLabel.SetActive(true);
+            FollowedUsersLabel.SetActive(false);
+        }
+
         listOfScaleFaders = new List<ScaleFader>();
 
         int skip = PlayerPrefs.GetInt("SkipUsers");
@@ -338,19 +366,46 @@ public class PlanetSpawner : MonoBehaviour
         if (PlayerPrefs.GetInt("PagesType") == 0)
         {
             Debug.Log("Taking followeds with skip " + skip);
+            UserListResult listOfUsers = null;
+            string Error = "";
             yield return API.GetSingleton().GetFollowedUsers(PlayerPrefs.GetString("UserId"),
                 skip,
                 UsersPerPage,
-                SetUpBunchOfPeople);
+                (err, users) =>
+                {
+                    listOfUsers = users;
+                    Error = err;
+                });
+            foreach(User u in listOfUsers.result)
+            {
+                u.isFollowedByCurrentUser = true;
+            }
+            SetUpBunchOfPeople(Error, listOfUsers);
+            myListOfUsers = listOfUsers.result;
         }
         else
         {
             Debug.Log("Taking randoms with skip " + skip);
+            UserListResult listOfUsers = null;
+            string Error = "";
             yield return API.GetSingleton().GetRandomUsers(PlayerPrefs.GetString("UserId"),
                 "session",
                 skip,
                 UsersPerPage,
-                SetUpBunchOfPeople);
+                (err, users) =>
+                {
+                    listOfUsers = users;
+                    Error = err;
+                });
+            foreach(User u in listOfUsers.result)
+            {
+                yield return API.GetSingleton().IsFollowing(PlayerPrefs.GetString("UserId"), u._id, (err, follow) =>
+                {
+                    u.isFollowedByCurrentUser = follow;
+                });
+            }
+            SetUpBunchOfPeople(Error, listOfUsers);
+            myListOfUsers = listOfUsers.result;
         }
 
         foreach(User u in myListOfUsers)

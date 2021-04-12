@@ -36,6 +36,7 @@ public class User
     public int upvotes;
     public int downvotes;
     public int favoritized;
+    public bool isFollowedByCurrentUser = false;
 
     public string favquestion;
     public string favquestionid;
@@ -122,4 +123,11 @@ public class PerformanceResult
 {
     public int favorites;
     public int upvotes;
+}
+
+[System.Serializable]
+public class PostCommentData
+{
+    public string prefix;
+    public string content;
 }

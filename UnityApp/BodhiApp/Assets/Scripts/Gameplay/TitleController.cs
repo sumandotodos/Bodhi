@@ -14,7 +14,7 @@ public class TitleController : MonoBehaviour
     void Start()
     {
         fader.Start();
-        loginController.Initialize();
+        loginController.ForceInitialize();
         StartCoroutine(_ShowTitleSequence());
     }
 

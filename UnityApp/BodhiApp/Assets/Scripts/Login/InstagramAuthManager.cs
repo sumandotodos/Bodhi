@@ -24,37 +24,10 @@ public class InstagramAuthManager : MonoBehaviour
 {
     public LoginController loginController;
 
-    private static int NumberOfInstances = 0;
-    private void Awake()
-    {
-        ++NumberOfInstances;
-        if (NumberOfInstances > 1)
-        {
-            Debug.Log("<color=red>Error: Singleton pattern violation</color>");
-            DestroyImmediate(this.gameObject);
-
-
-
-
-        }
-    }
-
     public SampleWebView webView;
 
     private string CodeFromIG;
     private string TokenFromIG;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void LoginWithInstagramButton()
     {
@@ -65,12 +38,13 @@ public class InstagramAuthManager : MonoBehaviour
     public void LogoutWithInstagramButton()
     {
         webView.OpenWebView(LoginConfigurations.InstagramLogoutURL, null);
-        StartCoroutine(WaitABitAndClose());
+        StartCoroutine(WaitABitAndClose(0.75f));
+        ClearCookies();
     }
 
-    IEnumerator WaitABitAndClose()
+    IEnumerator WaitABitAndClose(float Delay = 2.5f)
     {
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(Delay);
         webView.CloseWebView();
     }
 
@@ -132,5 +106,10 @@ public class InstagramAuthManager : MonoBehaviour
         {
             Debug.Log("<color=green>Token valid</color>");
         }
+    }
+
+    public void ClearCookies()
+    {
+        webView.ClearCookies();
     }
 }

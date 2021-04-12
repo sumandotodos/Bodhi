@@ -222,11 +222,12 @@ MonoBehaviour:
   backgrFader: {fileID: 8720974682273989058}
   id: 
   extra: 
+  questionid: 
   question: 
   fromuserid: 
   ExtraHeight: 66.5
   FollowingColor: {r: 0.032397628, g: 1, b: 0, a: 1}
-  NotFollowingColor: {r: 1, g: 0, b: 0, a: 1}
+  NotFollowingColor: {r: 0.735849, g: 0.735849, b: 0.735849, a: 1}
   ButtonImage: {fileID: 8288856277099473136}
   ButtonText: {fileID: 8288856277122323151}
   ContentFader: {fileID: 8720974682273989060}
@@ -527,6 +528,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slab: {fileID: 0}
+  Confirm: 0
 --- !u!114 &8720974683394148787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -860,6 +862,7 @@ MonoBehaviour:
   OnReleaseAnimName: Release
   animatedImage: {fileID: 8288856277099473137}
   labelMover: {fileID: 8288856277122323145}
+  ReactivationDelay: 5
   TargetScript: {fileID: 0}
   MethodToInvoke: 
 --- !u!114 &8288856277099473149
@@ -976,15 +979,15 @@ RectTransform:
   m_GameObject: {fileID: 8288856277122323149}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalScale: {x: 0.23, y: 0.23, z: 0.23}
   m_Children: []
   m_Father: {fileID: 8288856277099473142}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -7.8, y: 15.8}
-  m_SizeDelta: {x: 2567.2, y: 598.7}
+  m_AnchoredPosition: {x: -11.7, y: 15.8}
+  m_SizeDelta: {x: 3261.6, y: 598.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8288856277122323150
 CanvasRenderer:

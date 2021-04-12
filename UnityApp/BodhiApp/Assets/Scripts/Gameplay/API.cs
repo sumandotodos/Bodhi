@@ -28,17 +28,6 @@ public class API : MonoBehaviour
         });
     }
 
-    public void DeleteComment(string userid, string contentid)
-    {
-        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
-            "/item/comment/" + contentid;
-        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
-        REST.GetSingleton().DELETE(url, (err, text) => {
-            Debug.Log("DELETE error: " + err);
-            Debug.Log("DELETE response: " + text);
-        });
-    }
-
     public Coroutine GetUploadUrl(string userid, System.Action<string, UploadURL> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
@@ -116,9 +105,24 @@ public class API : MonoBehaviour
     public Coroutine PostComment(string userid, string body, string prefix, System.Action<string, string> callback)
     {
         string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
-            "/item/comment/"+prefix;
+            "/item/comment";
+        PostCommentData data = new PostCommentData();
+        data.prefix = prefix;
+        data.content = body;
         REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
-        return REST.GetSingleton().POST(url, body, callback);
+        //REST.GetSingleton().AddHeader("content-type", "application/json");
+        return REST.GetSingleton().POST(url, JsonUtility.ToJson(data), callback);
+    }
+
+    public void DeleteComment(string userid, string contentid)
+    {
+        string url = LoginConfigurations.MakeServerBaseURL() + "/" + LoginConfigurations.APIVersion +
+            "/item/comment/" + contentid;
+        REST.GetSingleton().SetHeaders(LoginConfigurations.Headers);
+        REST.GetSingleton().DELETE(url, (err, text) => {
+            Debug.Log("DELETE error: " + err);
+            Debug.Log("DELETE response: " + text);
+        });
     }
 
     public Coroutine PutAvatar(string userid, byte[] data, System.Action<string, string> callback)
